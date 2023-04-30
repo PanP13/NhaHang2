@@ -82,7 +82,7 @@ public class TaiKhoan_DAO {
 
     public void updateTK(TaiKhoan tk) {
         Connection conn = JDBCConnection.getJDBCConnection();
-        String sql = "UPDATE TAIKHOAN SET TENDN=?, MATKHAU=?, MALTK=?, WHERE MATK=?";
+        String sql = "UPDATE TAIKHOAN SET TENDN=?, MATKHAU=?, MALTK=? WHERE MATK=?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
