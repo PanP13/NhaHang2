@@ -1,20 +1,129 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package GUI;
 
-/**
- *
- * @author panpa
- */
+import BUS.LoaiTK_BUS;
+import BUS.NhanVien_BUS;
+import BUS.TaiKhoan_BUS;
+import DTO.LoaiTK;
+import DTO.NhanVien;
+import DTO.TaiKhoan;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class TaiKhoan_GUI extends javax.swing.JPanel {
 
-    /**
-     * Creates new form TaiKhoan
-     */
+    DefaultTableModel dt;
+    TaiKhoan_BUS busTK;
+    LoaiTK_BUS busLTK;
+    NhanVien_BUS busNV;
+    TaiKhoan tk;
+
     public TaiKhoan_GUI() {
         initComponents();
+        setPanel();
+    }
+
+    public TaiKhoan_GUI(TaiKhoan user) {
+        initComponents();
+
+        tk = user;
+        setPanel();
+    }
+
+    private void setPanel() {
+        busTK = new TaiKhoan_BUS();
+        busLTK = new LoaiTK_BUS();
+        busNV = new NhanVien_BUS();
+
+        dt = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        Table.setModel(dt);
+        String d[] = {"Tên đăng nhập", "Mật khẩu", "Loại", "Mã tài khoản"};
+        for (String i : d) {
+            dt.addColumn(i);
+        }
+
+        setComboBox();
+        setTableData(busTK.getAllTK());
+    }
+
+    private void setComboBox() {
+        //Cấu hình comboBox tìm kiếm
+        cbxSearch.removeAllItems();
+        cbxSearch.addItem("Loại");
+        cbxSearch.addItem("Mã tài khoản");
+
+        //Cấu hình comboBox loại tài khoản
+        cbxType.removeAllItems();
+        cbxType.addItem("Quản lý");
+        cbxType.addItem("Nhân viên");
+
+        //Cấu hình comboxBox mã tài khoản
+        cbxAccount.removeAllItems();
+        for (NhanVien i : busNV.getAllNV()) {
+            cbxAccount.addItem(i.getMaNV());
+        }
+    }
+
+    //Hàm lấy dữ liệu cho table
+    private void setTableData(List<TaiKhoan> tks) {
+        dt.setRowCount(0);
+        for (TaiKhoan i : tks) {
+            String loaiTK = i.getLoaiTK() == 0 ? "Quản lý" : "Nhân viên";
+            dt.addRow(new Object[]{i.getUsername(), i.getPassword(), loaiTK, i.getMaTK()});
+        }
+    }
+
+    private void setTableData2(List<TaiKhoan> tks) {
+        Reset();
+        setTableData(tks);
+    }
+
+    //Hàm reset
+    private void Reset() {
+        txtUsername.setText("");
+        txtPassword.setText("");
+        txtConfirm.setText("");
+        cbxType.setSelectedIndex(0);
+        cbxAccount.setSelectedIndex(0);
+        cbxAccount.setEnabled(true);
+    }
+
+    //Hàm lấy String password
+    private String getStringPassword(char[] password) {
+        String pass = "";
+        for (char i : password) {
+            pass += i;
+        }
+        return pass;
+    }
+
+    //Hàm check lỗi dữ liệu
+    private void check() throws Exception {
+        if (txtUsername.getText().trim().isEmpty()) {
+            throw new Exception("Tên đăng nhập trống");
+        } else if (getStringPassword(txtPassword.getPassword()).isEmpty()) {
+            throw new Exception("Mật khẩu trống");
+        } else if (getStringPassword(txtConfirm.getPassword()).isEmpty()) {
+            throw new Exception("Mật khẩu xác nhận trống");
+        } else {
+            String username = txtUsername.getText().trim();
+            for (TaiKhoan i : busTK.getAllTK()) {
+                if (i.getUsername().equals(username)) {
+                    throw new Exception("Tên đăng nhập bị trùng");
+                }
+            }
+
+            String password = getStringPassword(txtPassword.getPassword()), confirm = getStringPassword(txtConfirm.getPassword());
+            if (!password.equals(confirm)) {
+                throw new Exception("Mật khẩu không đúng");
+            }
+        }
     }
 
     /**
@@ -29,282 +138,171 @@ public class TaiKhoan_GUI extends javax.swing.JPanel {
         pnlDetails = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
         pnlDetail = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        pnlUsername = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        pnlPassword = new javax.swing.JPanel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jLabel3 = new javax.swing.JLabel();
-        pnlConfirm = new javax.swing.JPanel();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jLabel4 = new javax.swing.JLabel();
-        pnlTypeAccount = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        cbxTypeAccount = new javax.swing.JComboBox<>();
-        pnlAccount_ID = new javax.swing.JPanel();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
-        pnlBTN = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        pnlTitle = new javax.swing.JPanel();
+        lblUsername = new javax.swing.JLabel();
+        lblPassword = new javax.swing.JLabel();
+        lblConfirm = new javax.swing.JLabel();
+        lblType = new javax.swing.JLabel();
+        lblAccount = new javax.swing.JLabel();
+        pnlTxt = new javax.swing.JPanel();
+        txtUsername = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JPasswordField();
+        txtConfirm = new javax.swing.JPasswordField();
+        cbxType = new javax.swing.JComboBox<>();
+        cbxAccount = new javax.swing.JComboBox<>();
+        pnlBtn = new javax.swing.JPanel();
+        btnADD = new javax.swing.JButton();
+        btnUPDATE = new javax.swing.JButton();
+        btnDELETE = new javax.swing.JButton();
+        btnREFRESH = new javax.swing.JButton();
         pnlTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
-        pnlSEARCH = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        pnlSearch = new javax.swing.JPanel();
+        cbxSearch = new javax.swing.JComboBox<>();
+        txtSearch = new javax.swing.JTextField();
+        btnSEARCH = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(800, 500));
 
         pnlDetails.setBackground(new java.awt.Color(255, 255, 255));
+        pnlDetails.setLayout(new java.awt.BorderLayout());
 
+        lblTitle.setBackground(new java.awt.Color(255, 255, 255));
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(159, 32, 66));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitle.setLabelFor(pnlDetails);
         lblTitle.setText("TÀI KHOẢN");
+        pnlDetails.add(lblTitle, java.awt.BorderLayout.PAGE_START);
 
-        pnlDetail.setBackground(new java.awt.Color(248, 229, 238));
+        pnlDetail.setBackground(new java.awt.Color(255, 255, 255));
+        pnlDetail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
+        pnlTitle.setBackground(new java.awt.Color(255, 255, 255));
+        pnlTitle.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
 
-        pnlUsername.setBackground(new java.awt.Color(248, 229, 238));
+        lblUsername.setBackground(new java.awt.Color(255, 255, 255));
+        lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblUsername.setForeground(new java.awt.Color(159, 32, 66));
+        lblUsername.setText("Tên ĐN");
+        pnlTitle.add(lblUsername);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(159, 32, 66));
-        jLabel2.setText("Tên ĐN");
+        lblPassword.setBackground(new java.awt.Color(255, 255, 255));
+        lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblPassword.setForeground(new java.awt.Color(159, 32, 66));
+        lblPassword.setText("Mật khẩu");
+        pnlTitle.add(lblPassword);
 
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblConfirm.setBackground(new java.awt.Color(255, 255, 255));
+        lblConfirm.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblConfirm.setForeground(new java.awt.Color(159, 32, 66));
+        lblConfirm.setText("Xác nhận");
+        pnlTitle.add(lblConfirm);
 
-        javax.swing.GroupLayout pnlUsernameLayout = new javax.swing.GroupLayout(pnlUsername);
-        pnlUsername.setLayout(pnlUsernameLayout);
-        pnlUsernameLayout.setHorizontalGroup(
-            pnlUsernameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlUsernameLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2)
-                .addContainerGap())
-        );
-        pnlUsernameLayout.setVerticalGroup(
-            pnlUsernameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlUsernameLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlUsernameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        lblType.setBackground(new java.awt.Color(255, 255, 255));
+        lblType.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblType.setForeground(new java.awt.Color(159, 32, 66));
+        lblType.setText("Loại TK");
+        pnlTitle.add(lblType);
 
-        pnlPassword.setBackground(new java.awt.Color(248, 229, 238));
-        pnlPassword.setPreferredSize(new java.awt.Dimension(157, 44));
+        lblAccount.setBackground(new java.awt.Color(255, 255, 255));
+        lblAccount.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblAccount.setForeground(new java.awt.Color(159, 32, 66));
+        lblAccount.setText("Mã TK");
+        pnlTitle.add(lblAccount);
 
-        jPasswordField1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
-            }
-        });
+        pnlTxt.setBackground(new java.awt.Color(255, 255, 255));
+        pnlTxt.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(159, 32, 66));
-        jLabel3.setText("Mật khẩu");
+        txtUsername.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        pnlTxt.add(txtUsername);
 
-        javax.swing.GroupLayout pnlPasswordLayout = new javax.swing.GroupLayout(pnlPassword);
-        pnlPassword.setLayout(pnlPasswordLayout);
-        pnlPasswordLayout.setHorizontalGroup(
-            pnlPasswordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPasswordLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1)
-                .addContainerGap())
-        );
-        pnlPasswordLayout.setVerticalGroup(
-            pnlPasswordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPasswordLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlPasswordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        pnlTxt.add(txtPassword);
 
-        pnlConfirm.setBackground(new java.awt.Color(248, 229, 238));
-        pnlConfirm.setPreferredSize(new java.awt.Dimension(157, 44));
+        txtConfirm.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        pnlTxt.add(txtConfirm);
 
-        jPasswordField2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cbxType.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cbxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlTxt.add(cbxType);
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(159, 32, 66));
-        jLabel4.setText("Xác nhận");
-
-        javax.swing.GroupLayout pnlConfirmLayout = new javax.swing.GroupLayout(pnlConfirm);
-        pnlConfirm.setLayout(pnlConfirmLayout);
-        pnlConfirmLayout.setHorizontalGroup(
-            pnlConfirmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlConfirmLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField2)
-                .addContainerGap())
-        );
-        pnlConfirmLayout.setVerticalGroup(
-            pnlConfirmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlConfirmLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlConfirmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        pnlTypeAccount.setBackground(new java.awt.Color(248, 229, 238));
-        pnlTypeAccount.setPreferredSize(new java.awt.Dimension(157, 44));
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(159, 32, 66));
-        jLabel5.setText("Loại TK");
-
-        cbxTypeAccount.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        cbxTypeAccount.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        javax.swing.GroupLayout pnlTypeAccountLayout = new javax.swing.GroupLayout(pnlTypeAccount);
-        pnlTypeAccount.setLayout(pnlTypeAccountLayout);
-        pnlTypeAccountLayout.setHorizontalGroup(
-            pnlTypeAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlTypeAccountLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbxTypeAccount, 0, 182, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlTypeAccountLayout.setVerticalGroup(
-            pnlTypeAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlTypeAccountLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlTypeAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbxTypeAccount, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        pnlAccount_ID.setBackground(new java.awt.Color(248, 229, 238));
-        pnlAccount_ID.setPreferredSize(new java.awt.Dimension(157, 44));
-
-        jComboBox3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(159, 32, 66));
-        jLabel6.setText("Mã TK");
-
-        javax.swing.GroupLayout pnlAccount_IDLayout = new javax.swing.GroupLayout(pnlAccount_ID);
-        pnlAccount_ID.setLayout(pnlAccount_IDLayout);
-        pnlAccount_IDLayout.setHorizontalGroup(
-            pnlAccount_IDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAccount_IDLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlAccount_IDLayout.setVerticalGroup(
-            pnlAccount_IDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAccount_IDLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlAccount_IDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                    .addComponent(pnlConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                    .addComponent(pnlTypeAccount, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                    .addComponent(pnlAccount_ID, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlTypeAccount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlAccount_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        cbxAccount.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cbxAccount.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlTxt.add(cbxAccount);
 
         javax.swing.GroupLayout pnlDetailLayout = new javax.swing.GroupLayout(pnlDetail);
         pnlDetail.setLayout(pnlDetailLayout);
         pnlDetailLayout.setHorizontalGroup(
             pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlDetailLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnlTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pnlDetailLayout.setVerticalGroup(
             pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDetailLayout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addGroup(pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
-        javax.swing.GroupLayout pnlDetailsLayout = new javax.swing.GroupLayout(pnlDetails);
-        pnlDetails.setLayout(pnlDetailsLayout);
-        pnlDetailsLayout.setHorizontalGroup(
-            pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        pnlDetailsLayout.setVerticalGroup(
-            pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDetailsLayout.createSequentialGroup()
-                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        pnlDetails.add(pnlDetail, java.awt.BorderLayout.CENTER);
 
-        pnlBTN.setBackground(new java.awt.Color(255, 255, 255));
-        pnlBTN.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
+        pnlBtn.setBackground(new java.awt.Color(255, 255, 255));
+        pnlBtn.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
+        pnlBtn.setLayout(new java.awt.GridLayout(2, 2, 5, 5));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/add.png"))); // NOI18N
-        pnlBTN.add(jButton1);
+        btnADD.setBackground(new java.awt.Color(159, 32, 66));
+        btnADD.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnADD.setForeground(new java.awt.Color(255, 255, 255));
+        btnADD.setText("Thêm");
+        btnADD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnADDActionPerformed(evt);
+            }
+        });
+        pnlBtn.add(btnADD);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/arrow_circle_up.png"))); // NOI18N
-        pnlBTN.add(jButton2);
+        btnUPDATE.setBackground(new java.awt.Color(159, 32, 66));
+        btnUPDATE.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnUPDATE.setForeground(new java.awt.Color(255, 255, 255));
+        btnUPDATE.setText("Sửa");
+        btnUPDATE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUPDATEActionPerformed(evt);
+            }
+        });
+        pnlBtn.add(btnUPDATE);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/cancel.png"))); // NOI18N
-        pnlBTN.add(jButton3);
+        btnDELETE.setBackground(new java.awt.Color(159, 32, 66));
+        btnDELETE.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnDELETE.setForeground(new java.awt.Color(255, 255, 255));
+        btnDELETE.setText("Xóa");
+        btnDELETE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDELETEActionPerformed(evt);
+            }
+        });
+        pnlBtn.add(btnDELETE);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/refresh.png"))); // NOI18N
-        pnlBTN.add(jButton4);
+        btnREFRESH.setBackground(new java.awt.Color(159, 32, 66));
+        btnREFRESH.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnREFRESH.setForeground(new java.awt.Color(255, 255, 255));
+        btnREFRESH.setText("Refresh");
+        btnREFRESH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnREFRESHActionPerformed(evt);
+            }
+        });
+        pnlBtn.add(btnREFRESH);
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/home.png"))); // NOI18N
-        pnlBTN.add(jButton5);
+        pnlDetails.add(pnlBtn, java.awt.BorderLayout.PAGE_END);
 
         pnlTable.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -321,64 +319,43 @@ public class TaiKhoan_GUI extends javax.swing.JPanel {
             }
         ));
         Table.setRowHeight(30);
-        Table.setRowSelectionAllowed(false);
         Table.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(Table);
-
-        pnlSEARCH.setBackground(new java.awt.Color(248, 229, 238));
-        pnlSEARCH.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
-
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/search.png"))); // NOI18N
-        jButton6.setToolTipText("Tìm kiếm");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+        Table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableMouseClicked(evt);
             }
         });
+        jScrollPane1.setViewportView(Table);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
+        pnlSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
+        pnlSearch.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout pnlSEARCHLayout = new javax.swing.GroupLayout(pnlSEARCH);
-        pnlSEARCH.setLayout(pnlSEARCHLayout);
-        pnlSEARCHLayout.setHorizontalGroup(
-            pnlSEARCHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSEARCHLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        pnlSEARCHLayout.setVerticalGroup(
-            pnlSEARCHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSEARCHLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlSEARCHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING))
-                .addContainerGap())
-        );
+        cbxSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlSearch.add(cbxSearch, java.awt.BorderLayout.WEST);
+
+        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        pnlSearch.add(txtSearch, java.awt.BorderLayout.CENTER);
+
+        btnSEARCH.setBackground(new java.awt.Color(159, 32, 66));
+        btnSEARCH.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSEARCH.setForeground(new java.awt.Color(255, 255, 255));
+        btnSEARCH.setText("Tìm");
+        pnlSearch.add(btnSEARCH, java.awt.BorderLayout.EAST);
 
         javax.swing.GroupLayout pnlTableLayout = new javax.swing.GroupLayout(pnlTable);
         pnlTable.setLayout(pnlTableLayout);
         pnlTableLayout.setHorizontalGroup(
             pnlTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlSEARCH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(pnlTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+            .addComponent(pnlSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pnlTableLayout.setVerticalGroup(
             pnlTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTableLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(pnlSEARCH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(pnlTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlTableLayout.createSequentialGroup()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
-                    .addGap(88, 88, 88)))
+            .addGroup(pnlTableLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -387,12 +364,9 @@ public class TaiKhoan_GUI extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pnlBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -402,53 +376,118 @@ public class TaiKhoan_GUI extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
+        int row = Table.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        } else {
+            txtUsername.setText(String.valueOf(dt.getValueAt(row, 0)));
+            txtPassword.setText(String.valueOf(dt.getValueAt(row, 1)));
+            int type = String.valueOf(dt.getValueAt(row, 2)).equals("Quản lý") ? 0 : 1;
+            cbxType.setSelectedIndex(type);
+            cbxAccount.setSelectedItem(String.valueOf(dt.getValueAt(row, 3)));
+            cbxAccount.setEnabled(false);
+        }
+    }//GEN-LAST:event_TableMouseClicked
 
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
+    private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
+        try {
+            check();
+
+            String account = String.valueOf(cbxAccount.getSelectedItem());
+            if (busTK.getTKbyUser(account) != null) {
+                throw new Exception("Mã tài khoản đã tồn tại");
+            }
+
+            TaiKhoan i = new TaiKhoan();
+            i.setUsername(txtUsername.getText());
+            i.setPassword(getStringPassword(txtPassword.getPassword()));
+            int type = String.valueOf(cbxType.getSelectedItem()).equals("Quản lý") ? 0 : 1;
+            i.setLoaiTK(type);
+            i.setMaTK(String.valueOf(cbxAccount.getSelectedItem()));
+
+            busTK.addTK(i);
+            JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            setTableData2(busTK.getAllTK());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnADDActionPerformed
+
+    private void btnUPDATEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUPDATEActionPerformed
+        try {
+            check();
+
+            TaiKhoan i = new TaiKhoan();
+            i.setUsername(txtUsername.getText());
+            i.setPassword(getStringPassword(txtPassword.getPassword()));
+            int type = String.valueOf(cbxType.getSelectedItem()).equals("Quản lý") ? 0 : 1;
+            i.setLoaiTK(type);
+            i.setMaTK(String.valueOf(cbxAccount.getSelectedItem()));
+
+            busTK.updateTK(i);
+            JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            setTableData2(busTK.getAllTK());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUPDATEActionPerformed
+
+    private void btnDELETEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDELETEActionPerformed
+        int row = Table.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn xóa?");
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                if (tk.getMaTK().equals(String.valueOf(dt.getValueAt(row, 3)))) {
+                    JOptionPane.showMessageDialog(this, "Không thể xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    busTK.deleteTK(String.valueOf(dt.getValueAt(row, 3)));
+                    JOptionPane.showMessageDialog(this, "Xóa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    setTableData2(busTK.getAllTK());
+                }
+            }
+        }
+    }//GEN-LAST:event_btnDELETEActionPerformed
+
+    private void btnREFRESHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnREFRESHActionPerformed
+        setTableData2(busTK.getAllTK());
+    }//GEN-LAST:event_btnREFRESHActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Table;
-    private javax.swing.JComboBox<String> cbxTypeAccount;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JButton btnADD;
+    private javax.swing.JButton btnDELETE;
+    private javax.swing.JButton btnREFRESH;
+    private javax.swing.JButton btnSEARCH;
+    private javax.swing.JButton btnUPDATE;
+    private javax.swing.JComboBox<String> cbxAccount;
+    private javax.swing.JComboBox<String> cbxSearch;
+    private javax.swing.JComboBox<String> cbxType;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel lblAccount;
+    private javax.swing.JLabel lblConfirm;
+    private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblTitle;
-    private javax.swing.JPanel pnlAccount_ID;
-    private javax.swing.JPanel pnlBTN;
-    private javax.swing.JPanel pnlConfirm;
+    private javax.swing.JLabel lblType;
+    private javax.swing.JLabel lblUsername;
+    private javax.swing.JPanel pnlBtn;
     private javax.swing.JPanel pnlDetail;
     private javax.swing.JPanel pnlDetails;
-    private javax.swing.JPanel pnlPassword;
-    private javax.swing.JPanel pnlSEARCH;
+    private javax.swing.JPanel pnlSearch;
     private javax.swing.JPanel pnlTable;
-    private javax.swing.JPanel pnlTypeAccount;
-    private javax.swing.JPanel pnlUsername;
+    private javax.swing.JPanel pnlTitle;
+    private javax.swing.JPanel pnlTxt;
+    private javax.swing.JPasswordField txtConfirm;
+    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
