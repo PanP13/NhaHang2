@@ -190,7 +190,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         pnlTxt.add(txtName);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         rdoM.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdoM);
