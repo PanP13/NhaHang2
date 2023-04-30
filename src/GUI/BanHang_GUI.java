@@ -168,16 +168,16 @@ public class BanHang_GUI extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         pnlMoneyBtn = new javax.swing.JPanel();
         btnMONEY = new javax.swing.JButton();
+        pnlTable = new javax.swing.JPanel();
+        pnlTotal = new javax.swing.JPanel();
+        lblT = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TableDetails = new javax.swing.JTable();
-        pnlTotal = new javax.swing.JPanel();
-        lblTotal = new javax.swing.JLabel();
-        lblT = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(0, 0, 0));
+        setBackground(new java.awt.Color(248, 229, 238));
         setForeground(new java.awt.Color(255, 255, 255));
 
-        pnlButton.setBackground(new java.awt.Color(0, 0, 0));
+        pnlButton.setBackground(new java.awt.Color(248, 229, 238));
         pnlButton.setForeground(new java.awt.Color(255, 255, 255));
         pnlButton.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
@@ -221,8 +221,8 @@ public class BanHang_GUI extends javax.swing.JPanel {
         btnDONE.setToolTipText("Xuất hóa đơn");
         pnlButton.add(btnDONE);
 
-        pnlSort.setBackground(new java.awt.Color(0, 0, 153));
-        pnlSort.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Phân loại", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18), new java.awt.Color(255, 255, 255))); // NOI18N
+        pnlSort.setBackground(new java.awt.Color(248, 229, 238));
+        pnlSort.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Phân loại", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18), new java.awt.Color(159, 32, 66))); // NOI18N
         pnlSort.setMaximumSize(new java.awt.Dimension(32767, 200));
         pnlSort.setLayout(new java.awt.BorderLayout());
 
@@ -235,6 +235,7 @@ public class BanHang_GUI extends javax.swing.JPanel {
         });
         pnlSort.add(cbxSort, java.awt.BorderLayout.CENTER);
 
+        TableProduct.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         TableProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -243,7 +244,9 @@ public class BanHang_GUI extends javax.swing.JPanel {
 
             }
         ));
+        TableProduct.setGridColor(new java.awt.Color(248, 229, 238));
         TableProduct.setRowHeight(30);
+        TableProduct.setShowGrid(false);
         TableProduct.getTableHeader().setReorderingAllowed(false);
         TableProduct.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -252,30 +255,31 @@ public class BanHang_GUI extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(TableProduct);
 
-        pnlDetail.setBackground(new java.awt.Color(0, 0, 153));
+        pnlDetail.setBackground(new java.awt.Color(248, 229, 238));
+        pnlDetail.setPreferredSize(new java.awt.Dimension(300, 412));
 
-        pnlD.setBackground(new java.awt.Color(0, 0, 153));
-        pnlD.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18), new java.awt.Color(255, 255, 255))); // NOI18N
+        pnlD.setBackground(new java.awt.Color(248, 229, 238));
+        pnlD.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18), new java.awt.Color(159, 32, 66))); // NOI18N
         pnlD.setForeground(new java.awt.Color(255, 255, 255));
 
         lblID.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblID.setForeground(new java.awt.Color(255, 255, 255));
+        lblID.setForeground(new java.awt.Color(159, 32, 66));
         lblID.setText("Mã SP");
 
         lblName.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblName.setForeground(new java.awt.Color(255, 255, 255));
+        lblName.setForeground(new java.awt.Color(159, 32, 66));
         lblName.setText("Tên SP");
 
         lblPrice.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblPrice.setForeground(new java.awt.Color(255, 255, 255));
+        lblPrice.setForeground(new java.awt.Color(159, 32, 66));
         lblPrice.setText("Đơn giá");
 
         lblQuantity.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblQuantity.setForeground(new java.awt.Color(255, 255, 255));
+        lblQuantity.setForeground(new java.awt.Color(159, 32, 66));
         lblQuantity.setText("Số lượng");
 
         lblMoney.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblMoney.setForeground(new java.awt.Color(255, 255, 255));
+        lblMoney.setForeground(new java.awt.Color(159, 32, 66));
         lblMoney.setText("Thành tiền");
 
         txtID.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -343,9 +347,9 @@ public class BanHang_GUI extends javax.swing.JPanel {
                     .addComponent(lblMoney, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        jLabel2.setBackground(new java.awt.Color(0, 0, 153));
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setForeground(new java.awt.Color(159, 32, 66));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("CHI TIẾT HÓA ĐƠN");
 
@@ -385,6 +389,18 @@ public class BanHang_GUI extends javax.swing.JPanel {
                 .addContainerGap(47, Short.MAX_VALUE))
         );
 
+        pnlTable.setBackground(new java.awt.Color(248, 229, 238));
+
+        pnlTotal.setBackground(new java.awt.Color(248, 229, 238));
+        pnlTotal.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tổng cộng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
+        pnlTotal.setLayout(new java.awt.GridLayout(1, 0));
+
+        lblT.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblT.setForeground(new java.awt.Color(159, 32, 66));
+        lblT.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblT.setText("0");
+        pnlTotal.add(lblT);
+
         TableDetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -405,20 +421,24 @@ public class BanHang_GUI extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(TableDetails);
 
-        pnlTotal.setBackground(new java.awt.Color(0, 0, 153));
-        pnlTotal.setLayout(new java.awt.GridLayout(1, 0));
-
-        lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTotal.setForeground(new java.awt.Color(255, 255, 255));
-        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTotal.setText("Tổng cộng");
-        pnlTotal.add(lblTotal);
-
-        lblT.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblT.setForeground(new java.awt.Color(255, 255, 255));
-        lblT.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblT.setText("0");
-        pnlTotal.add(lblT);
+        javax.swing.GroupLayout pnlTableLayout = new javax.swing.GroupLayout(pnlTable);
+        pnlTable.setLayout(pnlTableLayout);
+        pnlTableLayout.setHorizontalGroup(
+            pnlTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(pnlTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                .addComponent(pnlTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
+        );
+        pnlTableLayout.setVerticalGroup(
+            pnlTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(pnlTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlTableLayout.createSequentialGroup()
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(pnlTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -432,11 +452,9 @@ public class BanHang_GUI extends javax.swing.JPanel {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(pnlSort, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnlDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnlDetail, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(pnlTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(pnlButton, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -450,10 +468,7 @@ public class BanHang_GUI extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(pnlDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnlTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -621,12 +636,12 @@ public class BanHang_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel lblPrice;
     private javax.swing.JLabel lblQuantity;
     private javax.swing.JLabel lblT;
-    private javax.swing.JLabel lblTotal;
     private javax.swing.JPanel pnlButton;
     private javax.swing.JPanel pnlD;
     private javax.swing.JPanel pnlDetail;
     private javax.swing.JPanel pnlMoneyBtn;
     private javax.swing.JPanel pnlSort;
+    private javax.swing.JPanel pnlTable;
     private javax.swing.JPanel pnlTotal;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtMoney;
