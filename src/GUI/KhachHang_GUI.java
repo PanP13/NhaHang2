@@ -39,12 +39,6 @@ public class KhachHang_GUI extends javax.swing.JPanel {
 
         Table.setModel(dt);
 
-//        dt.addColumn(lblID.getText());
-//        dt.addColumn(lblName.getText());
-//        dt.addColumn(lblSex.getText());
-//        dt.addColumn(lblPhone.getText());
-//        dt.addColumn(lblEmail.getText());
-//        dt.addColumn(lblAddress.getText());
         cbxSearch.setEditable(false);
         cbxSearch.removeAllItems();
 
@@ -59,11 +53,8 @@ public class KhachHang_GUI extends javax.swing.JPanel {
 
     private void setTableData(List<KhachHang> khs) {
         for (KhachHang kh : khs) {
-            if (kh.getGioiTinh() == 0) {
-                dt.addRow(new Object[]{kh.getMaKH(), kh.getHoTen(), "Nữ", kh.getSdt(), kh.getEmail(), kh.getDiaChi()});
-            } else {
-                dt.addRow(new Object[]{kh.getMaKH(), kh.getHoTen(), "Nam", kh.getSdt(), kh.getEmail(), kh.getDiaChi()});
-            }
+            String gioiTinh = kh.getGioiTinh() == 0 ? "Nữ" : "Nam";
+            dt.addRow(new Object[]{kh.getMaKH(), kh.getHoTen(), gioiTinh, kh.getSdt(), kh.getEmail(), kh.getDiaChi()});
         }
     }
 
@@ -73,39 +64,29 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         Reset();
     }
 
-    private boolean checkEmpty() {
-        return txtName.getText().trim().isEmpty()
-                || txtPhone.getText().trim().isEmpty()
-                || txtEmail.getText().trim().isEmpty()
-                || txtAddress.getText().trim().isEmpty();
-    }
+    private void check() throws Exception {
+        String regID = "KH\\d{3}",
+                regName = ".*\\d+.*",
+                regPhone = "\\d{10}",
+                regEmail = "^(\\w){3,}(@gmail\\.com)$";
 
-    private boolean checkName() {
-        return txtName.getText().trim().matches(getRegexName());
-    }
-
-    private boolean checkPhone() {
-        return !txtPhone.getText().trim().matches(getRegexPhone());
-    }
-
-    private boolean checkEmail() {
-        return !txtEmail.getText().trim().matches(getRegexEmail());
-    }
-
-    private String getRegexID() {
-        return "KH\\d{3}";
-    }
-
-    private String getRegexName() {
-        return ".*\\d+.*";
-    }
-
-    private String getRegexPhone() {
-        return "\\d{10}";
-    }
-
-    private String getRegexEmail() {
-        return "^(\\w){3,}(@gmail\\.com)$";
+        if (txtName.getText().trim().isEmpty()) {
+            throw new Exception("Họ tên trống");
+        } else if (txtPhone.getText().trim().isEmpty()) {
+            throw new Exception("Số điện thoại trống");
+        } else if (txtEmail.getText().trim().isEmpty()) {
+            throw new Exception("Email trống");
+        } else if (txtAddress.getText().trim().isEmpty()) {
+            throw new Exception("Địa chỉ trống");
+        } else if (!txtID.getText().trim().matches(regID)) {
+            throw new Exception("Mã không đúng định đạng");
+        } else if (txtName.getText().trim().matches(regName)) {
+            throw new Exception("Họ tên không đúng");
+        } else if (!txtPhone.getText().trim().matches(regPhone)) {
+            throw new Exception("Số điện thoại không đúng");
+        } else if (!txtEmail.getText().trim().matches(regEmail)) {
+            throw new Exception("Email không đúng");
+        }
     }
 
     private void Reset() {
@@ -155,7 +136,6 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         btnUP = new javax.swing.JButton();
         btnDEL = new javax.swing.JButton();
         btnREF = new javax.swing.JButton();
-        btnBACK = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
 
@@ -342,16 +322,6 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         });
         pnlBTN.add(btnREF);
 
-        btnBACK.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnBACK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/home.png"))); // NOI18N
-        btnBACK.setText("Menu");
-        btnBACK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBACKActionPerformed(evt);
-            }
-        });
-        pnlBTN.add(btnBACK);
-
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
         contentPanelLayout.setHorizontalGroup(
@@ -388,6 +358,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         ));
         Table.setRowHeight(30);
         Table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        Table.getTableHeader().setReorderingAllowed(false);
         Table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableMouseClicked(evt);
@@ -424,9 +395,9 @@ public class KhachHang_GUI extends javax.swing.JPanel {
             String s = txtSearch.getText();
             int t = cbxSearch.getSelectedIndex();
             if (t == 2) {
-                if (s.matches("Nam|nam")) {
+                if (s.matches("Nam|nam|1")) {
                     setTableData2(busKH.searchKH("1", 2));
-                } else if (s.matches("Nữ|nữ|nu|Nu")) {
+                } else if (s.matches("Nữ|nữ|nu|Nu|0")) {
                     setTableData2(busKH.searchKH("0", 2));
                 } else {
                     JOptionPane.showMessageDialog(this, "Không tìm được khách hàng", "Thông báo", JOptionPane.ERROR_MESSAGE);
@@ -440,41 +411,28 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSEARCHActionPerformed
 
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
-        if (checkEmpty())
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập dữ liệu", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        else if (!txtID.getText().matches(getRegexID()))
-            JOptionPane.showMessageDialog(this, "Sai mã khách hàng", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        else if (checkName() || checkPhone() || checkEmail()) {
-            if (checkName()) {
-                JOptionPane.showMessageDialog(this, "Sai họ tên", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            } else if (checkPhone()) {
-                JOptionPane.showMessageDialog(this, "Sai số điện thoại", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            } else if (checkEmail()) {
-                JOptionPane.showMessageDialog(this, "Sai Email", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            boolean flag = false;
-            for (KhachHang i : busKH.getAllKH()) {
-                if (txtID.getText().equals(i.getMaKH())) {
-                    JOptionPane.showMessageDialog(this, "Ma khach hang da ton tai", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                    flag = true;
-                    break;
-                }
-            }
+        try {
+            check();
+            String id = txtID.getText().trim();
 
-            if (!flag) {
+            if (busKH.getKHbyID(id) != null) {
+                JOptionPane.showMessageDialog(this, "Mã khách hàng đã tồn tại", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            } else {
+                kh = new KhachHang();
                 kh.setMaKH(txtID.getText());
                 kh.setHoTen(txtName.getText());
-                if (rdoM.isSelected()) {
-                    kh.setGioiTinh(1);
-                } else {
-                    kh.setGioiTinh(0);
-                }
+                int gioiTinh = rdoM.isSelected() ? 1 : 0;
+                kh.setGioiTinh(gioiTinh);
+                kh.setSdt(txtPhone.getText().trim());
+                kh.setEmail(txtEmail.getText().trim());
+                kh.setDiaChi(txtAddress.getText().trim());
 
                 busKH.addKH(kh);
                 JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 setTableData2(busKH.getAllKH());
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnADDActionPerformed
 
@@ -483,31 +441,28 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         if (row == -1)
             JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng", "Thông báo", JOptionPane.ERROR_MESSAGE);
         else {
-            if (checkEmpty()) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập dữ liệu", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            } else if (checkName() || checkPhone() || checkEmail()) {
-                if (checkName()) {
-                    JOptionPane.showMessageDialog(this, "Sai họ tên", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                } else if (checkPhone()) {
-                    JOptionPane.showMessageDialog(this, "Sai số điện thoại", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                } else if (checkEmail()) {
-                    JOptionPane.showMessageDialog(this, "Sai Email", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
+            try {
+                check();
+
                 kh = new KhachHang();
                 kh.setMaKH(String.valueOf(Table.getValueAt(row, 0)));
                 kh.setHoTen(txtName.getText());
-                if (rdoM.isSelected()) {
-                    kh.setGioiTinh(1);
-                } else {
-                    kh.setGioiTinh(0);
-                }
+                int gioiTinh = rdoM.isSelected() ? 1 : 0;
+                kh.setGioiTinh(gioiTinh);
                 kh.setSdt(txtPhone.getText().trim());
                 kh.setEmail(txtEmail.getText().trim());
                 kh.setDiaChi(txtAddress.getText().trim());
+
+                //Thực hiện truy vấn database
                 busKH.updateKH(kh);
+
+                //Xuất thông báo
                 JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+                //Cập nhật bảng
                 setTableData2(busKH.getAllKH());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnUPActionPerformed
@@ -517,7 +472,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         if (row == -1)
             JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng", "Thông báo", JOptionPane.ERROR_MESSAGE);
         else {
-            int confirm = JOptionPane.showConfirmDialog(this, "Ban co muon xoa khong?");
+            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa không?");
 
             if (confirm == JOptionPane.YES_OPTION) {
                 String id = String.valueOf(Table.getValueAt(row, 0));
@@ -532,22 +487,19 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         setTableData2(busKH.getAllKH());
     }//GEN-LAST:event_btnREFActionPerformed
 
-    private void btnBACKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBACKActionPerformed
-        //new MainFrame().setVisible(true);
-        //this.dispose();
-    }//GEN-LAST:event_btnBACKActionPerformed
-
     private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
         int row = Table.getSelectedRow();
 
         if (row != -1) {
             txtID.setText(String.valueOf(Table.getValueAt(row, 0)));
             txtName.setText(String.valueOf(Table.getValueAt(row, 1)));
-            if (String.valueOf(Table.getValueAt(row, 2)) == "Nam") {
+            
+            if (String.valueOf(Table.getValueAt(row, 2)).equals("Nam")) {
                 rdoM.setSelected(true);
             } else {
                 rdoF.setSelected(true);
             }
+            
             txtPhone.setText(String.valueOf(dt.getValueAt(row, 3)));
             txtEmail.setText(String.valueOf(dt.getValueAt(row, 4)));
             txtAddress.setText(String.valueOf(dt.getValueAt(row, 5)));
@@ -559,7 +511,6 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Table;
     private javax.swing.JButton btnADD;
-    private javax.swing.JButton btnBACK;
     private javax.swing.JButton btnDEL;
     private javax.swing.ButtonGroup btnGroup_Sex;
     private javax.swing.JButton btnREF;

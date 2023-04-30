@@ -146,9 +146,7 @@ public class Login extends javax.swing.JFrame {
             for (TaiKhoan i : busTK.getAllTK()) {
                 if (i.getUsername().equals(User)) {
                     if (i.getPassword().equals(Pass)) {
-                        String id = i.getMaTK();
-                        System.out.println(id);
-                        String name = busNV.getNVbyID(id).getHoTen();
+                        String name = busNV.getNVbyID(i.getMaTK()).getHoTen();
                         new Home(name, i.getLoaiTK()).setVisible(true);
                         this.dispose();
                     } else {
@@ -157,7 +155,6 @@ public class Login extends javax.swing.JFrame {
                     break;
                 }
             }
-            System.out.println("0");
         } else
             JOptionPane.showMessageDialog(this, "Username or password invalid", "Message", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_btnLoginActionPerformed

@@ -130,6 +130,11 @@ public class Home extends javax.swing.JFrame {
         });
         pnlMenuBTN.add(btnLogOut);
 
+        pnlAccDetails.setBackground(new java.awt.Color(255, 255, 255));
+
+        txtUser.setBackground(new java.awt.Color(255, 255, 255));
+        txtUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtUser.setText("Admin");
 
         javax.swing.GroupLayout pnlAccDetailsLayout = new javax.swing.GroupLayout(pnlAccDetails);
