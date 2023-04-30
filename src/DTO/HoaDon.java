@@ -37,4 +37,11 @@ public class HoaDon {
     public void setMaBan(String maBan) {
         this.maBan = maBan;
     }
+    
+    public String write(){
+        return "(" + getMaHD() + ", "
+                + getMaKH()+ ", "
+                + getMaNV()+ ", "
+                + getMaBan()+ ")";
+    }
 }

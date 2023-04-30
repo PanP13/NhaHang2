@@ -55,4 +55,9 @@ public class KhachHang {
     public void setDiaChi(String diaChi) {
         this.diaChi = diaChi;
     }
+    
+    public String write(){
+        String s = String.format("(%s, %s, %d, %s, %s, %s)", getMaKH(), getHoTen(), getGioiTinh(), getSdt(), getEmail(), getDiaChi());
+        return s;
+    }
 }

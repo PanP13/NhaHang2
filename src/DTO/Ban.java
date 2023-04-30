@@ -29,4 +29,9 @@ public class Ban {
         this.maLB = maLB;
     }
     
+    public String write(){
+        return "(" + getMaBan() + ", "
+                + getTenBan()+ ", "
+                + getMaLB()+ ")";
+    }
 }

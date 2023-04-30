@@ -19,5 +19,8 @@ public class LoaiBan {
         this.soGhe = soGhe;
     }
     
-    
+    public String write(){
+        String s = String.format("(%s, %s)", getMaLB(), getSoGhe());
+        return s;
+    }
 }
