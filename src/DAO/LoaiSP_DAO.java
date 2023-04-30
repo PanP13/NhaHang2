@@ -7,54 +7,54 @@ import java.util.ArrayList;
 import java.sql.*;
 
 public class LoaiSP_DAO {
-    public List<LoaiSP>getAllLSP(){
+
+    public List<LoaiSP> getAllLSP() {
         List<LoaiSP> ls = new ArrayList<LoaiSP>();
-        
+
         Connection conn = JDBCConnection.getJDBCConnection();
         String sql = "SELECT * FROM LOAISP";
-        
-        try{
+
+        try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 LoaiSP l = new LoaiSP();
-                
+
                 l.setMaLSP(rs.getString("MaLSP"));
                 l.setTenLSP(rs.getString("TenLSP"));
-                
+
                 ls.add(l);
             }
-            
+
             conn.close();
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return ls;
     }
-    
-    public LoaiSP getLSPbyID(String id){
+
+    public LoaiSP getLSPbyID(String id) {
         Connection conn = JDBCConnection.getJDBCConnection();
         String sql = "SELECT * FROM LOAISP WHERE MALSP=?";
-        
-        try{
+
+        try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1,id);
+            ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
-            
-            LoaiSP l = new LoaiSP();
-            l.setMaLSP(rs.getString("MaLSP"));
-            l.setTenLSP(rs.getString("TenLSP"));
-            
-            conn.close();
-            return l;
-        }
-        catch(SQLException e){
+            while (rs.next()) {
+                LoaiSP l = new LoaiSP();
+                l.setMaLSP(rs.getString("MaLSP"));
+                l.setTenLSP(rs.getString("TenLSP"));
+
+                conn.close();
+                return l;
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return null;
     }
 }
