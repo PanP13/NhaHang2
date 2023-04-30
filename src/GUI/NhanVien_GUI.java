@@ -469,7 +469,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         if (row != -1) {
             txtID.setText(String.valueOf(Table.getValueAt(row, 0)));
             txtName.setText(String.valueOf(Table.getValueAt(row, 1)));
-            if ("Nam".equals(String.valueOf(Table.getValueAt(row, 2)))) {
+            if (String.valueOf(Table.getValueAt(row, 2)).equals("Nam")) {
                 rdoM.setSelected(true);
             } else {
                 rdoF.setSelected(true);
