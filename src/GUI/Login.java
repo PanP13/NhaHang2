@@ -147,7 +147,7 @@ public class Login extends javax.swing.JFrame {
                 if (i.getUsername().equals(User)) {
                     if (i.getPassword().equals(Pass)) {
                         String name = busNV.getNVbyID(i.getMaTK()).getHoTen();
-                        new Home(name, i.getLoaiTK()).setVisible(true);
+                        new Home(i, name).setVisible(true);
                         this.dispose();
                     } else {
                         JOptionPane.showMessageDialog(this, "Username or password invalid", "Message", JOptionPane.ERROR_MESSAGE);
