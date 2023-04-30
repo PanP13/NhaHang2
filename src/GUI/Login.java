@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import BUS.NhanVien_BUS;
 import BUS.TaiKhoan_BUS;
 import DTO.TaiKhoan;
 import javax.swing.JOptionPane;
@@ -15,11 +16,13 @@ import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
 
     TaiKhoan_BUS busTK;
+    NhanVien_BUS busNV;
     TaiKhoan tk;
 
     public Login() {
         initComponents();
         busTK = new TaiKhoan_BUS();
+        busNV = new NhanVien_BUS();
     }
 
     /**
@@ -140,20 +143,21 @@ public class Login extends javax.swing.JFrame {
             Pass += d;
         }
         if (!User.isEmpty()) {
-            if (!busTK.getAllTK().isEmpty()) {
-                for (TaiKhoan i : busTK.getAllTK()) {
-                    if (i.getUsername().equals(User)) {
-                        if (i.getPassword().equals(Pass)) {
-                            new Home(i.getLoaiTK()).setVisible(true);
-                            this.dispose();
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Username or password invalid", "Message", JOptionPane.ERROR_MESSAGE);
-                        }
-                        break;
+            for (TaiKhoan i : busTK.getAllTK()) {
+                if (i.getUsername().equals(User)) {
+                    if (i.getPassword().equals(Pass)) {
+                        String id = i.getMaTK();
+                        System.out.println(id);
+                        String name = busNV.getNVbyID(id).getHoTen();
+                        new Home(name, i.getLoaiTK()).setVisible(true);
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Username or password invalid", "Message", JOptionPane.ERROR_MESSAGE);
                     }
+                    break;
                 }
-                System.out.println("0");
             }
+            System.out.println("0");
         } else
             JOptionPane.showMessageDialog(this, "Username or password invalid", "Message", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_btnLoginActionPerformed

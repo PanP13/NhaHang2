@@ -21,13 +21,14 @@ public class Home extends javax.swing.JFrame {
         initComponents();
     }
     
-    public Home(int type) {
+    public Home(String username, int type) {
         initComponents();
         
         if(type==1){
             pnlMenuBTN.remove(btnKH);
             pnlMenuBTN.remove(btnNV);
         }
+        txtUser.setText(username);
     }
     
     private void Reset(){
@@ -46,23 +47,34 @@ public class Home extends javax.swing.JFrame {
 
         pnlMenu = new javax.swing.JPanel();
         pnlMenuBTN = new javax.swing.JPanel();
+        btnTK = new javax.swing.JButton();
         btnKH = new javax.swing.JButton();
         btnNV = new javax.swing.JButton();
         btnBan = new javax.swing.JButton();
         btnSP = new javax.swing.JButton();
         btnBH = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         btnLogOut = new javax.swing.JButton();
+        pnlAccDetails = new javax.swing.JPanel();
+        txtUser = new javax.swing.JLabel();
         pnlContent = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
-        pnlMenu.setBackground(new java.awt.Color(0, 0, 153));
+        pnlMenu.setBackground(new java.awt.Color(33, 17, 3));
 
         pnlMenuBTN.setBackground(pnlMenu.getBackground());
         pnlMenuBTN.setLayout(new java.awt.GridLayout(0, 1, 5, 10));
+
+        btnTK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/account2.png"))); // NOI18N
+        btnTK.setToolTipText("Tài khoản");
+        btnTK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTKActionPerformed(evt);
+            }
+        });
+        pnlMenuBTN.add(btnTK);
 
         btnKH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/person.png"))); // NOI18N
         btnKH.setToolTipText("Khách hàng");
@@ -109,14 +121,6 @@ public class Home extends javax.swing.JFrame {
         });
         pnlMenuBTN.add(btnBH);
 
-        jButton7.setText("Button 1");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-        pnlMenuBTN.add(jButton7);
-
         btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/logout.png"))); // NOI18N
         btnLogOut.setToolTipText("Đăng xuất");
         btnLogOut.addActionListener(new java.awt.event.ActionListener() {
@@ -126,19 +130,42 @@ public class Home extends javax.swing.JFrame {
         });
         pnlMenuBTN.add(btnLogOut);
 
+        txtUser.setText("Admin");
+
+        javax.swing.GroupLayout pnlAccDetailsLayout = new javax.swing.GroupLayout(pnlAccDetails);
+        pnlAccDetails.setLayout(pnlAccDetailsLayout);
+        pnlAccDetailsLayout.setHorizontalGroup(
+            pnlAccDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAccDetailsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlAccDetailsLayout.setVerticalGroup(
+            pnlAccDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAccDetailsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout pnlMenuLayout = new javax.swing.GroupLayout(pnlMenu);
         pnlMenu.setLayout(pnlMenuLayout);
         pnlMenuLayout.setHorizontalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMenuLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlMenuBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlMenuBTN, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                    .addComponent(pnlAccDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlMenuLayout.setVerticalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlMenuLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMenuLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(pnlAccDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlMenuBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -154,7 +181,7 @@ public class Home extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGap(0, 648, Short.MAX_VALUE)
         );
 
         pnlContent.add(jPanel1, "card2");
@@ -222,13 +249,13 @@ public class Home extends javax.swing.JFrame {
         Reset();
     }//GEN-LAST:event_btnBHActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void btnTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTKActionPerformed
         pnlContent.removeAll();
         Reset();
         
         pnlContent.add(new TaiKhoan_GUI());
         Reset();
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_btnTKActionPerformed
 
     /**
      * @param args the command line arguments
@@ -272,10 +299,12 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnLogOut;
     private javax.swing.JButton btnNV;
     private javax.swing.JButton btnSP;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton btnTK;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel pnlAccDetails;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlMenu;
     private javax.swing.JPanel pnlMenuBTN;
+    private javax.swing.JLabel txtUser;
     // End of variables declaration//GEN-END:variables
 }
