@@ -38,7 +38,7 @@ public class TaiKhoan_DAO {
 
     public TaiKhoan getTaiKhoanbyID(String id) {
         Connection conn = JDBCConnection.getJDBCConnection();
-        String sql = "SELECT * FROM TAIKHOAN WHERE id=?";
+        String sql = "SELECT * FROM TAIKHOAN WHERE MaTK=?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
