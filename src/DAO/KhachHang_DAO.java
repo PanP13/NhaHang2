@@ -73,16 +73,10 @@ public class KhachHang_DAO {
     
     public void addKH(KhachHang kh){
         Connection conn = JDBCConnection.getJDBCConnection();
-        String sql = "INSERT INTO KHACHHANG VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO KHACHHANG VALUES " + kh.write();
         
         try{
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, kh.getMaKH());
-            ps.setString(2, kh.getHoTen());
-            ps.setInt(3, kh.getGioiTinh());
-            ps.setString(4, kh.getSdt());
-            ps.setString(5, kh.getEmail());
-            ps.setString(6,kh.getDiaChi());
             
             int rs = ps.executeUpdate();
             System.out.println(rs);
