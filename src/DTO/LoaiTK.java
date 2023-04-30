@@ -20,6 +20,7 @@ public class LoaiTK {
     }
     
     public String write(){
-        return "("+ getMaLTK()+ ", "+ getTenLTK()+ ")";
+        String s = String.format("(%d, %s)", getMaLTK(), getTenLTK());
+        return s;
     }
 }
