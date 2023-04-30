@@ -82,7 +82,7 @@ public class TaiKhoan_DAO {
 
     public void updateTK(TaiKhoan tk) {
         Connection conn = JDBCConnection.getJDBCConnection();
-        String sql = "UPDATE TAIKHOAN SET TENDN=?, MATKHAU=?, MALTK=?, MATK=? WHERE IDTK=?";
+        String sql = "UPDATE TAIKHOAN SET TENDN=?, MATKHAU=?, MALTK=?, WHERE MATK=?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -90,7 +90,6 @@ public class TaiKhoan_DAO {
             ps.setString(2, tk.getPassword());
             ps.setInt(3, tk.getLoaiTK());
             ps.setString(4, tk.getMaTK());
-            ps.setInt(5, tk.getIdTK());
 
             int rs = ps.executeUpdate();
             conn.close();
@@ -99,13 +98,13 @@ public class TaiKhoan_DAO {
         }
     }
 
-    public void deleteTK(int id) {
+    public void deleteTK(String id) {
         Connection conn = JDBCConnection.getJDBCConnection();
-        String sql = "DELETE FROM TAIKHOAN WHERE IDTK=?";
+        String sql = "DELETE FROM TAIKHOAN WHERE MaTK=?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setString(1, id);
 
             int rs = ps.executeUpdate();
             conn.close();
