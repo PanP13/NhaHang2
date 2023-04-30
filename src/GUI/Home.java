@@ -4,6 +4,10 @@
  */
 package GUI;
 
+import java.io.File;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author panpa
