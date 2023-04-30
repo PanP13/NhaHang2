@@ -4,9 +4,7 @@
  */
 package GUI;
 
-import java.io.File;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import DTO.TaiKhoan;
 
 /**
  *
@@ -14,24 +12,24 @@ import javax.swing.ImageIcon;
  */
 public class Home extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Home
-     */
+    TaiKhoan user = new TaiKhoan();
+
     public Home() {
         initComponents();
     }
-    
-    public Home(String username, int type) {
+
+    public Home(TaiKhoan user, String name) {
         initComponents();
-        
-        if(type==1){
+
+        if (user.getLoaiTK() == 1) {
             pnlMenuBTN.remove(btnKH);
             pnlMenuBTN.remove(btnNV);
         }
-        txtUser.setText(username);
+        txtUser.setText(name);
+        this.user = user;
     }
-    
-    private void Reset(){
+
+    private void Reset() {
         pnlContent.repaint();
         pnlContent.revalidate();
     }
@@ -212,7 +210,7 @@ public class Home extends javax.swing.JFrame {
     private void btnKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKHActionPerformed
         pnlContent.removeAll();
         Reset();
-        
+
         pnlContent.add(new KhachHang_GUI());
         Reset();
     }//GEN-LAST:event_btnKHActionPerformed
@@ -220,7 +218,7 @@ public class Home extends javax.swing.JFrame {
     private void btnSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSPActionPerformed
         pnlContent.removeAll();
         Reset();
-        
+
         pnlContent.add(new SanPham_GUI());
         Reset();
     }//GEN-LAST:event_btnSPActionPerformed
@@ -228,7 +226,7 @@ public class Home extends javax.swing.JFrame {
     private void btnNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNVActionPerformed
         pnlContent.removeAll();
         Reset();
-        
+
         pnlContent.add(new NhanVien_GUI());
         Reset();
     }//GEN-LAST:event_btnNVActionPerformed
@@ -241,7 +239,7 @@ public class Home extends javax.swing.JFrame {
     private void btnBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanActionPerformed
         pnlContent.removeAll();
         Reset();
-        
+
         pnlContent.add(new Ban_GUI());
         Reset();
     }//GEN-LAST:event_btnBanActionPerformed
@@ -249,7 +247,7 @@ public class Home extends javax.swing.JFrame {
     private void btnBHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBHActionPerformed
         pnlContent.removeAll();
         Reset();
-        
+
         pnlContent.add(new BanHang_GUI());
         Reset();
     }//GEN-LAST:event_btnBHActionPerformed
@@ -257,8 +255,8 @@ public class Home extends javax.swing.JFrame {
     private void btnTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTKActionPerformed
         pnlContent.removeAll();
         Reset();
-        
-        pnlContent.add(new TaiKhoan_GUI());
+
+        pnlContent.add(new TaiKhoan_GUI(user));
         Reset();
     }//GEN-LAST:event_btnTKActionPerformed
 
