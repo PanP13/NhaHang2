@@ -46,4 +46,8 @@ public class TaiKhoan {
         this.maTK = maTK;
     }
     
+    public String write(){
+        String s = String.format("(%s, %s, %s, %d, %s)", getIdTK(), getUsername(), getPassword(), getLoaiTK(), getMaTK());
+        return s;
+    }
 }
