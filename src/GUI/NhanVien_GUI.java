@@ -266,6 +266,8 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 
         pnlBtn.setBackground(new java.awt.Color(255, 255, 255));
         pnlBtn.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
+        pnlBtn.setMinimumSize(new java.awt.Dimension(175, 100));
+        pnlBtn.setPreferredSize(new java.awt.Dimension(186, 100));
         pnlBtn.setLayout(new java.awt.GridLayout(2, 2, 5, 5));
 
         btnADD.setBackground(new java.awt.Color(159, 32, 66));
@@ -353,7 +355,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
