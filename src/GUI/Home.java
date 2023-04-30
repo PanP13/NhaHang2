@@ -110,6 +110,11 @@ public class Home extends javax.swing.JFrame {
         pnlMenuBTN.add(btnBH);
 
         jButton7.setText("Button 1");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
         pnlMenuBTN.add(jButton7);
 
         btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/logout.png"))); // NOI18N
@@ -216,6 +221,14 @@ public class Home extends javax.swing.JFrame {
         pnlContent.add(new BanHang_GUI());
         Reset();
     }//GEN-LAST:event_btnBHActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        pnlContent.removeAll();
+        Reset();
+        
+        pnlContent.add(new TaiKhoan_GUI());
+        Reset();
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
