@@ -99,13 +99,13 @@ public class TaiKhoan_DAO {
         }
     }
 
-    public void deleteTK(String id) {
+    public void deleteTK(int id) {
         Connection conn = JDBCConnection.getJDBCConnection();
         String sql = "DELETE FROM TAIKHOAN WHERE IDTK=?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, id);
+            ps.setInt(1, id);
 
             int rs = ps.executeUpdate();
             conn.close();
