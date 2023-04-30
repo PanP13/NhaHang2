@@ -214,6 +214,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         rdoM.setForeground(new java.awt.Color(159, 32, 66));
         rdoM.setText("Nam");
 
+        rdoF.setBackground(pnlSex.getBackground());
         btnGroup_Sex.add(rdoF);
         rdoF.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         rdoF.setForeground(new java.awt.Color(159, 32, 66));
