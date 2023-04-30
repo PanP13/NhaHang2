@@ -27,7 +27,7 @@ public class TaiKhoan_BUS {
         daoTK.updateTK(tk);
     }
     
-    public void deleteTK(int id){
+    public void deleteTK(String id){
         daoTK.deleteTK(id);
     }
 }
