@@ -96,20 +96,27 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         btnGroup_Sex = new javax.swing.ButtonGroup();
         contentPanel = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
+        pnlDetails = new javax.swing.JPanel();
         pnlDetail = new javax.swing.JPanel();
+        pnlID = new javax.swing.JPanel();
         lblID = new javax.swing.JLabel();
-        lblName = new javax.swing.JLabel();
-        lblSex = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
+        pnlName = new javax.swing.JPanel();
         txtName = new javax.swing.JTextField();
+        lblName = new javax.swing.JLabel();
+        pnlSex = new javax.swing.JPanel();
         rdoM = new javax.swing.JRadioButton();
         rdoF = new javax.swing.JRadioButton();
+        lblSex = new javax.swing.JLabel();
+        pnlPhone = new javax.swing.JPanel();
         txtPhone = new javax.swing.JTextField();
-        lblEmail = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
-        lblAddress = new javax.swing.JLabel();
-        txtAddress = new javax.swing.JTextField();
         lblPhone = new javax.swing.JLabel();
+        pnlEmail = new javax.swing.JPanel();
+        txtEmail = new javax.swing.JTextField();
+        lblEmail = new javax.swing.JLabel();
+        pnlAddress = new javax.swing.JPanel();
+        txtAddress = new javax.swing.JTextField();
+        lblAddress = new javax.swing.JLabel();
         pnlSEARCH = new javax.swing.JPanel();
         lblSearch = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
@@ -124,29 +131,242 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        contentPanel.setBackground(new java.awt.Color(255, 255, 255));
         contentPanel.setMaximumSize(new java.awt.Dimension(400, 32767));
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(159, 32, 66));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("NHÂN VIÊN");
 
-        lblID.setText("Mã nhân viên");
+        pnlDetails.setBackground(new java.awt.Color(255, 255, 255));
 
+        pnlDetail.setBackground(new java.awt.Color(255, 255, 255));
+        pnlDetail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
+
+        pnlID.setBackground(new java.awt.Color(248, 229, 238));
+
+        lblID.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblID.setForeground(new java.awt.Color(159, 32, 66));
+        lblID.setText("Mã NV");
+
+        txtID.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
+        javax.swing.GroupLayout pnlIDLayout = new javax.swing.GroupLayout(pnlID);
+        pnlID.setLayout(pnlIDLayout);
+        pnlIDLayout.setHorizontalGroup(
+            pnlIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlIDLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtID)
+                .addContainerGap())
+        );
+        pnlIDLayout.setVerticalGroup(
+            pnlIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlIDLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnlIDLayout.createSequentialGroup()
+                        .addComponent(txtID, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                        .addContainerGap())))
+        );
+
+        pnlName.setBackground(new java.awt.Color(248, 229, 238));
+        pnlName.setPreferredSize(new java.awt.Dimension(167, 44));
+
+        txtName.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
+        lblName.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblName.setForeground(new java.awt.Color(159, 32, 66));
         lblName.setText("Họ tên");
 
-        lblSex.setText("Giới tính");
+        javax.swing.GroupLayout pnlNameLayout = new javax.swing.GroupLayout(pnlName);
+        pnlName.setLayout(pnlNameLayout);
+        pnlNameLayout.setHorizontalGroup(
+            pnlNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlNameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtName)
+                .addContainerGap())
+        );
+        pnlNameLayout.setVerticalGroup(
+            pnlNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlNameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        pnlSex.setBackground(new java.awt.Color(248, 229, 238));
+        pnlSex.setPreferredSize(new java.awt.Dimension(167, 44));
 
         btnGroup_Sex.add(rdoM);
+        rdoM.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        rdoM.setForeground(new java.awt.Color(159, 32, 66));
         rdoM.setText("Nam");
 
         btnGroup_Sex.add(rdoF);
+        rdoF.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        rdoF.setForeground(new java.awt.Color(159, 32, 66));
         rdoF.setText("Nữ");
 
+        lblSex.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblSex.setForeground(new java.awt.Color(159, 32, 66));
+        lblSex.setText("Giới tính");
+
+        javax.swing.GroupLayout pnlSexLayout = new javax.swing.GroupLayout(pnlSex);
+        pnlSex.setLayout(pnlSexLayout);
+        pnlSexLayout.setHorizontalGroup(
+            pnlSexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSexLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblSex, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdoM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdoF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlSexLayout.setVerticalGroup(
+            pnlSexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSexLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlSexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlSexLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(lblSex, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(rdoM, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(rdoF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        pnlPhone.setBackground(new java.awt.Color(248, 229, 238));
+        pnlPhone.setPreferredSize(new java.awt.Dimension(167, 44));
+
+        txtPhone.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
+        lblPhone.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblPhone.setForeground(new java.awt.Color(159, 32, 66));
+        lblPhone.setText("SĐT");
+
+        javax.swing.GroupLayout pnlPhoneLayout = new javax.swing.GroupLayout(pnlPhone);
+        pnlPhone.setLayout(pnlPhoneLayout);
+        pnlPhoneLayout.setHorizontalGroup(
+            pnlPhoneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPhoneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPhone)
+                .addContainerGap())
+        );
+        pnlPhoneLayout.setVerticalGroup(
+            pnlPhoneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPhoneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlPhoneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPhone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnlPhoneLayout.createSequentialGroup()
+                        .addComponent(txtPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                        .addContainerGap())))
+        );
+
+        pnlEmail.setBackground(new java.awt.Color(248, 229, 238));
+        pnlEmail.setPreferredSize(new java.awt.Dimension(167, 44));
+
+        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
+        lblEmail.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblEmail.setForeground(new java.awt.Color(159, 32, 66));
         lblEmail.setText("Email");
 
+        javax.swing.GroupLayout pnlEmailLayout = new javax.swing.GroupLayout(pnlEmail);
+        pnlEmail.setLayout(pnlEmailLayout);
+        pnlEmailLayout.setHorizontalGroup(
+            pnlEmailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlEmailLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEmail)
+                .addContainerGap())
+        );
+        pnlEmailLayout.setVerticalGroup(
+            pnlEmailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlEmailLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlEmailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        pnlAddress.setBackground(new java.awt.Color(248, 229, 238));
+        pnlAddress.setPreferredSize(new java.awt.Dimension(167, 44));
+
+        txtAddress.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
+        lblAddress.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblAddress.setForeground(new java.awt.Color(159, 32, 66));
         lblAddress.setText("Địa chỉ");
 
-        lblPhone.setText("SĐT");
+        javax.swing.GroupLayout pnlAddressLayout = new javax.swing.GroupLayout(pnlAddress);
+        pnlAddress.setLayout(pnlAddressLayout);
+        pnlAddressLayout.setHorizontalGroup(
+            pnlAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAddressLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAddress)
+                .addContainerGap())
+        );
+        pnlAddressLayout.setVerticalGroup(
+            pnlAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAddressLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout pnlDetailLayout = new javax.swing.GroupLayout(pnlDetail);
+        pnlDetail.setLayout(pnlDetailLayout);
+        pnlDetailLayout.setHorizontalGroup(
+            pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+            .addComponent(pnlSex, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+            .addComponent(pnlName, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+            .addComponent(pnlID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+            .addComponent(pnlAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+        );
+        pnlDetailLayout.setVerticalGroup(
+            pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDetailLayout.createSequentialGroup()
+                .addComponent(pnlID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlSex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         lblSearch.setText("Tìm kiếm");
 
@@ -197,66 +417,22 @@ public class NhanVien_GUI extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout pnlDetailLayout = new javax.swing.GroupLayout(pnlDetail);
-        pnlDetail.setLayout(pnlDetailLayout);
-        pnlDetailLayout.setHorizontalGroup(
-            pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDetailLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblSex, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblID)
-                    .addComponent(lblAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtID)
-                    .addComponent(txtName)
-                    .addGroup(pnlDetailLayout.createSequentialGroup()
-                        .addComponent(rdoM, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(rdoF, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                        .addGap(9, 9, 9))
-                    .addComponent(txtPhone)
-                    .addComponent(txtEmail)
-                    .addComponent(txtAddress))
-                .addContainerGap())
+        javax.swing.GroupLayout pnlDetailsLayout = new javax.swing.GroupLayout(pnlDetails);
+        pnlDetails.setLayout(pnlDetailsLayout);
+        pnlDetailsLayout.setHorizontalGroup(
+            pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnlSEARCH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        pnlDetailLayout.setVerticalGroup(
-            pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDetailLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblID)
-                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblName)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSex)
-                    .addComponent(rdoM)
-                    .addComponent(rdoF))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPhone))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblEmail)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblAddress)
-                    .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        pnlDetailsLayout.setVerticalGroup(
+            pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDetailsLayout.createSequentialGroup()
+                .addComponent(pnlDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(113, 113, 113)
                 .addComponent(pnlSEARCH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        pnlBTN.setBackground(new java.awt.Color(255, 255, 255));
         pnlBTN.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
         btnADD.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -303,20 +479,16 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         contentPanel.setLayout(contentPanelLayout);
         contentPanelLayout.setHorizontalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(contentPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(pnlDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnlBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlBTN, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+            .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         contentPanelLayout.setVerticalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contentPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblTitle)
+                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -350,7 +522,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -359,7 +531,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -502,9 +674,16 @@ public class NhanVien_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel lblSearchType;
     private javax.swing.JLabel lblSex;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JPanel pnlAddress;
     private javax.swing.JPanel pnlBTN;
     private javax.swing.JPanel pnlDetail;
+    private javax.swing.JPanel pnlDetails;
+    private javax.swing.JPanel pnlEmail;
+    private javax.swing.JPanel pnlID;
+    private javax.swing.JPanel pnlName;
+    private javax.swing.JPanel pnlPhone;
     private javax.swing.JPanel pnlSEARCH;
+    private javax.swing.JPanel pnlSex;
     private javax.swing.JRadioButton rdoF;
     private javax.swing.JRadioButton rdoM;
     private javax.swing.JTextField txtAddress;
