@@ -102,6 +102,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         pnlDetails = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
         pnlDetail = new javax.swing.JPanel();
@@ -199,12 +200,14 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         jPanel1.setLayout(new java.awt.GridLayout());
 
         rdoM.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(rdoM);
         rdoM.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         rdoM.setForeground(new java.awt.Color(159, 32, 66));
         rdoM.setText("Nam");
         jPanel1.add(rdoM);
 
         rdoF.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(rdoF);
         rdoF.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         rdoF.setForeground(new java.awt.Color(159, 32, 66));
         rdoF.setText("Nữ");
@@ -494,6 +497,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     private javax.swing.JButton btnREFRESH;
     private javax.swing.JButton btnSEARCH;
     private javax.swing.JButton btnUPDATE;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbxSearch;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
