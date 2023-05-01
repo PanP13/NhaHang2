@@ -18,4 +18,16 @@ public class HoaDon_BUS {
     public HoaDon getHDbyID(String id){
         return daoHD.getHDbyID(id);
     }
+    
+    public void addHD(HoaDon hd){
+        daoHD.addHD(hd);
+    }
+    
+    public void updateHD(HoaDon hd){
+        daoHD.updateHD(hd);
+    }
+    
+    public void deleteHD(String id){
+        daoHD.deleteHD(id);
+    }
 }
