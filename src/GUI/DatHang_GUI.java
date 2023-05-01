@@ -25,7 +25,18 @@ public class DatHang_GUI extends javax.swing.JPanel {
     public DatHang_GUI(HoaDon hd) {
         initComponents();
         setPanel();
+        
+        //Lấy dữ liệu bảng chi tiết
         setDataOrder(busCTHD.getCTHDbyID(hd.getMaHD()));
+        
+        //Lấy thông tin hóa đơn
+        txtHD.setText(hd.getMaHD());
+        cbxKH.setSelectedItem(hd.getMaKH());
+        cbxNV.setSelectedItem(hd.getMaNV());
+        cbxBan.setSelectedItem(hd.getMaBan());
+        
+        //Cấu hỉnh
+        txtHD.setEditable(false);
     }
 
     //Hàm khởi tạo
