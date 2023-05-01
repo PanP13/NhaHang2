@@ -35,7 +35,7 @@ public class SanPham_BUS {
         return daoSP.searchSP(s, t);
     }
     
-    public String getTenLSP(String id){
-        return daoSP.getTenLSP(id);
+    public void deleteCTHD (String id) {
+        daoSP.deleteCTHD(id);
     }
 }

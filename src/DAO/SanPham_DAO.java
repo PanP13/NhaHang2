@@ -155,21 +155,18 @@ public class SanPham_DAO {
         return sps;
     }
 
-    public String getTenLSP(String id) {
+    public void deleteCTHD(String id){
         Connection conn = JDBCConnection.getJDBCConnection();
-        String sql = "SELECT MASP, TENLSP FROM SANPHAM, LOAISP WHERE MASP=? AND SANPHAM.MALSP=LOAISP.MALSP";
-
-        try {
+        String sql = "DELETE FROM CTHD WHERE MASP=?";
+        
+        try{
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, id);
-            ResultSet rs = ps.executeQuery();
-            String s = rs.getString("TenLSP");
-            conn.close();
-            return s;
-        } catch (SQLException e) {
+            
+            int rs = ps.executeUpdate();
+        }
+        catch(SQLException e){
             e.printStackTrace();
         }
-
-        return null;
     }
 }
