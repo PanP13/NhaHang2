@@ -178,7 +178,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
             throw new Exception("Mã hóa đơn trống");
         } else if (!txtHD.getText().trim().matches("^HD\\d{3}$")) {
             throw new Exception("Mã hóa đơn không đúng");
-        } else if (busHD.getHDbyID(txtHD.getText().trim()) != null && !txtHD.isEditable()) {
+        } else if (busHD.getHDbyID(txtHD.getText().trim()) != null && txtHD.isEditable()) {
             throw new Exception("Mã hóa đơn đã tồn tại");
         } else if (dOrder.getRowCount()==0){
             throw new Exception("Chi tiết hóa đơn trống");
