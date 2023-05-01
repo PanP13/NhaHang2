@@ -29,6 +29,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
 
         //Lấy dữ liệu bảng chi tiết
         setDataOrder(busCTHD.getCTHDbyID(hd.getMaHD()));
+        setTotal();
 
         //Lấy thông tin hóa đơn
         txtHD.setText(hd.getMaHD());
