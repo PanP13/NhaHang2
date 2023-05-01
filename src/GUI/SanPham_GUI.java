@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package GUI;
 
 import BUS.LoaiSP_BUS;
@@ -14,16 +10,24 @@ import javax.swing.table.DefaultTableModel;
 
 public class SanPham_GUI extends javax.swing.JPanel {
 
+    DefaultTableModel dt;
     SanPham_BUS busSP;
     LoaiSP_BUS busLSP;
-    DefaultTableModel dt;
-    SanPham sp;
 
     public SanPham_GUI() {
         initComponents();
-        busLSP = new LoaiSP_BUS();
+
         busSP = new SanPham_BUS();
-        sp = new SanPham();
+        busLSP = new LoaiSP_BUS();
+
+        setTable();
+        setTableData(busSP.getAllSP());
+
+        setCBX();
+    }
+
+    //Hàm chỉnh tale
+    private void setTable() {
         dt = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -32,72 +36,68 @@ public class SanPham_GUI extends javax.swing.JPanel {
         };
 
         Table.setModel(dt);
-        dt.addColumn("Mã sản phẩm");
-        dt.addColumn("Tên sản phẩm");
-        dt.addColumn("Đơn giá");
-        dt.addColumn("Loại sản phẩm");
-
-        setTableData(busSP.getAllSP());
-
-        //Logic ComboBox LoaiSP
-        cbxTypeProduct.setEditable(false);
-        cbxTypeProduct.removeAllItems();
-
-        for (LoaiSP l : busLSP.getAllLSP()) {
-            cbxTypeProduct.addItem(l.getTenLSP());
+        String header[] = {"Mã sản phẩm", "Tên sản phẩm", "Đơn giá", "Loại sản phẩm"};
+        for (String i : header) {
+            dt.addColumn(i);
         }
-
-        //Logic ComboBox Tim kiem
-        cbxSearch.setEditable(false);
-        cbxSearch.removeAllItems();
-
-        String cbx[] = {"Mã sản phẩm", "Tên sản phẩm", "Đơn giá", "Loại sản phẩm"};
-        for (String s : cbx) {
-            cbxSearch.addItem(s);
-        };
     }
 
+    //Hàm lấy dữ liệu table
     private void setTableData(List<SanPham> sps) {
-        for (SanPham sp : sps) {
-            for (LoaiSP i : busLSP.getAllLSP()) {
-                if (sp.getMaLSP().equals(i.getMaLSP())) {
-                    dt.addRow(new Object[]{sp.getMaSP(), sp.getTenSP(), sp.getDonGia(), i.getTenLSP()});
-                    break;
-                }
-            }
+        dt.setRowCount(0);
+        for (SanPham i : sps) {
+            dt.addRow(new Object[]{i.getMaSP(), i.getTenSP(), i.getDonGia(), busLSP.getLSPbyID(i.getMaLSP()).getTenLSP()});
         }
     }
 
-    private void setTableData2(List<SanPham> sps) {
-        dt.setRowCount(0);
-        setTableData(sps);
-        Reset();
+    //Hàm chỉnh comboBox
+    private void setCBX() {
+        //comboBox phân loại và loại sản phẩm
+        cbxSort.removeAllItems();
+        cbxType.removeAllItems();
+
+        cbxSort.addItem("All");
+        for (LoaiSP i : busLSP.getAllLSP()) {
+            cbxSort.addItem(i.getTenLSP());
+            cbxType.addItem(i.getTenLSP());
+        }
+
+        //comboxBox tìm kiếm
+        cbxSearch.removeAllItems();
+        String search[] = {"Mã SP", "Tên SP", "Đơn giá"};
+        for (String i : search) {
+            cbxSearch.addItem(i);
+        }
     }
 
+    //Hàm reset
     private void Reset() {
         txtID.setText("");
-        txtID.setEnabled(true);
         txtName.setText("");
         txtPrice.setText("");
-        cbxTypeProduct.setSelectedIndex(0);
+        cbxType.setSelectedIndex(0);
+        txtID.setEditable(true);
+
+        setTableData(busSP.getAllSP());
     }
 
-    private boolean checkEmpty() {
-        return txtID.getText().trim().isEmpty()
-                || txtName.getText().trim().isEmpty()
-                || txtPrice.getText().trim().isEmpty();
-    }
-
-    private boolean checkID() {
-        return txtID.getText().trim().matches("SP\\d{3}");
-    }
-
-    private boolean checkName() {
-        return txtName.getText().trim().matches("\\D{3,}");
-    }
-
-    private boolean checkPrice() {
-        return txtPrice.getText().trim().matches("\\d{4,}");
+    //Hàm check lỗi
+    private void check() throws Exception {
+        if (txtID.getText().trim().isEmpty()) {
+            throw new Exception("Mã sản phẩm trống");
+        } else if (txtName.getText().trim().isEmpty()) {
+            throw new Exception("Tên sản phẩm trống");
+        } else if (txtPrice.getText().trim().isEmpty()) {
+            throw new Exception("Đơn giá trống");
+        } else if (!txtID.getText().trim().matches("^SP\\d{3}$")) {
+            throw new Exception("Mã sản phẩm không đúng định dạng");
+        } else if (!txtName.getText().trim().matches("\\D{5,}")) {
+            throw new Exception("Tên sản phẩm phải có hơn 5 ký tự");
+        } else if (!txtPrice.getText().trim().matches("\\d+")) {
+            throw new Exception("Đơn giá phải là số");
+        } else if (busSP.getSPbyID(txtID.getText().trim()) != null && txtID.isEditable()) {
+            throw new Exception("Mã sản phẩm đã tồn tại");
+        }
     }
 
     /**
@@ -109,258 +109,203 @@ public class SanPham_GUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        contentPanel = new javax.swing.JPanel();
+        pnlDetails = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
         pnlDetail = new javax.swing.JPanel();
-        pnlINFO = new javax.swing.JPanel();
+        pnlTitle = new javax.swing.JPanel();
+        lblID = new javax.swing.JLabel();
+        lnlName = new javax.swing.JLabel();
+        lblPrice = new javax.swing.JLabel();
+        lblType = new javax.swing.JLabel();
+        pnlText = new javax.swing.JPanel();
+        txtID = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
         txtPrice = new javax.swing.JTextField();
-        lblID = new javax.swing.JLabel();
-        lblTypeProduct = new javax.swing.JLabel();
-        lblName = new javax.swing.JLabel();
-        lblPrice = new javax.swing.JLabel();
-        txtID = new javax.swing.JTextField();
-        cbxTypeProduct = new javax.swing.JComboBox<>();
-        pnlSEARCH = new javax.swing.JPanel();
-        lblSearch = new javax.swing.JLabel();
-        txtSearch = new javax.swing.JTextField();
-        btnSEARCH = new javax.swing.JButton();
+        cbxType = new javax.swing.JComboBox<>();
+        pnlFunction = new javax.swing.JPanel();
+        pnlS = new javax.swing.JPanel();
+        pnlSort = new javax.swing.JPanel();
+        cbxSort = new javax.swing.JComboBox<>();
+        pnlSearch = new javax.swing.JPanel();
         cbxSearch = new javax.swing.JComboBox<>();
-        lblSearchType = new javax.swing.JLabel();
-        pnlBTN = new javax.swing.JPanel();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        pnlButton = new javax.swing.JPanel();
         btnADD = new javax.swing.JButton();
-        btnUP = new javax.swing.JButton();
-        btnDEL = new javax.swing.JButton();
-        btnREF = new javax.swing.JButton();
+        btnUPDATE = new javax.swing.JButton();
+        btnDELETE = new javax.swing.JButton();
+        btnREFRESH = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
 
-        setBackground(new java.awt.Color(0, 0, 0));
-        setForeground(new java.awt.Color(255, 255, 255));
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        contentPanel.setBackground(new java.awt.Color(0, 0, 0));
-        contentPanel.setForeground(new java.awt.Color(255, 255, 255));
-        contentPanel.setMaximumSize(new java.awt.Dimension(400, 32767));
+        pnlDetails.setBackground(new java.awt.Color(255, 255, 255));
+        pnlDetails.setLayout(new java.awt.BorderLayout());
 
-        lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblTitle.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(159, 32, 66));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("SẢN PHẨM");
+        pnlDetails.add(lblTitle, java.awt.BorderLayout.PAGE_START);
 
-        pnlDetail.setBackground(new java.awt.Color(0, 51, 153));
+        pnlDetail.setBackground(new java.awt.Color(255, 255, 255));
+        pnlDetail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
 
-        pnlINFO.setBackground(pnlDetail.getBackground());
-        pnlINFO.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18), new java.awt.Color(255, 255, 255))); // NOI18N
-        pnlINFO.setForeground(new java.awt.Color(255, 255, 255));
+        pnlTitle.setBackground(new java.awt.Color(255, 255, 255));
+        pnlTitle.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
 
-        txtName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblID.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblID.setForeground(new java.awt.Color(159, 32, 66));
+        lblID.setText("Mã SP");
+        pnlTitle.add(lblID);
 
-        txtPrice.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lnlName.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lnlName.setForeground(new java.awt.Color(159, 32, 66));
+        lnlName.setText("Tên SP");
+        pnlTitle.add(lnlName);
 
-        lblID.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblID.setForeground(new java.awt.Color(255, 255, 255));
-        lblID.setText("Mã sản phẩm");
-
-        lblTypeProduct.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblTypeProduct.setForeground(new java.awt.Color(255, 255, 255));
-        lblTypeProduct.setText("Loại SP");
-        lblTypeProduct.setToolTipText("Loại sản phẩm");
-
-        lblName.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblName.setForeground(new java.awt.Color(255, 255, 255));
-        lblName.setText("Tên sản phẩm");
-
-        lblPrice.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPrice.setForeground(new java.awt.Color(255, 255, 255));
+        lblPrice.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblPrice.setForeground(new java.awt.Color(159, 32, 66));
         lblPrice.setText("Đơn giá");
+        pnlTitle.add(lblPrice);
+
+        lblType.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblType.setForeground(new java.awt.Color(159, 32, 66));
+        lblType.setText("Loại SP");
+        pnlTitle.add(lblType);
+
+        pnlText.setBackground(new java.awt.Color(255, 255, 255));
+        pnlText.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
 
         txtID.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        pnlText.add(txtID);
 
-        cbxTypeProduct.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        cbxTypeProduct.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txtName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        pnlText.add(txtName);
 
-        javax.swing.GroupLayout pnlINFOLayout = new javax.swing.GroupLayout(pnlINFO);
-        pnlINFO.setLayout(pnlINFOLayout);
-        pnlINFOLayout.setHorizontalGroup(
-            pnlINFOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlINFOLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlINFOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblID)
-                    .addComponent(lblTypeProduct, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlINFOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtID)
-                    .addComponent(txtName)
-                    .addComponent(txtPrice)
-                    .addComponent(cbxTypeProduct, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        pnlINFOLayout.setVerticalGroup(
-            pnlINFOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlINFOLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlINFOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblID)
-                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlINFOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblName)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlINFOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPrice))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlINFOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTypeProduct)
-                    .addComponent(cbxTypeProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+        txtPrice.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        pnlText.add(txtPrice);
 
-        pnlSEARCH.setBackground(new java.awt.Color(0, 51, 153));
-        pnlSEARCH.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18), new java.awt.Color(255, 255, 255))); // NOI18N
-
-        lblSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblSearch.setForeground(new java.awt.Color(255, 255, 255));
-        lblSearch.setText("Tìm kiếm");
-
-        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
-        btnSEARCH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/search.png"))); // NOI18N
-        btnSEARCH.setToolTipText("Tìm kiếm");
-        btnSEARCH.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSEARCHActionPerformed(evt);
-            }
-        });
-
-        cbxSearch.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        cbxSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        lblSearchType.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblSearchType.setForeground(new java.awt.Color(255, 255, 255));
-        lblSearchType.setText("Loại");
-
-        javax.swing.GroupLayout pnlSEARCHLayout = new javax.swing.GroupLayout(pnlSEARCH);
-        pnlSEARCH.setLayout(pnlSEARCHLayout);
-        pnlSEARCHLayout.setHorizontalGroup(
-            pnlSEARCHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlSEARCHLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(pnlSEARCHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblSearchType, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlSEARCHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbxSearch, 0, 239, Short.MAX_VALUE)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSEARCH, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        pnlSEARCHLayout.setVerticalGroup(
-            pnlSEARCHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlSEARCHLayout.createSequentialGroup()
-                .addGroup(pnlSEARCHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlSEARCHLayout.createSequentialGroup()
-                        .addGroup(pnlSEARCHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(pnlSEARCHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblSearchType, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnSEARCH, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        cbxType.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cbxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlText.add(cbxType);
 
         javax.swing.GroupLayout pnlDetailLayout = new javax.swing.GroupLayout(pnlDetail);
         pnlDetail.setLayout(pnlDetailLayout);
         pnlDetailLayout.setHorizontalGroup(
             pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlINFO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(pnlSEARCH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlDetailLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnlTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pnlDetailLayout.setVerticalGroup(
             pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDetailLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlINFO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDetailLayout.createSequentialGroup()
-                    .addGap(0, 310, Short.MAX_VALUE)
-                    .addComponent(pnlSEARCH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
-        pnlBTN.setBackground(new java.awt.Color(0, 0, 0));
-        pnlBTN.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
+        pnlDetails.add(pnlDetail, java.awt.BorderLayout.CENTER);
 
-        btnADD.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnADD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/add.png"))); // NOI18N
-        btnADD.setToolTipText("Thêm sản phẩm");
+        pnlFunction.setBackground(new java.awt.Color(255, 255, 255));
+        pnlFunction.setLayout(new java.awt.BorderLayout());
+
+        pnlS.setBackground(new java.awt.Color(255, 255, 255));
+        pnlS.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
+
+        pnlSort.setBackground(new java.awt.Color(255, 255, 255));
+        pnlSort.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Phân loại", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
+        pnlSort.setLayout(new java.awt.GridLayout());
+
+        cbxSort.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cbxSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxSort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxSortActionPerformed(evt);
+            }
+        });
+        pnlSort.add(cbxSort);
+
+        pnlS.add(pnlSort);
+
+        pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
+        pnlSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
+        pnlSearch.setLayout(new java.awt.BorderLayout(2, 0));
+
+        cbxSearch.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cbxSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlSearch.add(cbxSearch, java.awt.BorderLayout.WEST);
+
+        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        pnlSearch.add(txtSearch, java.awt.BorderLayout.CENTER);
+
+        btnSearch.setBackground(new java.awt.Color(159, 32, 66));
+        btnSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSearch.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearch.setText("Tìm");
+        pnlSearch.add(btnSearch, java.awt.BorderLayout.EAST);
+
+        pnlS.add(pnlSearch);
+
+        pnlFunction.add(pnlS, java.awt.BorderLayout.PAGE_START);
+
+        pnlButton.setBackground(new java.awt.Color(255, 255, 255));
+        pnlButton.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
+        pnlButton.setLayout(new java.awt.GridLayout(2, 2, 5, 5));
+
+        btnADD.setBackground(new java.awt.Color(159, 32, 66));
+        btnADD.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnADD.setForeground(new java.awt.Color(255, 255, 255));
+        btnADD.setText("Thêm");
         btnADD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnADDActionPerformed(evt);
             }
         });
-        pnlBTN.add(btnADD);
+        pnlButton.add(btnADD);
 
-        btnUP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnUP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/arrow_circle_up.png"))); // NOI18N
-        btnUP.setToolTipText("Sửa sản phẩm");
-        btnUP.addActionListener(new java.awt.event.ActionListener() {
+        btnUPDATE.setBackground(new java.awt.Color(159, 32, 66));
+        btnUPDATE.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnUPDATE.setForeground(new java.awt.Color(255, 255, 255));
+        btnUPDATE.setText("Sửa");
+        btnUPDATE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUPActionPerformed(evt);
+                btnUPDATEActionPerformed(evt);
             }
         });
-        pnlBTN.add(btnUP);
+        pnlButton.add(btnUPDATE);
 
-        btnDEL.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnDEL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/cancel.png"))); // NOI18N
-        btnDEL.setToolTipText("Xóa sản phẩm");
-        btnDEL.addActionListener(new java.awt.event.ActionListener() {
+        btnDELETE.setBackground(new java.awt.Color(159, 32, 66));
+        btnDELETE.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnDELETE.setForeground(new java.awt.Color(255, 255, 255));
+        btnDELETE.setText("Xóa");
+        btnDELETE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDELActionPerformed(evt);
+                btnDELETEActionPerformed(evt);
             }
         });
-        pnlBTN.add(btnDEL);
+        pnlButton.add(btnDELETE);
 
-        btnREF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnREF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/refresh.png"))); // NOI18N
-        btnREF.setToolTipText("Đặt lại và cập nhật");
-        btnREF.addActionListener(new java.awt.event.ActionListener() {
+        btnREFRESH.setBackground(new java.awt.Color(159, 32, 66));
+        btnREFRESH.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnREFRESH.setForeground(new java.awt.Color(255, 255, 255));
+        btnREFRESH.setText("Refresh");
+        btnREFRESH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnREFActionPerformed(evt);
+                btnREFRESHActionPerformed(evt);
             }
         });
-        pnlBTN.add(btnREF);
+        pnlButton.add(btnREFRESH);
 
-        javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
-        contentPanel.setLayout(contentPanelLayout);
-        contentPanelLayout.setHorizontalGroup(
-            contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(contentPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(pnlDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnlBTN, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
-        );
-        contentPanelLayout.setVerticalGroup(
-            contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(contentPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        pnlFunction.add(pnlButton, java.awt.BorderLayout.CENTER);
+
+        pnlDetails.add(pnlFunction, java.awt.BorderLayout.PAGE_END);
 
         Table.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Table.setModel(new javax.swing.table.DefaultTableModel(
@@ -375,7 +320,7 @@ public class SanPham_GUI extends javax.swing.JPanel {
             }
         ));
         Table.setRowHeight(30);
-        Table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        Table.getTableHeader().setReorderingAllowed(false);
         Table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableMouseClicked(evt);
@@ -389,9 +334,9 @@ public class SanPham_GUI extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -399,165 +344,139 @@ public class SanPham_GUI extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE))
+                    .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSEARCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSEARCHActionPerformed
-        if (txtSearch.getText().isEmpty())
-            JOptionPane.showMessageDialog(this, "Không được bỏ trống", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        else {
-            String s = txtSearch.getText();
-            int t = cbxSearch.getSelectedIndex();
-            if (busSP.searchSP(s, t).isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Không tìm được sản phẩm", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            } else {
-                setTableData2(busSP.searchSP(s, t));
-            }
+    private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
+        int row = Table.getSelectedRow();
+        if (row != -1) {
+            txtID.setText(String.valueOf(dt.getValueAt(row, 0)));
+            txtName.setText(String.valueOf(dt.getValueAt(row, 1)));
+            txtPrice.setText(String.valueOf(dt.getValueAt(row, 2)));
+            cbxType.setSelectedItem(String.valueOf(dt.getValueAt(row, 3)));
+            txtID.setEditable(false);
         }
-    }//GEN-LAST:event_btnSEARCHActionPerformed
+    }//GEN-LAST:event_TableMouseClicked
+
+    private void cbxSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSortActionPerformed
+        int sort = cbxSort.getSelectedIndex();
+
+        if (sort == 0) {
+            setTableData(busSP.getAllSP());
+        } else {
+            setTableData(busSP.searchSP(String.valueOf(sort), 3));
+        }
+    }//GEN-LAST:event_cbxSortActionPerformed
 
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
-        if (checkEmpty())
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập dữ liệu", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        else if (!checkID())
-            JOptionPane.showMessageDialog(this, "Sai mã sản phẩm", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        else if (!checkName() || !checkPrice()) {
-            if (!checkName()) {
-                JOptionPane.showMessageDialog(this, "Sai tên", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            } else if (!checkPrice()) {
-                JOptionPane.showMessageDialog(this, "Sai đơn giá", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            boolean flag = true;
-            for (SanPham i : busSP.getAllSP()) {
-                if (txtID.getText().equals(i.getMaSP())) {
-                    JOptionPane.showMessageDialog(this, "Mã sản phẩm đã tồn tại", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                    flag = false;
+        try {
+            txtID.setEditable(true);
+            check();
+
+            SanPham sp = new SanPham();
+            sp.setMaSP(txtID.getText().trim());
+            sp.setTenSP(txtName.getText().trim());
+            sp.setDonGia(Integer.parseInt(txtPrice.getText().trim()));
+
+            for (LoaiSP i : busLSP.getAllLSP()) {
+                if (i.getTenLSP().equals(String.valueOf(cbxType.getSelectedItem()))) {
+                    sp.setMaLSP(i.getMaLSP());
                     break;
                 }
             }
 
-            if (flag) {
-                sp = new SanPham();
-                sp.setMaSP(txtID.getText().trim());
-                sp.setTenSP(txtName.getText().trim());
-                sp.setDonGia(Integer.parseInt(txtPrice.getText().trim()));
+            busSP.addSP(sp);
 
-                for (LoaiSP i : busLSP.getAllLSP()) {
-                    String s = String.valueOf(cbxTypeProduct.getSelectedItem());
-                    if (i.getTenLSP().equals(s)) {
-                        sp.setMaLSP(i.getMaLSP());
-                        break;
-                    }
-                }
-
-                busSP.addSP(sp);
-                JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                setTableData2(busSP.getAllSP());
-            }
+            JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            Reset();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnADDActionPerformed
 
-    private void btnUPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUPActionPerformed
-        int row = Table.getSelectedRow();
-        if (row == -1)
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        else {
-            if (checkEmpty()) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập dữ liệu", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            } else if (!checkName() || !checkPrice()) {
-                if (!checkName()) {
-                    JOptionPane.showMessageDialog(this, "Sai tên", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                } else if (!checkPrice()) {
-                    JOptionPane.showMessageDialog(this, "Sai đơn giá", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                SanPham s1 = new SanPham();
-                s1.setMaSP(txtID.getText());
-                s1.setTenSP(txtName.getText().trim());
-                s1.setDonGia(Integer.parseInt(txtPrice.getText().trim()));
-
-                for (LoaiSP i : busLSP.getAllLSP()) {
-                    String s = String.valueOf(cbxTypeProduct.getSelectedItem());
-                    if (i.getTenLSP().equals(s)) {
-                        s1.setMaLSP(i.getMaLSP());
-                        break;
-                    }
-                }
-
-                busSP.updateSP(s1);
-                JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                setTableData2(busSP.getAllSP());
+    private void btnUPDATEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUPDATEActionPerformed
+        try {
+            int row = Table.getSelectedRow();
+            if (row == -1) {
+                throw new Exception("Vui lòng chọn sản phẩm cần sửa");
             }
-        }
-    }//GEN-LAST:event_btnUPActionPerformed
+            check();
 
-    private void btnDELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDELActionPerformed
-        int row = Table.getSelectedRow();
-        if (row == -1)
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        else {
-            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn xóa?");
-
-            if (confirm == JOptionPane.YES_OPTION) {
-                String id = String.valueOf(Table.getValueAt(row, 0));
-                busSP.deleteSP(id);
-                JOptionPane.showMessageDialog(this, "Xóa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                setTableData2(busSP.getAllSP());
-            }
-        }
-    }//GEN-LAST:event_btnDELActionPerformed
-
-    private void btnREFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnREFActionPerformed
-        setTableData2(busSP.getAllSP());
-    }//GEN-LAST:event_btnREFActionPerformed
-
-    private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
-        int row = Table.getSelectedRow();
-
-        if (row != -1) {
-            txtID.setText(String.valueOf(Table.getValueAt(row, 0)));
-            txtName.setText(String.valueOf(Table.getValueAt(row, 1)));
-            txtPrice.setText(String.valueOf(dt.getValueAt(row, 2)));
+            SanPham sp = new SanPham();
+            sp.setMaSP(txtID.getText());
+            sp.setTenSP(txtName.getText().trim());
+            sp.setDonGia(Integer.parseInt(txtPrice.getText().trim()));
 
             for (LoaiSP i : busLSP.getAllLSP()) {
-                String cbx = String.valueOf(dt.getValueAt(row, 3));
-                if (i.getTenLSP().equals(cbx)) {
-                    cbxTypeProduct.setSelectedItem(i.getTenLSP());
+                if (i.getTenLSP().equals(String.valueOf(cbxType.getSelectedItem()))) {
+                    sp.setMaLSP(i.getMaLSP());
                     break;
                 }
             }
 
-            txtID.setEnabled(false);
+            busSP.updateSP(sp);
+
+            JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            Reset();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_TableMouseClicked
+    }//GEN-LAST:event_btnUPDATEActionPerformed
+
+    private void btnDELETEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDELETEActionPerformed
+        try {
+            int row = Table.getSelectedRow();
+            if (row == -1) {
+                throw new Exception("Vui lòng chọn sản phẩm cần xóa");
+            }
+
+            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa?");
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                busSP.deleteCTHD(txtID.getText());
+                busSP.deleteSP(txtID.getText());
+
+                JOptionPane.showMessageDialog(this, "Xóa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                Reset();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDELETEActionPerformed
+
+    private void btnREFRESHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnREFRESHActionPerformed
+        Reset();
+    }//GEN-LAST:event_btnREFRESHActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Table;
     private javax.swing.JButton btnADD;
-    private javax.swing.JButton btnDEL;
-    private javax.swing.JButton btnREF;
-    private javax.swing.JButton btnSEARCH;
-    private javax.swing.JButton btnUP;
+    private javax.swing.JButton btnDELETE;
+    private javax.swing.JButton btnREFRESH;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnUPDATE;
     private javax.swing.JComboBox<String> cbxSearch;
-    private javax.swing.JComboBox<String> cbxTypeProduct;
-    private javax.swing.JPanel contentPanel;
+    private javax.swing.JComboBox<String> cbxSort;
+    private javax.swing.JComboBox<String> cbxType;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblID;
-    private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPrice;
-    private javax.swing.JLabel lblSearch;
-    private javax.swing.JLabel lblSearchType;
     private javax.swing.JLabel lblTitle;
-    private javax.swing.JLabel lblTypeProduct;
-    private javax.swing.JPanel pnlBTN;
+    private javax.swing.JLabel lblType;
+    private javax.swing.JLabel lnlName;
+    private javax.swing.JPanel pnlButton;
     private javax.swing.JPanel pnlDetail;
-    private javax.swing.JPanel pnlINFO;
-    private javax.swing.JPanel pnlSEARCH;
+    private javax.swing.JPanel pnlDetails;
+    private javax.swing.JPanel pnlFunction;
+    private javax.swing.JPanel pnlS;
+    private javax.swing.JPanel pnlSearch;
+    private javax.swing.JPanel pnlSort;
+    private javax.swing.JPanel pnlText;
+    private javax.swing.JPanel pnlTitle;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPrice;
