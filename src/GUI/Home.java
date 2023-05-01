@@ -5,6 +5,7 @@
 package GUI;
 
 import DTO.TaiKhoan;
+import javax.swing.JPanel;
 
 /**
  *
@@ -32,6 +33,10 @@ public class Home extends javax.swing.JFrame {
     private void Reset() {
         pnlContent.repaint();
         pnlContent.revalidate();
+    }
+    
+    public JPanel getContentPanel(){
+        return pnlContent;
     }
 
     /**
@@ -111,7 +116,7 @@ public class Home extends javax.swing.JFrame {
         pnlMenuBTN.add(btnSP);
 
         btnBH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/shopping_bag.png"))); // NOI18N
-        btnBH.setToolTipText("Bán hàng");
+        btnBH.setToolTipText("Hóa đơn");
         btnBH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBHActionPerformed(evt);
@@ -247,8 +252,8 @@ public class Home extends javax.swing.JFrame {
     private void btnBHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBHActionPerformed
         pnlContent.removeAll();
         Reset();
-
-        pnlContent.add(new DatHang_GUI());
+        
+        pnlContent.add(new HoaDon_GUI());
         Reset();
     }//GEN-LAST:event_btnBHActionPerformed
 
