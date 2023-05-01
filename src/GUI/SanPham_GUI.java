@@ -249,6 +249,11 @@ public class SanPham_GUI extends javax.swing.JPanel {
         btnSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSearch.setForeground(new java.awt.Color(255, 255, 255));
         btnSearch.setText("Tìm");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
         pnlSearch.add(btnSearch, java.awt.BorderLayout.EAST);
 
         pnlS.add(pnlSearch);
@@ -450,6 +455,18 @@ public class SanPham_GUI extends javax.swing.JPanel {
     private void btnREFRESHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnREFRESHActionPerformed
         Reset();
     }//GEN-LAST:event_btnREFRESHActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        try{
+            if(txtSearch.getText().trim().isEmpty()){
+                throw new Exception("Dữ liệu nhập trống");
+            }
+            int search = cbxSearch.getSelectedIndex();
+            setTableData(busSP.searchSP(txtSearch.getText().trim(), search));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
