@@ -37,21 +37,21 @@ public class DatHang_GUI extends javax.swing.JPanel {
         busBan = new Ban_BUS();
         busSP = new SanPham_BUS();
         busLSP = new LoaiSP_BUS();
-        
+
         //Cấu hình table
         setDProduct();
         setDOrder();
-        
+
         //Lấy dữ liệu table
         setDataProduct(busSP.getAllSP());
-        
+
         //Cấu hình các comboBox
         setCBX();
     }
 
     //Hàm cấu hình table
-    private void setDProduct(){
-        dProduct = new DefaultTableModel(){
+    private void setDProduct() {
+        dProduct = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -61,9 +61,9 @@ public class DatHang_GUI extends javax.swing.JPanel {
         dProduct.addColumn("Mã SP");
         dProduct.addColumn("Tên SP");
     }
-    
-    private void setDOrder(){
-        dOrder = new DefaultTableModel(){
+
+    private void setDOrder() {
+        dOrder = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -71,72 +71,83 @@ public class DatHang_GUI extends javax.swing.JPanel {
         };
         tblOrder.setModel(dOrder);
         String order[] = {"Mã SP", "Tên SP", "Đơn giá", "Số lượng", "Thành tiền"};
-        for(String i : order){
+        for (String i : order) {
             dOrder.addColumn(i);
         }
     }
-    
+
     //Hàm lấy dữ liệu cho table
-    private void setDataProduct(List<SanPham> sps){
+    private void setDataProduct(List<SanPham> sps) {
         dProduct.setRowCount(0);
-        for(SanPham i : sps){
+        for (SanPham i : sps) {
             dProduct.addRow(new Object[]{i.getMaSP(), i.getTenSP()});
         }
     }
-    
-    private void setDataOrder(List<CTHD> cts){
+
+    private void setDataOrder(List<CTHD> cts) {
         dOrder.setRowCount(0);
-        for(CTHD i : cts){
+        for (CTHD i : cts) {
             SanPham sp = busSP.getSPbyID(i.getMaSP());
             int money = sp.getDonGia() * i.getSoLuong();
             dOrder.addRow(new Object[]{sp.getMaSP(), sp.getTenSP(), sp.getDonGia(), i.getSoLuong(), money});
         }
     }
-    
+
     //Hàm cấu hình comboBox
-    private void setCBX(){
+    private void setCBX() {
         //comboBox phân loại
         cbxSort.removeAllItems();
         cbxSort.addItem("All");
-        for(LoaiSP i : busLSP.getAllLSP()){
+        for (LoaiSP i : busLSP.getAllLSP()) {
             cbxSort.addItem(i.getTenLSP());
         }
-        
+
         //comboBox khách hàng
         cbxKH.removeAllItems();
-        for(KhachHang i : busKH.getAllKH()){
+        for (KhachHang i : busKH.getAllKH()) {
             cbxKH.addItem(i.getMaKH());
         }
-        
+
         //comboBox nhân viên
         cbxNV.removeAllItems();
-        for(NhanVien i : busNV.getAllNV()){
+        for (NhanVien i : busNV.getAllNV()) {
             cbxNV.addItem(i.getMaNV());
         }
-        
+
         //comboBox bàn
         cbxBan.removeAllItems();
-        for(Ban i : busBan.getAllBan()){
+        for (Ban i : busBan.getAllBan()) {
             cbxBan.addItem(i.getMaBan());
         }
-        
+
         //comboBox thời gian
         cbxHour.removeAllItems();
-        for(int i=8; i<22; i++){
+        for (int i = 8; i < 22; i++) {
             cbxHour.addItem(String.valueOf(i));
         }
-        
+
         cbxMinute.removeAllItems();
-        for(int i=0; i<61; i+=5){
+        for (int i = 0; i < 61; i += 5) {
             cbxMinute.addItem(String.valueOf(i));
         }
-        
-        /*int i=0;
-        while(i<61){
-        cbxMinute.addItem(String.valueOf(i));
-        i+=5;
-        };*/
     }
+
+    //Hàm chỉnh textfield
+    private void setChange(boolean b) {
+        txtSP.setEditable(b);
+        txtName.setEditable(b);
+        txtPrice.setEditable(b);
+    }
+
+    //Hàm reset
+    private void Reset() {
+        txtSP.setText("");
+        txtName.setText("");
+        txtPrice.setText("");
+        txtQuantity.setText("");
+        setChange(true);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -208,6 +219,11 @@ public class DatHang_GUI extends javax.swing.JPanel {
         pnlCBXSort.setLayout(new java.awt.GridLayout());
 
         cbxSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxSort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxSortActionPerformed(evt);
+            }
+        });
         pnlCBXSort.add(cbxSort);
 
         pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
@@ -251,6 +267,11 @@ public class DatHang_GUI extends javax.swing.JPanel {
         ));
         tblProduct.setRowHeight(30);
         tblProduct.getTableHeader().setReorderingAllowed(false);
+        tblProduct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblProduct);
 
         pnlProduct.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -299,23 +320,30 @@ public class DatHang_GUI extends javax.swing.JPanel {
 
         pnlReceiptText.setBackground(new java.awt.Color(255, 255, 255));
         pnlReceiptText.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
+
+        txtHD.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         pnlReceiptText.add(txtHD);
 
+        cbxKH.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         cbxKH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlReceiptText.add(cbxKH);
 
+        cbxNV.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         cbxNV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlReceiptText.add(cbxNV);
 
+        cbxBan.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         cbxBan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlReceiptText.add(cbxBan);
 
         pnlTime.setBackground(new java.awt.Color(255, 255, 255));
         pnlTime.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
 
+        cbxHour.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         cbxHour.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlTime.add(cbxHour);
 
+        cbxMinute.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         cbxMinute.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlTime.add(cbxMinute);
 
@@ -369,9 +397,17 @@ public class DatHang_GUI extends javax.swing.JPanel {
 
         pnlOrderText.setBackground(new java.awt.Color(255, 255, 255));
         pnlOrderText.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
+
+        txtSP.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         pnlOrderText.add(txtSP);
+
+        txtName.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         pnlOrderText.add(txtName);
+
+        txtPrice.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         pnlOrderText.add(txtPrice);
+
+        txtQuantity.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         pnlOrderText.add(txtQuantity);
 
         javax.swing.GroupLayout pnlOrderLayout = new javax.swing.GroupLayout(pnlOrder);
@@ -511,6 +547,26 @@ public class DatHang_GUI extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbxSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSortActionPerformed
+        String sort = String.valueOf(cbxSort.getSelectedIndex());
+        if (sort.equals("0")) {
+            setDataProduct(busSP.getAllSP());
+        } else {
+            setDataProduct(busSP.searchSP(sort, 3));
+        }
+    }//GEN-LAST:event_cbxSortActionPerformed
+
+    private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
+        int row = tblProduct.getSelectedRow();
+        if(row != -1){
+            SanPham sp = busSP.getSPbyID(String.valueOf(dProduct.getValueAt(row, 0)));
+            txtSP.setText(sp.getMaSP());
+            txtName.setText(sp.getTenSP());
+            txtPrice.setText(String.valueOf(sp.getDonGia()));
+            setChange(false);
+        }
+    }//GEN-LAST:event_tblProductMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
