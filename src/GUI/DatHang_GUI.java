@@ -2,11 +2,12 @@ package GUI;
 
 import BUS.*;
 import DTO.*;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class DatHang_GUI extends javax.swing.JPanel {
+public class DatHang_GUI extends javax.swing.JFrame {
 
     DefaultTableModel dProduct, dOrder;
     HoaDon_BUS busHD;
@@ -25,16 +26,16 @@ public class DatHang_GUI extends javax.swing.JPanel {
     public DatHang_GUI(HoaDon hd) {
         initComponents();
         setPanel();
-        
+
         //Lấy dữ liệu bảng chi tiết
         setDataOrder(busCTHD.getCTHDbyID(hd.getMaHD()));
-        
+
         //Lấy thông tin hóa đơn
         txtHD.setText(hd.getMaHD());
         cbxKH.setSelectedItem(hd.getMaKH());
         cbxNV.setSelectedItem(hd.getMaNV());
         cbxBan.setSelectedItem(hd.getMaBan());
-        
+
         //Cấu hỉnh
         txtHD.setEditable(false);
     }
@@ -177,6 +178,10 @@ public class DatHang_GUI extends javax.swing.JPanel {
             throw new Exception("Mã hóa đơn trống");
         } else if (!txtHD.getText().trim().matches("^HD\\d{3}$")) {
             throw new Exception("Mã hóa đơn không đúng");
+        } else if (busHD.getHDbyID(txtHD.getText().trim()) != null && !txtHD.isEditable()) {
+            throw new Exception("Mã hóa đơn đã tồn tại");
+        } else if (dOrder.getRowCount()==0){
+            throw new Exception("Chi tiết hóa đơn trống");
         }
     }
 
@@ -253,6 +258,8 @@ public class DatHang_GUI extends javax.swing.JPanel {
         pnlTotal = new javax.swing.JPanel();
         lblTotal = new javax.swing.JLabel();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Đặt hàng");
         setBackground(new java.awt.Color(255, 255, 255));
 
         pnlProduct.setLayout(new java.awt.BorderLayout());
@@ -261,7 +268,7 @@ public class DatHang_GUI extends javax.swing.JPanel {
 
         pnlCBXSort.setBackground(new java.awt.Color(255, 255, 255));
         pnlCBXSort.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Phân loại", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
-        pnlCBXSort.setLayout(new java.awt.GridLayout(1, 0));
+        pnlCBXSort.setLayout(new java.awt.GridLayout());
 
         cbxSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxSort.addActionListener(new java.awt.event.ActionListener() {
@@ -408,7 +415,7 @@ public class DatHang_GUI extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(pnlReceiptTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlReceiptText, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                .addComponent(pnlReceiptText, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlReceiptLayout.setVerticalGroup(
@@ -551,12 +558,22 @@ public class DatHang_GUI extends javax.swing.JPanel {
         btnCONFIRM.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnCONFIRM.setForeground(new java.awt.Color(255, 255, 255));
         btnCONFIRM.setText("Xác nhận");
+        btnCONFIRM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCONFIRMActionPerformed(evt);
+            }
+        });
         pnlBTN.add(btnCONFIRM);
 
         btnCANCEL.setBackground(new java.awt.Color(159, 32, 66));
         btnCANCEL.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnCANCEL.setForeground(new java.awt.Color(255, 255, 255));
         btnCANCEL.setText("Hủy");
+        btnCANCEL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCANCELActionPerformed(evt);
+            }
+        });
         pnlBTN.add(btnCANCEL);
 
         pnlDetails.add(pnlBTN, java.awt.BorderLayout.PAGE_END);
@@ -578,13 +595,18 @@ public class DatHang_GUI extends javax.swing.JPanel {
         ));
         tblOrder.setRowHeight(30);
         tblOrder.getTableHeader().setReorderingAllowed(false);
+        tblOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblOrderMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblOrder);
 
         pnlOrderTBL.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         pnlTotal.setBackground(new java.awt.Color(255, 255, 255));
         pnlTotal.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tổng tiền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
-        pnlTotal.setLayout(new java.awt.GridLayout(1, 0));
+        pnlTotal.setLayout(new java.awt.GridLayout());
 
         lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTotal.setForeground(new java.awt.Color(159, 32, 66));
@@ -594,8 +616,8 @@ public class DatHang_GUI extends javax.swing.JPanel {
 
         pnlOrderTBL.add(pnlTotal, java.awt.BorderLayout.PAGE_END);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -604,7 +626,7 @@ public class DatHang_GUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlOrderTBL, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+                .addComponent(pnlOrderTBL, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -617,6 +639,8 @@ public class DatHang_GUI extends javax.swing.JPanel {
                     .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbxSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSortActionPerformed
@@ -627,6 +651,24 @@ public class DatHang_GUI extends javax.swing.JPanel {
             setDataProduct(busSP.searchSP(sort, 3));
         }
     }//GEN-LAST:event_cbxSortActionPerformed
+
+    private void btnSEARCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSEARCHActionPerformed
+        try {
+            if (txtSearch.getText().trim().isEmpty()) {
+                throw new Exception("Dữ liệu nhập trống");
+            }
+
+            String search = txtSearch.getText().trim();
+
+            if (search.matches("^SP\\d{3}|\\d+")) {
+                setDataProduct(busSP.searchSP(search, 0));
+            } else {
+                setDataProduct(busSP.searchSP(search, 1));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSEARCHActionPerformed
 
     private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
         int row = tblProduct.getSelectedRow();
@@ -725,24 +767,90 @@ public class DatHang_GUI extends javax.swing.JPanel {
         Reset();
     }//GEN-LAST:event_btnREFRESHActionPerformed
 
-    private void btnSEARCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSEARCHActionPerformed
-        try {
-            if (txtSearch.getText().trim().isEmpty()) {
-                throw new Exception("Dữ liệu nhập trống");
-            }
+    private void tblOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOrderMouseClicked
+        int row = tblOrder.getSelectedRow();
+        if (row != -1) {
+            txtSP.setText(String.valueOf(dOrder.getValueAt(row, 0)));
+            txtName.setText(String.valueOf(dOrder.getValueAt(row, 1)));
+            txtPrice.setText(String.valueOf(dOrder.getValueAt(row, 2)));
+            txtQuantity.setText(String.valueOf(dOrder.getValueAt(row, 3)));
 
-            String search = txtSearch.getText().trim();
+            setChange(false);
+        }
+    }//GEN-LAST:event_tblOrderMouseClicked
+
+    private void btnCANCELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCANCELActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCANCELActionPerformed
+
+    private void btnCONFIRMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCONFIRMActionPerformed
+        try {
+            checkReceipt();
             
-            if (search.matches("^SP\\d{3}|\\d+")) {
-                setDataProduct(busSP.searchSP(search, 0));
-            } else {
-                setDataProduct(busSP.searchSP(search, 1));
+            HoaDon hd = new HoaDon();
+            hd.setMaHD(txtHD.getText().trim());
+            hd.setMaKH(String.valueOf(cbxKH.getSelectedItem()));
+            hd.setMaNV(String.valueOf(cbxNV.getSelectedItem()));
+            hd.setMaBan(String.valueOf(cbxBan.getSelectedItem()));
+            
+            List<CTHD> cts = new ArrayList<>();
+            for(int i=0; i<dOrder.getRowCount(); i++){
+                CTHD ct = new CTHD();
+                ct.setMaHD(hd.getMaHD());
+                ct.setMaSP(String.valueOf(dOrder.getValueAt(i, 0)));
+                ct.setSoLuong(Integer.parseInt(String.valueOf(dOrder.getValueAt(i, 3))));
+                cts.add(ct);
             }
+            if(txtHD.isEditable()){
+                busHD.addHD(hd);
+                busCTHD.addCTHD(cts);
+                JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else{
+                busHD.updateHD(hd);
+                busCTHD.updateCTHD(cts);
+                JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+            this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnSEARCHActionPerformed
+    }//GEN-LAST:event_btnCONFIRMActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(DatHang_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(DatHang_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(DatHang_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(DatHang_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new DatHang_GUI().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnADD;
