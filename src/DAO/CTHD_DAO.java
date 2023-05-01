@@ -83,14 +83,14 @@ public class CTHD_DAO {
     
     public void updateCTHD(List<CTHD> cts){
         Connection conn = JDBCConnection.getJDBCConnection();
-        String sql = "UPDATE CTHD SET MASP=?, SOLUONG=? WHERE MAHD=?";
+        String sql = "UPDATE CTHD SET SOLUONG=? WHERE MAHD=? AND MASP=?";
         
         try{
             for(CTHD ct : cts){
                 PreparedStatement ps = conn.prepareStatement(sql);
-                ps.setString(1, ct.getMaSP());
-                ps.setInt(2, ct.getSoLuong());
-                ps.setString(3, ct.getMaHD());
+                ps.setInt(1, ct.getSoLuong());
+                ps.setString(2, ct.getMaHD());
+                ps.setString(3, ct.getMaSP());
                 int rs = ps.executeUpdate();
             }
             conn.close();
