@@ -248,7 +248,7 @@ public class Home extends javax.swing.JFrame {
         pnlContent.removeAll();
         Reset();
 
-        pnlContent.add(new BanHang_GUI());
+        pnlContent.add(new DatHang_GUI());
         Reset();
     }//GEN-LAST:event_btnBHActionPerformed
 
