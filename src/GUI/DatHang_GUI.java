@@ -3,6 +3,7 @@ package GUI;
 import BUS.*;
 import DTO.*;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class DatHang_GUI extends javax.swing.JPanel {
@@ -146,6 +147,39 @@ public class DatHang_GUI extends javax.swing.JPanel {
         txtPrice.setText("");
         txtQuantity.setText("");
         setChange(true);
+
+        tblProduct.clearSelection();
+        tblOrder.clearSelection();
+    }
+
+    //Hàm kiểm tra và ném lỗi
+    private void checkOrder() throws Exception {
+        if (txtQuantity.getText().trim().isEmpty()) {
+            throw new Exception("Số lượng trống");
+        } else if (!txtQuantity.getText().trim().matches("\\d+")) {
+            throw new Exception("Số lượng phải là số");
+        }
+    }
+
+    private void checkReceipt() throws Exception {
+        if (txtHD.getText().trim().isEmpty()) {
+            throw new Exception("Mã hóa đơn trống");
+        } else if (!txtHD.getText().trim().matches("^HD\\d{3}$")) {
+            throw new Exception("Mã hóa đơn không đúng");
+        }
+    }
+
+    //Hàm lấy tổng
+    private void setTotal() {
+        lblTotal.setText("0");
+
+        if (dOrder.getRowCount() != 0) {
+            int total = 0;
+            for (int i = 0; i < dOrder.getRowCount(); i++) {
+                total += Integer.parseInt(String.valueOf(dOrder.getValueAt(i, 4)));
+            }
+            lblTotal.setText(String.valueOf(total));
+        }
     }
 
     /**
@@ -196,12 +230,12 @@ public class DatHang_GUI extends javax.swing.JPanel {
         txtPrice = new javax.swing.JTextField();
         txtQuantity = new javax.swing.JTextField();
         pnlBTN = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnADD = new javax.swing.JButton();
+        btnUPDATE = new javax.swing.JButton();
+        btnDELETE = new javax.swing.JButton();
+        btnREFRESH = new javax.swing.JButton();
+        btnCONFIRM = new javax.swing.JButton();
+        btnCANCEL = new javax.swing.JButton();
         pnlOrderTBL = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblOrder = new javax.swing.JTable();
@@ -216,7 +250,7 @@ public class DatHang_GUI extends javax.swing.JPanel {
 
         pnlCBXSort.setBackground(new java.awt.Color(255, 255, 255));
         pnlCBXSort.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Phân loại", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
-        pnlCBXSort.setLayout(new java.awt.GridLayout());
+        pnlCBXSort.setLayout(new java.awt.GridLayout(1, 0));
 
         cbxSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxSort.addActionListener(new java.awt.event.ActionListener() {
@@ -235,6 +269,11 @@ public class DatHang_GUI extends javax.swing.JPanel {
         btnSEARCH.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSEARCH.setForeground(new java.awt.Color(255, 255, 255));
         btnSEARCH.setText("Tìm");
+        btnSEARCH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSEARCHActionPerformed(evt);
+            }
+        });
         pnlSearch.add(btnSEARCH, java.awt.BorderLayout.EAST);
 
         javax.swing.GroupLayout pnlSortLayout = new javax.swing.GroupLayout(pnlSort);
@@ -266,6 +305,7 @@ public class DatHang_GUI extends javax.swing.JPanel {
             }
         ));
         tblProduct.setRowHeight(30);
+        tblProduct.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblProduct.getTableHeader().setReorderingAllowed(false);
         tblProduct.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -452,41 +492,61 @@ public class DatHang_GUI extends javax.swing.JPanel {
         pnlBTN.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
         pnlBTN.setLayout(new java.awt.GridLayout(3, 2, 5, 5));
 
-        jButton1.setBackground(new java.awt.Color(159, 32, 66));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Thêm");
-        pnlBTN.add(jButton1);
+        btnADD.setBackground(new java.awt.Color(159, 32, 66));
+        btnADD.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnADD.setForeground(new java.awt.Color(255, 255, 255));
+        btnADD.setText("Thêm");
+        btnADD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnADDActionPerformed(evt);
+            }
+        });
+        pnlBTN.add(btnADD);
 
-        jButton2.setBackground(new java.awt.Color(159, 32, 66));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Sửa");
-        pnlBTN.add(jButton2);
+        btnUPDATE.setBackground(new java.awt.Color(159, 32, 66));
+        btnUPDATE.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnUPDATE.setForeground(new java.awt.Color(255, 255, 255));
+        btnUPDATE.setText("Sửa");
+        btnUPDATE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUPDATEActionPerformed(evt);
+            }
+        });
+        pnlBTN.add(btnUPDATE);
 
-        jButton3.setBackground(new java.awt.Color(159, 32, 66));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Xóa");
-        pnlBTN.add(jButton3);
+        btnDELETE.setBackground(new java.awt.Color(159, 32, 66));
+        btnDELETE.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnDELETE.setForeground(new java.awt.Color(255, 255, 255));
+        btnDELETE.setText("Xóa");
+        btnDELETE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDELETEActionPerformed(evt);
+            }
+        });
+        pnlBTN.add(btnDELETE);
 
-        jButton4.setBackground(new java.awt.Color(159, 32, 66));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Đặt lại");
-        pnlBTN.add(jButton4);
+        btnREFRESH.setBackground(new java.awt.Color(159, 32, 66));
+        btnREFRESH.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnREFRESH.setForeground(new java.awt.Color(255, 255, 255));
+        btnREFRESH.setText("Đặt lại");
+        btnREFRESH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnREFRESHActionPerformed(evt);
+            }
+        });
+        pnlBTN.add(btnREFRESH);
 
-        jButton5.setBackground(new java.awt.Color(159, 32, 66));
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Xác nhận");
-        pnlBTN.add(jButton5);
+        btnCONFIRM.setBackground(new java.awt.Color(159, 32, 66));
+        btnCONFIRM.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnCONFIRM.setForeground(new java.awt.Color(255, 255, 255));
+        btnCONFIRM.setText("Xác nhận");
+        pnlBTN.add(btnCONFIRM);
 
-        jButton6.setBackground(new java.awt.Color(159, 32, 66));
-        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Hủy");
-        pnlBTN.add(jButton6);
+        btnCANCEL.setBackground(new java.awt.Color(159, 32, 66));
+        btnCANCEL.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnCANCEL.setForeground(new java.awt.Color(255, 255, 255));
+        btnCANCEL.setText("Hủy");
+        pnlBTN.add(btnCANCEL);
 
         pnlDetails.add(pnlBTN, java.awt.BorderLayout.PAGE_END);
 
@@ -513,7 +573,7 @@ public class DatHang_GUI extends javax.swing.JPanel {
 
         pnlTotal.setBackground(new java.awt.Color(255, 255, 255));
         pnlTotal.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tổng tiền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
-        pnlTotal.setLayout(new java.awt.GridLayout());
+        pnlTotal.setLayout(new java.awt.GridLayout(1, 0));
 
         lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTotal.setForeground(new java.awt.Color(159, 32, 66));
@@ -559,30 +619,134 @@ public class DatHang_GUI extends javax.swing.JPanel {
 
     private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
         int row = tblProduct.getSelectedRow();
-        if(row != -1){
+        if (row != -1) {
             SanPham sp = busSP.getSPbyID(String.valueOf(dProduct.getValueAt(row, 0)));
             txtSP.setText(sp.getMaSP());
             txtName.setText(sp.getTenSP());
             txtPrice.setText(String.valueOf(sp.getDonGia()));
             setChange(false);
+            txtQuantity.setText("");
         }
     }//GEN-LAST:event_tblProductMouseClicked
 
+    private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
+        try {
+            //Kiểm tra lỗi
+            if (tblProduct.getSelectedRow() == -1) {
+                throw new Exception("Vui lòng chọn sản phẩm");
+            }
+            checkOrder();
+
+            //Khai báo biến
+            String id = txtSP.getText(), name = txtName.getText();
+            int price = Integer.parseInt(txtPrice.getText()),
+                    number = Integer.parseInt(txtQuantity.getText()),
+                    money = price * number;
+            boolean flag = true;
+
+            //Kiểm tra đã tồn tại sản phẩm
+            if (dProduct.getRowCount() != 0) {
+                for (int i = dOrder.getRowCount(); i > 0; i--) {
+                    String idSP = String.valueOf(dOrder.getValueAt(i - 1, 0));
+                    if (idSP.equals(txtSP.getText())) {
+                        flag = false;
+                        number += Integer.parseInt(String.valueOf(dOrder.getValueAt(i - 1, 3)));
+                        money = price * number;
+                        dOrder.setValueAt(number, i - 1, 3);
+                        dOrder.setValueAt(money, i - 1, 4);
+                        break;
+                    }
+                }
+
+                if (flag) {
+                    dOrder.addRow(new Object[]{id, name, price, number, money});
+                }
+            }
+
+            setTotal();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnADDActionPerformed
+
+    private void btnUPDATEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUPDATEActionPerformed
+        try {
+            int row = tblOrder.getSelectedRow();
+            if (row == -1) {
+                throw new Exception("Vui lòng chọn chi tiết cần sửa");
+            }
+            checkOrder();
+
+            //Khai báo biến
+            int price = Integer.parseInt(txtPrice.getText()),
+                    number = Integer.parseInt(txtQuantity.getText()),
+                    money = price * number;
+
+            //Sửa bảng
+            dOrder.setValueAt(number, row, 3);
+            dOrder.setValueAt(money, row, 4);
+
+            //Reset và tính tổng
+            Reset();
+            setTotal();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUPDATEActionPerformed
+
+    private void btnDELETEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDELETEActionPerformed
+        try {
+            int row = tblOrder.getSelectedRow();
+            if (row == -1) {
+                throw new Exception("Vui lòng chọn chi tiết cần xóa");
+            }
+
+            dOrder.removeRow(row);
+
+            setTotal();
+            Reset();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDELETEActionPerformed
+
+    private void btnREFRESHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnREFRESHActionPerformed
+        Reset();
+    }//GEN-LAST:event_btnREFRESHActionPerformed
+
+    private void btnSEARCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSEARCHActionPerformed
+        try {
+            if (txtSearch.getText().trim().isEmpty()) {
+                throw new Exception("Dữ liệu nhập trống");
+            }
+
+            String search = txtSearch.getText().trim();
+            
+            if (search.matches("^SP\\d{3}|\\d+")) {
+                setDataProduct(busSP.searchSP(search, 0));
+            } else {
+                setDataProduct(busSP.searchSP(search, 1));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSEARCHActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnADD;
+    private javax.swing.JButton btnCANCEL;
+    private javax.swing.JButton btnCONFIRM;
+    private javax.swing.JButton btnDELETE;
+    private javax.swing.JButton btnREFRESH;
     private javax.swing.JButton btnSEARCH;
+    private javax.swing.JButton btnUPDATE;
     private javax.swing.JComboBox<String> cbxBan;
     private javax.swing.JComboBox<String> cbxHour;
     private javax.swing.JComboBox<String> cbxKH;
     private javax.swing.JComboBox<String> cbxMinute;
     private javax.swing.JComboBox<String> cbxNV;
     private javax.swing.JComboBox<String> cbxSort;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBan;
