@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class BanHang_GUI extends javax.swing.JPanel {
+public class PanelTest extends javax.swing.JPanel {
 
     DefaultTableModel d1, d2;
     HoaDon_BUS busHD;
@@ -14,7 +14,7 @@ public class BanHang_GUI extends javax.swing.JPanel {
     LoaiSP_BUS busLSP;
     SanPham_BUS busSP;
 
-    public BanHang_GUI() {
+    public PanelTest() {
         initComponents();
 
         //Khai báo các biến
@@ -467,7 +467,7 @@ public class BanHang_GUI extends javax.swing.JPanel {
                         .addComponent(pnlSort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addComponent(pnlDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlDetail, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
                     .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
