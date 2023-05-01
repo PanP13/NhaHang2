@@ -269,7 +269,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
 
         pnlCBXSort.setBackground(new java.awt.Color(255, 255, 255));
         pnlCBXSort.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Phân loại", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
-        pnlCBXSort.setLayout(new java.awt.GridLayout());
+        pnlCBXSort.setLayout(new java.awt.GridLayout(1, 0));
 
         cbxSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxSort.addActionListener(new java.awt.event.ActionListener() {
@@ -595,6 +595,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
             }
         ));
         tblOrder.setRowHeight(30);
+        tblOrder.setShowGrid(false);
         tblOrder.getTableHeader().setReorderingAllowed(false);
         tblOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -607,7 +608,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
 
         pnlTotal.setBackground(new java.awt.Color(255, 255, 255));
         pnlTotal.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tổng tiền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
-        pnlTotal.setLayout(new java.awt.GridLayout());
+        pnlTotal.setLayout(new java.awt.GridLayout(1, 0));
 
         lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTotal.setForeground(new java.awt.Color(159, 32, 66));
