@@ -59,4 +59,55 @@ public class HoaDon_DAO {
         }
         return null;
     }
+    
+    public void addHD(HoaDon hd){
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "INSERT INTO HOADON(MAHD, MAKH, MANV, MABAN) VALUES (?,?,?,?)";
+        
+        try{
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, hd.getMaHD());
+            ps.setString(2, hd.getMaKH());
+            ps.setString(3, hd.getMaNV());
+            ps.setString(4, hd.getMaBan());
+            
+            int rs = ps.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateHD (HoaDon hd){
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "UPDATE HOADON SET MAKH=?, MANV=?, MABAN=? WHERE MAHD=?";
+        
+        try{
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, hd.getMaKH());
+            ps.setString(2, hd.getMaNV());
+            ps.setString(3, hd.getMaBan());
+            ps.setString(4, hd.getMaHD());
+            
+            int rs = ps.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void deleteHD (String id){
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "DELETE FROM HOADON WHERE MAHD=?";
+        
+        try{
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, id);
+            
+            int rs = ps.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
