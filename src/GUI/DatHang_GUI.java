@@ -208,6 +208,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlBackGround = new javax.swing.JPanel();
         pnlProduct = new javax.swing.JPanel();
         pnlSort = new javax.swing.JPanel();
         pnlCBXSort = new javax.swing.JPanel();
@@ -262,6 +263,9 @@ public class DatHang_GUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Đặt hàng");
         setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().setLayout(new java.awt.CardLayout());
+
+        pnlBackGround.setBackground(new java.awt.Color(255, 255, 255));
 
         pnlProduct.setLayout(new java.awt.BorderLayout());
 
@@ -618,11 +622,11 @@ public class DatHang_GUI extends javax.swing.JFrame {
 
         pnlOrderTBL.add(pnlTotal, java.awt.BorderLayout.PAGE_END);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlBackGroundLayout = new javax.swing.GroupLayout(pnlBackGround);
+        pnlBackGround.setLayout(pnlBackGroundLayout);
+        pnlBackGroundLayout.setHorizontalGroup(
+            pnlBackGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBackGroundLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -631,16 +635,18 @@ public class DatHang_GUI extends javax.swing.JFrame {
                 .addComponent(pnlOrderTBL, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        pnlBackGroundLayout.setVerticalGroup(
+            pnlBackGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBackGroundLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlBackGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlOrderTBL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        getContentPane().add(pnlBackGround, "card2");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -882,6 +888,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JPanel pnlBTN;
+    private javax.swing.JPanel pnlBackGround;
     private javax.swing.JPanel pnlCBXSort;
     private javax.swing.JPanel pnlDetail;
     private javax.swing.JPanel pnlDetails;
