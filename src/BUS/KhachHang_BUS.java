@@ -34,4 +34,8 @@ public class KhachHang_BUS {
     public List<KhachHang> searchKH(String s, int t){
         return daoKH.searchKH(s, t);
     }
+    
+    public boolean getHD(String maKH){
+        return daoKH.getHD(maKH);
+    }
 }
