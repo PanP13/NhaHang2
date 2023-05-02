@@ -380,16 +380,16 @@ public class KhachHang_GUI extends javax.swing.JPanel {
             int t = cbxSearch.getSelectedIndex();
             if (t == 2) {
                 if (s.matches("Nam|nam|1")) {
-                    setTableData2(busKH.searchKH("1", 2));
+                    setTableData(busKH.searchKH("1", 2));
                 } else if (s.matches("Nữ|nữ|nu|Nu|0")) {
-                    setTableData2(busKH.searchKH("0", 2));
+                    setTableData(busKH.searchKH("0", 2));
                 } else {
                     JOptionPane.showMessageDialog(this, "Không tìm được khách hàng", "Thông báo", JOptionPane.ERROR_MESSAGE);
                 }
             } else if (busKH.searchKH(s, t).isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Không tìm được khách hàng", "Thông báo", JOptionPane.ERROR_MESSAGE);
             } else {
-                setTableData2(busKH.searchKH(s, t));
+                setTableData(busKH.searchKH(s, t));
             }
         }
     }//GEN-LAST:event_btnSEARCHActionPerformed
@@ -400,54 +400,54 @@ public class KhachHang_GUI extends javax.swing.JPanel {
             String id = txtID.getText().trim();
 
             if (busKH.getKHbyID(id) != null) {
-                JOptionPane.showMessageDialog(this, "Mã khách hàng đã tồn tại", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            } else {
-                kh = new KhachHang();
-                kh.setMaKH(txtID.getText());
-                kh.setHoTen(txtName.getText());
-                int gioiTinh = rdoM.isSelected() ? 1 : 0;
-                kh.setGioiTinh(gioiTinh);
-                kh.setSdt(txtPhone.getText().trim());
-                kh.setEmail(txtEmail.getText().trim());
-                kh.setDiaChi(txtAddress.getText().trim());
-
-                busKH.addKH(kh);
-                JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                setTableData2(busKH.getAllKH());
+                throw new Exception("Mã khách hàng đã tồn tại");
             }
+
+            kh = new KhachHang();
+            kh.setMaKH(txtID.getText());
+            kh.setHoTen(txtName.getText());
+            int gioiTinh = rdoM.isSelected() ? 1 : 0;
+            kh.setGioiTinh(gioiTinh);
+            kh.setSdt(txtPhone.getText().trim());
+            kh.setEmail(txtEmail.getText().trim());
+            kh.setDiaChi(txtAddress.getText().trim());
+
+            busKH.addKH(kh);
+            JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            setTableData2(busKH.getAllKH());
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnADDActionPerformed
 
     private void btnUPDATEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUPDATEActionPerformed
-        int row = Table.getSelectedRow();
-        if (row == -1)
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        else {
-            try {
-                check();
-
-                kh = new KhachHang();
-                kh.setMaKH(String.valueOf(Table.getValueAt(row, 0)));
-                kh.setHoTen(txtName.getText());
-                int gioiTinh = rdoM.isSelected() ? 1 : 0;
-                kh.setGioiTinh(gioiTinh);
-                kh.setSdt(txtPhone.getText().trim());
-                kh.setEmail(txtEmail.getText().trim());
-                kh.setDiaChi(txtAddress.getText().trim());
-
-                //Thực hiện truy vấn database
-                busKH.updateKH(kh);
-
-                //Xuất thông báo
-                JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-
-                //Cập nhật bảng
-                setTableData2(busKH.getAllKH());
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        try {
+            int row = Table.getSelectedRow();
+            if (row == -1) {
+                throw new Exception("Vui lòng chọn khách hàng cần sửa");
             }
+            check();
+
+            kh = new KhachHang();
+            kh.setMaKH(String.valueOf(Table.getValueAt(row, 0)));
+            kh.setHoTen(txtName.getText());
+            int gioiTinh = rdoM.isSelected() ? 1 : 0;
+            kh.setGioiTinh(gioiTinh);
+            kh.setSdt(txtPhone.getText().trim());
+            kh.setEmail(txtEmail.getText().trim());
+            kh.setDiaChi(txtAddress.getText().trim());
+
+            //Thực hiện truy vấn database
+            busKH.updateKH(kh);
+
+            //Xuất thông báo
+            JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+            //Cập nhật bảng
+            setTableData2(busKH.getAllKH());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnUPDATEActionPerformed
 
