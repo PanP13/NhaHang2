@@ -122,7 +122,6 @@ public class Ban_DAO {
             case 2:
                 sql = "SELECT * FROM BAN WHERE MALB LIKE '%" + s + "%'";
                 break;
-            //case 3: sql = "SELECT * FROM BAN WHERE PHONE LIKE '%"+s+"%'"; break;
             default:
                 break;
         }
@@ -145,5 +144,25 @@ public class Ban_DAO {
             e.printStackTrace();
         }
         return bs;
+    }
+
+    public boolean getHD(String id) {
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "SELECT * FROM HOADON WHERE MaBan=?";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return true;
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

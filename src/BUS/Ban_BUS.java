@@ -34,4 +34,8 @@ public class Ban_BUS {
     public List<Ban> searchBan(String s, int t){
         return daoB.searchBan(s, t);
     }
+    
+    public boolean getHD(String id){
+        return daoB.getHD(id);
+    }
 }
