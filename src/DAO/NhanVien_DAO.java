@@ -177,4 +177,26 @@ public class NhanVien_DAO {
         }
         return nvs;
     }
+    
+    public boolean getHD(String maNV){
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "SELECT * FROM HOADON WHERE MANV=?";
+        
+        try{
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, maNV);
+            
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+            
+            conn.close();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        
+        return false;
+    }
 }

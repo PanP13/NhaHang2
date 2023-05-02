@@ -34,4 +34,8 @@ public class NhanVien_BUS {
     public List<NhanVien> searchNV(String s, int t){
         return daoNV.searchNV(s, t);
     }
+    
+    public boolean getHD(String maNV){
+        return daoNV.getHD(maNV);
+    }
 }
