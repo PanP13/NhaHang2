@@ -1,16 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI;
 
 import DTO.HoaDon;
 import javax.swing.JFrame;
 
-/**
- *
- * @author panpa
- */
 public class CTHDManager {
     static JFrame frame1;
     static JFrame frame2;
