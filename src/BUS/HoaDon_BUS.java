@@ -30,4 +30,8 @@ public class HoaDon_BUS {
     public void deleteHD(String id){
         daoHD.deleteHD(id);
     }
+    
+    public List<HoaDon> searchHD(String s, int t){
+        return daoHD.searchHD(s, t);
+    }
 }

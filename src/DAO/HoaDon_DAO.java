@@ -110,4 +110,40 @@ public class HoaDon_DAO {
             e.printStackTrace();
         }
     }
+    
+    public List<HoaDon> searchHD(String s, int t){
+        List<HoaDon> hds = new ArrayList<>();
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "";
+        
+        switch(t){
+            case 0: sql="SELECT * FROM HOADON WHERE MAHD LIKE '%" + s +"%'"; break;
+            case 1: sql="SELECT * FROM HOADON WHERE MAKH LIKE '%" + s +"%'"; break;
+            case 2: sql="SELECT * FROM HOADON WHERE MANV LIKE '%" + s +"%'"; break;
+            case 3: sql="SELECT * FROM HOADON WHERE MABAN LIKE '%" + s +"%'"; break;
+            default: break;
+        }
+        
+        try{
+            PreparedStatement ps = conn.prepareStatement(sql);
+            //ps.setString(1, s);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                HoaDon hd = new HoaDon();
+                hd.setMaHD(rs.getString("MaHD"));
+                hd.setMaKH(rs.getString("MaKH"));
+                hd.setMaNV(rs.getString("MaNV"));
+                hd.setMaBan(rs.getString("MaBan"));
+                
+                hds.add(hd);
+            }
+            conn.close();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return hds;
+    }
 }
