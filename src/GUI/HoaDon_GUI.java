@@ -5,6 +5,7 @@ import BUS.HoaDon_BUS;
 import DTO.HoaDon;
 import java.awt.CardLayout;
 import java.awt.event.WindowEvent;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,7 +26,13 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         
         //Chỉnh table
         setTable();
-        setTableData();
+        setTableData(busHD.getAllHD());
+        
+        cbxSearch.removeAllItems();
+        String search[] = {"Mã HĐ", "Mã KH", "Mã NV", "Mã bàn"};
+        for(String i : search){
+            cbxSearch.addItem(i);
+        }
 
     }
 
@@ -47,9 +54,9 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     }
 
     //Hàm lấy dữ liệu table
-    private void setTableData() {
+    private void setTableData(List<HoaDon> hds) {
         dt.setRowCount(0);
-        for (HoaDon i : busHD.getAllHD()) {
+        for (HoaDon i : hds) {
             dt.addRow(new Object[]{i.getMaHD(), i.getMaKH(), i.getMaNV(), i.getMaBan()});
         }
     }
@@ -79,6 +86,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         pnlSearch = new javax.swing.JPanel();
         txtSearch = new javax.swing.JTextField();
         btnSEARCH = new javax.swing.JButton();
+        cbxSearch = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -209,7 +217,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
         pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
         pnlSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
-        pnlSearch.setLayout(new java.awt.BorderLayout());
+        pnlSearch.setLayout(new java.awt.BorderLayout(2, 0));
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         pnlSearch.add(txtSearch, java.awt.BorderLayout.CENTER);
@@ -218,7 +226,18 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         btnSEARCH.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnSEARCH.setForeground(new java.awt.Color(255, 255, 255));
         btnSEARCH.setText("Tìm");
+        btnSEARCH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSEARCHActionPerformed(evt);
+            }
+        });
         pnlSearch.add(btnSEARCH, java.awt.BorderLayout.EAST);
+
+        cbxSearch.setBackground(new java.awt.Color(159, 32, 66));
+        cbxSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cbxSearch.setForeground(new java.awt.Color(255, 255, 255));
+        cbxSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlSearch.add(cbxSearch, java.awt.BorderLayout.WEST);
 
         pnlTable.add(pnlSearch, java.awt.BorderLayout.PAGE_START);
 
@@ -245,7 +264,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
-        f = new CTHDManager().getFrame1();
+        f = CTHDManager.getFrame1();
         if (f.isShowing()) {
         f.toFront();
         } else {
@@ -267,7 +286,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
             hd.setMaBan(String.valueOf(dt.getValueAt(row, 3)));
 
             //f = new DatHang_GUI(hd);
-            f = new CTHDManager().getFrame2(hd);
+            f = CTHDManager.getFrame2(hd);
             
             if (f.isShowing()) {
                 f.toFront();
@@ -293,7 +312,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
                 String id = String.valueOf(dt.getValueAt(row, 0));
                 busHD.deleteHD(id);
                 busCTHD.deleteCTHD(id);
-                setTableData();
+                setTableData(busHD.getAllHD());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -301,8 +320,25 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDELETEActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        setTableData();
+        setTableData(busHD.getAllHD());
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnSEARCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSEARCHActionPerformed
+        try{
+            if(txtSearch.getText().trim().isEmpty()){
+                throw new Exception("Dữ liệu nhập trống");
+            }
+            int t = cbxSearch.getSelectedIndex();
+            String s = txtSearch.getText().trim();
+            if(busHD.searchHD(s, t).isEmpty()){
+                throw new Exception("Không tìm thấy hóa đơn");
+            }
+            setTableData(busHD.searchHD(s, t));
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSEARCHActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -311,6 +347,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     private javax.swing.JButton btnDELETE;
     private javax.swing.JButton btnSEARCH;
     private javax.swing.JButton btnUPDATE;
+    private javax.swing.JComboBox<String> cbxSearch;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
