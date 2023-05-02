@@ -3,8 +3,11 @@ package GUI;
 import BUS.CTHD_BUS;
 import BUS.HoaDon_BUS;
 import DTO.HoaDon;
+import java.awt.CardLayout;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 public class HoaDon_GUI extends javax.swing.JPanel {
@@ -19,11 +22,11 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
         busHD = new HoaDon_BUS();
         busCTHD = new CTHD_BUS();
-        f = new DatHang_GUI();
-
+        
         //Chỉnh table
         setTable();
         setTableData();
+
     }
 
     //Hàm cấu hình table
@@ -242,11 +245,11 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
+        f = new CTHDManager().getFrame1();
         if (f.isShowing()) {
-            JOptionPane.showMessageDialog(this, "Đã mở");
+        f.toFront();
         } else {
-            f.setVisible(true);
-            f.setDefaultCloseOperation(f.DISPOSE_ON_CLOSE);
+        f.setVisible(true);
         }
     }//GEN-LAST:event_btnADDActionPerformed
 
@@ -263,8 +266,14 @@ public class HoaDon_GUI extends javax.swing.JPanel {
             hd.setMaNV(String.valueOf(dt.getValueAt(row, 2)));
             hd.setMaBan(String.valueOf(dt.getValueAt(row, 3)));
 
-            f = new DatHang_GUI(hd);
-            f.setVisible(true);
+            //f = new DatHang_GUI(hd);
+            f = new CTHDManager().getFrame2(hd);
+            
+            if (f.isShowing()) {
+                f.toFront();
+            } else {
+                f.setVisible(true);
+            }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -279,7 +288,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
             }
 
             int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa?");
-            
+
             if (confirm == JOptionPane.YES_OPTION) {
                 String id = String.valueOf(dt.getValueAt(row, 0));
                 busHD.deleteHD(id);
