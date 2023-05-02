@@ -373,24 +373,31 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_txtIDActionPerformed
 
     private void btnSEARCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSEARCHActionPerformed
-        if (txtSearch.getText().isEmpty())
-            JOptionPane.showMessageDialog(this, "Không được bỏ trống", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        else {
-            String s = txtSearch.getText();
-            int t = cbxSearch.getSelectedIndex();
-            if (t == 2) {
-                if (s.matches("Nam|nam|1")) {
-                    setTableData(busKH.searchKH("1", 2));
-                } else if (s.matches("Nữ|nữ|nu|Nu|0")) {
-                    setTableData(busKH.searchKH("0", 2));
-                } else {
-                    JOptionPane.showMessageDialog(this, "Không tìm được khách hàng", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                }
-            } else if (busKH.searchKH(s, t).isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Không tìm được khách hàng", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            } else {
-                setTableData(busKH.searchKH(s, t));
+        try {
+            if (txtSearch.getText().isEmpty()) {
+                throw new Exception("Dữ liệu nhập trống");
             }
+            String s = txtSearch.getText().trim();
+            int t = cbxSearch.getSelectedIndex();
+            
+            switch (t) {
+                case 2:
+                    if (s.matches("Nam|nam|1")) {
+                        setTableData(busKH.searchKH("1", 2));
+                    } else if (s.matches("Nữ|nữ|nu|Nu|0")) {
+                        setTableData(busKH.searchKH("0", 2));
+                    } else {
+                        throw new Exception("Không tìm được khách hàng");
+                    }
+                    break;
+                default:
+                    if (busKH.searchKH(s, t).isEmpty()) {
+                        throw new Exception("Không tìm được khách hàng");
+                    }
+                    setTableData(busKH.searchKH(s, t));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Thông báo", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSEARCHActionPerformed
 
