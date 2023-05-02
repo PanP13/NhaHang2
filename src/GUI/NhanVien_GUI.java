@@ -38,6 +38,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
     }
 
     private void setTableData(List<NhanVien> nvs) {
+        dt.setRowCount(0);
         for (NhanVien nv : nvs) {
             String gioiTinh = nv.getGioiTinh() == 0 ? "Nữ" : "Nam";
             dt.addRow(new Object[]{nv.getMaNV(), nv.getHoTen(), gioiTinh, nv.getSdt(), nv.getEmail(), nv.getDiaChi()});
@@ -45,7 +46,6 @@ public class NhanVien_GUI extends javax.swing.JPanel {
     }
 
     private void setTableData2(List<NhanVien> nvs) {
-        dt.setRowCount(0);
         setTableData(nvs);
         Reset();
     }
@@ -366,24 +366,34 @@ public class NhanVien_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_txtIDActionPerformed
 
     private void btnSEARCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSEARCHActionPerformed
-        if (txtSearch.getText().isEmpty())
-            JOptionPane.showMessageDialog(this, "Không được bỏ trống", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        else {
+        try {
+            if (txtSearch.getText().isEmpty()) {
+                throw new Exception("Dữ liệu nhập trống");
+            }
+
             String s = txtSearch.getText();
             int t = cbxSearch.getSelectedIndex();
-            if (t == 2) {
-                if (s.matches("Nam|nam|1")) {
-                    setTableData2(busNV.searchNV("1", 2));
-                } else if (s.matches("Nữ|nữ|nu|Nu|0")) {
-                    setTableData2(busNV.searchNV("0", 2));
-                } else {
-                    JOptionPane.showMessageDialog(this, "Không tìm được nhân viên", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                }
-            } else if (busNV.searchNV(s, t).isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Không tìm được nhân viên", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            } else {
-                setTableData2(busNV.searchNV(s, t));
+
+            switch (t) {
+                case 2:
+                    if (t == 2) {
+                        if (s.matches("Nam|nam|1")) {
+                            setTableData2(busNV.searchNV("1", 2));
+                        } else if (s.matches("Nữ|nữ|nu|Nu|0")) {
+                            setTableData2(busNV.searchNV("0", 2));
+                        } else {
+                            throw new Exception("Không tìm được nhân viên");
+                        }
+                    }
+                    break;
+                default:
+                    if (busNV.searchNV(s, t).isEmpty()) {
+                        throw new Exception("Không tìm được nhân viên");
+                    }
+                    setTableData2(busNV.searchNV(s, t));
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Thông báo", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSEARCHActionPerformed
 
@@ -393,70 +403,73 @@ public class NhanVien_GUI extends javax.swing.JPanel {
             String id = txtID.getText().trim();
 
             if (busNV.getNVbyID(id) != null) {
-                JOptionPane.showMessageDialog(this, "Mã nhân viên đã tồn tại", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            } else {
-                nv = new NhanVien();
-                nv.setMaNV(txtID.getText());
-                nv.setHoTen(txtName.getText());
-                int gioiTinh = rdoM.isSelected() ? 1 : 0;
-                nv.setGioiTinh(gioiTinh);
-                nv.setSdt(txtPhone.getText().trim());
-                nv.setEmail(txtEmail.getText().trim());
-                nv.setDiaChi(txtAddress.getText().trim());
-
-                busNV.addNV(nv);
-                JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                setTableData2(busNV.getAllNV());
+                throw new Exception("Mã nhân viên đã tồn tại");
             }
+            nv = new NhanVien();
+            nv.setMaNV(txtID.getText());
+            nv.setHoTen(txtName.getText());
+            int gioiTinh = rdoM.isSelected() ? 1 : 0;
+            nv.setGioiTinh(gioiTinh);
+            nv.setSdt(txtPhone.getText().trim());
+            nv.setEmail(txtEmail.getText().trim());
+            nv.setDiaChi(txtAddress.getText().trim());
+
+            busNV.addNV(nv);
+            JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            setTableData2(busNV.getAllNV());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnADDActionPerformed
 
     private void btnUPDATEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUPDATEActionPerformed
-        int row = Table.getSelectedRow();
-        if (row == -1)
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        else {
-            try {
-                check();
-
-                nv = new NhanVien();
-                nv.setMaNV(String.valueOf(Table.getValueAt(row, 0)));
-                nv.setHoTen(txtName.getText());
-                int gioiTinh = rdoM.isSelected() ? 1 : 0;
-                nv.setGioiTinh(gioiTinh);
-                nv.setSdt(txtPhone.getText().trim());
-                nv.setEmail(txtEmail.getText().trim());
-                nv.setDiaChi(txtAddress.getText().trim());
-
-                //Thực hiện truy vấn database
-                busNV.updateNV(nv);
-
-                //Xuất thông báo
-                JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-
-                //Cập nhật bảng
-                setTableData2(busNV.getAllNV());
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        try {
+            int row = Table.getSelectedRow();
+            if (row == -1) {
+                throw new Exception("Vui lòng chọn nhân viên cần sửa");
             }
+            check();
+
+            nv = new NhanVien();
+            nv.setMaNV(String.valueOf(Table.getValueAt(row, 0)));
+            nv.setHoTen(txtName.getText());
+            int gioiTinh = rdoM.isSelected() ? 1 : 0;
+            nv.setGioiTinh(gioiTinh);
+            nv.setSdt(txtPhone.getText().trim());
+            nv.setEmail(txtEmail.getText().trim());
+            nv.setDiaChi(txtAddress.getText().trim());
+
+            //Thực hiện truy vấn database
+            busNV.updateNV(nv);
+
+            //Xuất thông báo
+            JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+            //Cập nhật bảng
+            setTableData2(busNV.getAllNV());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnUPDATEActionPerformed
 
     private void btnDELETEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDELETEActionPerformed
-        int row = Table.getSelectedRow();
-        if (row == -1)
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        else {
+        try {
+            int row = Table.getSelectedRow();
+            if (row == -1) {
+                throw new Exception("Vui lòng chọn nhân viên cần xóa");
+            }
             int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa không?");
-
             if (confirm == JOptionPane.YES_OPTION) {
                 String id = String.valueOf(Table.getValueAt(row, 0));
+                if (busNV.getHD(id)) {
+                    throw new Exception("Không thể xóa");
+                }
                 busNV.deleteNV(id);
                 JOptionPane.showMessageDialog(this, "Xóa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 setTableData2(busNV.getAllNV());
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnDELETEActionPerformed
 
