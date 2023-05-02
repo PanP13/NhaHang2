@@ -91,7 +91,7 @@
             <Component class="javax.swing.JButton" name="btnTK">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icon/account2.png"/>
+                  <Image iconType="3" name="/icon/account.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="T&#xe0;i kho&#x1ea3;n"/>
               </Properties>
@@ -113,7 +113,7 @@
             <Component class="javax.swing.JButton" name="btnNV">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icon/group.png"/>
+                  <Image iconType="3" name="/icon/staff.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Nh&#xe2;n vi&#xea;n"/>
               </Properties>
@@ -135,7 +135,7 @@
             <Component class="javax.swing.JButton" name="btnSP">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icon/shopping_cart.png"/>
+                  <Image iconType="3" name="/icon/product.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="S&#x1ea3;n ph&#x1ea9;m"/>
               </Properties>
@@ -146,7 +146,7 @@
             <Component class="javax.swing.JButton" name="btnBH">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icon/shopping_bag.png"/>
+                  <Image iconType="3" name="/icon/order.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="H&#xf3;a &#x111;&#x1a1;n"/>
               </Properties>
@@ -221,6 +221,11 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="jPanel1">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
               <CardConstraints cardName="card2"/>
