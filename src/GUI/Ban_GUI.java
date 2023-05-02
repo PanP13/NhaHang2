@@ -456,12 +456,13 @@ public class Ban_GUI extends javax.swing.JPanel {
                 throw new Exception("Vui lòng chọn bàn cẩn xóa");
             }
             check();
-
-            String id = txtID.getText();
-            if (busB.getHD(id)) {
-                throw new Exception("Không thể xóa");
+            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn xóa?");
+            if(confirm == JOptionPane.YES_OPTION){
+                String id = txtID.getText();
+                if (busB.getHD(id))
+                    throw new Exception("Không thể xóa");
+                busB.deleteBan(id);
             }
-            busB.deleteBan(id);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
