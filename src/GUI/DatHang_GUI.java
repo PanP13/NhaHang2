@@ -267,9 +267,10 @@ public class DatHang_GUI extends javax.swing.JFrame {
 
         pnlBackGround.setBackground(new java.awt.Color(255, 255, 255));
 
-        pnlProduct.setLayout(new java.awt.BorderLayout());
+        pnlProduct.setLayout(new java.awt.BorderLayout(0, 5));
 
         pnlSort.setBackground(new java.awt.Color(255, 255, 255));
+        pnlSort.setLayout(new java.awt.GridLayout(0, 1, 0, 2));
 
         pnlCBXSort.setBackground(new java.awt.Color(255, 255, 255));
         pnlCBXSort.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Phân loại", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
@@ -282,6 +283,8 @@ public class DatHang_GUI extends javax.swing.JFrame {
             }
         });
         pnlCBXSort.add(cbxSort);
+
+        pnlSort.add(pnlCBXSort);
 
         pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
         pnlSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
@@ -299,20 +302,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
         });
         pnlSearch.add(btnSEARCH, java.awt.BorderLayout.EAST);
 
-        javax.swing.GroupLayout pnlSortLayout = new javax.swing.GroupLayout(pnlSort);
-        pnlSort.setLayout(pnlSortLayout);
-        pnlSortLayout.setHorizontalGroup(
-            pnlSortLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlCBXSort, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnlSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        pnlSortLayout.setVerticalGroup(
-            pnlSortLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlSortLayout.createSequentialGroup()
-                .addComponent(pnlCBXSort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        pnlSort.add(pnlSearch);
 
         pnlProduct.add(pnlSort, java.awt.BorderLayout.PAGE_START);
 
