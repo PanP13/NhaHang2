@@ -108,7 +108,7 @@ public class Ban_DAO {
     }
 
     public List<Ban> searchBan(String s, int t) {
-        List<Ban> bs = new ArrayList<Ban>();
+        List<Ban> bs = new ArrayList<>();
 
         Connection conn = JDBCConnection.getJDBCConnection();
         String sql = "";
