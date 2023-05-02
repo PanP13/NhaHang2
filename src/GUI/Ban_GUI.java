@@ -162,7 +162,9 @@ public class Ban_GUI extends javax.swing.JPanel {
 
         txtID.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
+        cbxType.setBackground(new java.awt.Color(159, 32, 66));
         cbxType.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cbxType.setForeground(new java.awt.Color(255, 255, 255));
         cbxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout pnlINFOLayout = new javax.swing.GroupLayout(pnlINFO);
