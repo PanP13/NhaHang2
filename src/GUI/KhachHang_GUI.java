@@ -116,7 +116,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         pnlTxt = new javax.swing.JPanel();
         txtID = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
+        pnlSex = new javax.swing.JPanel();
         rdoM = new javax.swing.JRadioButton();
         rdoF = new javax.swing.JRadioButton();
         txtPhone = new javax.swing.JTextField();
@@ -196,24 +196,24 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         txtName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         pnlTxt.add(txtName);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new java.awt.GridLayout());
+        pnlSex.setBackground(new java.awt.Color(255, 255, 255));
+        pnlSex.setLayout(new java.awt.GridLayout(1, 0));
 
         rdoM.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdoM);
         rdoM.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         rdoM.setForeground(new java.awt.Color(159, 32, 66));
         rdoM.setText("Nam");
-        jPanel1.add(rdoM);
+        pnlSex.add(rdoM);
 
         rdoF.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdoF);
         rdoF.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         rdoF.setForeground(new java.awt.Color(159, 32, 66));
         rdoF.setText("Nữ");
-        jPanel1.add(rdoF);
+        pnlSex.add(rdoF);
 
-        pnlTxt.add(jPanel1);
+        pnlTxt.add(pnlSex);
 
         txtPhone.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         pnlTxt.add(txtPhone);
@@ -513,7 +513,6 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     private javax.swing.JButton btnUPDATE;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbxSearch;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblEmail;
@@ -527,6 +526,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     private javax.swing.JPanel pnlDetails;
     private javax.swing.JPanel pnlFunction;
     private javax.swing.JPanel pnlSearch;
+    private javax.swing.JPanel pnlSex;
     private javax.swing.JPanel pnlTitle;
     private javax.swing.JPanel pnlTxt;
     private javax.swing.JRadioButton rdoF;
