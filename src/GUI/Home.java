@@ -70,7 +70,7 @@ public class Home extends javax.swing.JFrame {
         pnlMenuBTN.setBackground(pnlMenu.getBackground());
         pnlMenuBTN.setLayout(new java.awt.GridLayout(0, 1, 5, 10));
 
-        btnTK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/account2.png"))); // NOI18N
+        btnTK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/account.png"))); // NOI18N
         btnTK.setToolTipText("Tài khoản");
         btnTK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,7 +88,7 @@ public class Home extends javax.swing.JFrame {
         });
         pnlMenuBTN.add(btnKH);
 
-        btnNV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/group.png"))); // NOI18N
+        btnNV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/staff.png"))); // NOI18N
         btnNV.setToolTipText("Nhân viên");
         btnNV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,7 +106,7 @@ public class Home extends javax.swing.JFrame {
         });
         pnlMenuBTN.add(btnBan);
 
-        btnSP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/shopping_cart.png"))); // NOI18N
+        btnSP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/product.png"))); // NOI18N
         btnSP.setToolTipText("Sản phẩm");
         btnSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,7 +115,7 @@ public class Home extends javax.swing.JFrame {
         });
         pnlMenuBTN.add(btnSP);
 
-        btnBH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/shopping_bag.png"))); // NOI18N
+        btnBH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/order.png"))); // NOI18N
         btnBH.setToolTipText("Hóa đơn");
         btnBH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,6 +180,8 @@ public class Home extends javax.swing.JFrame {
 
         pnlContent.setBackground(new java.awt.Color(255, 255, 255));
         pnlContent.setLayout(new java.awt.CardLayout());
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
