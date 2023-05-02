@@ -4,8 +4,11 @@ import BUS.LoaiSP_BUS;
 import BUS.SanPham_BUS;
 import DTO.LoaiSP;
 import DTO.SanPham;
+import java.awt.Color;
 import java.util.List;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.plaf.TableUI;
 import javax.swing.table.DefaultTableModel;
 
 public class SanPham_GUI extends javax.swing.JPanel {
@@ -68,6 +71,16 @@ public class SanPham_GUI extends javax.swing.JPanel {
         for (String i : search) {
             cbxSearch.addItem(i);
         }
+        
+        //Chỉnh màu
+        cbxSort.setBackground(new java.awt.Color(159, 32, 66));
+        cbxSort.setForeground(new java.awt.Color(255, 255, 255));
+        
+        cbxSearch.setBackground(new java.awt.Color(159, 32, 66));
+        cbxSearch.setForeground(new java.awt.Color(255, 255, 255));
+        
+        cbxType.setBackground(new java.awt.Color(159, 32, 66));
+        cbxType.setForeground(new java.awt.Color(255, 255, 255));
     }
 
     //Hàm reset
