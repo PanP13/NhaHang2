@@ -46,6 +46,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     }
 
     private void setTableData(List<KhachHang> khs) {
+        dt.setRowCount(0);
         for (KhachHang kh : khs) {
             String gioiTinh = kh.getGioiTinh() == 0 ? "Nữ" : "Nam";
             dt.addRow(new Object[]{kh.getMaKH(), kh.getHoTen(), gioiTinh, kh.getSdt(), kh.getEmail(), kh.getDiaChi()});
@@ -53,7 +54,6 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     }
 
     private void setTableData2(List<KhachHang> khs) {
-        dt.setRowCount(0);
         setTableData(khs);
         Reset();
     }
@@ -452,18 +452,25 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUPDATEActionPerformed
 
     private void btnDELETEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDELETEActionPerformed
-        int row = Table.getSelectedRow();
-        if (row == -1)
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        else {
-            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa không?");
+        try {
+            int row = Table.getSelectedRow();
+            if (row == -1) {
+                throw new Exception("Vui lòng chọn khách hàng cần xóa");
+            }
+
+            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn xóa không?");
 
             if (confirm == JOptionPane.YES_OPTION) {
                 String id = String.valueOf(Table.getValueAt(row, 0));
+                if (busKH.getHD(id)) {
+                    throw new Exception("Không thể xóa");
+                }
                 busKH.deleteKH(id);
                 JOptionPane.showMessageDialog(this, "Xóa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 setTableData2(busKH.getAllKH());
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnDELETEActionPerformed
 
