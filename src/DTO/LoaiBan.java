@@ -1,16 +1,14 @@
 package DTO;
 public class LoaiBan {
-    private String maLB;
-    private int soGhe;
+    private int maLB, soGhe;
 
-    public String getMaLB() {
+    public int getMaLB() {
         return maLB;
     }
 
-    public void setMaLB(String maLB) {
+    public void setMaLB(int maLB) {
         this.maLB = maLB;
     }
-
     public int getSoGhe() {
         return soGhe;
     }
@@ -20,7 +18,7 @@ public class LoaiBan {
     }
     
     public String write(){
-        String s = String.format("(%s, %s)", getMaLB(), getSoGhe());
+        String s = String.format("(%d, %d)", getMaLB(), getSoGhe());
         return s;
     }
 }
