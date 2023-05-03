@@ -35,13 +35,13 @@ public class LoaiBan_DAO {
         return ls;
     }
 
-    public LoaiBan getLBbyID(String id) {
+    public LoaiBan getLBbyID(int id) {
         Connection conn = JDBCConnection.getJDBCConnection();
         String sql = "SELECT * FROM LOAIBAN WHERE MALB=?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, id);
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
