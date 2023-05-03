@@ -451,7 +451,8 @@ public class Ban_GUI extends javax.swing.JPanel {
         if (row != -1) {
             txtID.setText(String.valueOf(dt.getValueAt(row, 0)));
             txtName.setText(String.valueOf(dt.getValueAt(row, 1)));
-            cbxType.setSelectedItem(String.valueOf(dt.getValueAt(row, 2)));
+            cbxStatus.setSelectedItem(String.valueOf(dt.getValueAt(row, 2)));
+            cbxType.setSelectedItem(String.valueOf(dt.getValueAt(row, 3)));
             txtID.setEditable(false);
         }
     }//GEN-LAST:event_TableMouseClicked
