@@ -10,13 +10,16 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 
     DefaultTableModel dt;
     NhanVien_BUS busNV;
-    NhanVien nv;
 
     public NhanVien_GUI() {
         initComponents();
-
         busNV = new NhanVien_BUS();
-        nv = new NhanVien();
+
+        setTable();
+        setTableData(busNV.getAllNV());
+    }
+
+    private void setTable() {
         dt = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -33,8 +36,6 @@ public class NhanVien_GUI extends javax.swing.JPanel {
             cbxSearch.addItem(s);
             dt.addColumn(s);
         }
-
-        setTableData(busNV.getAllNV());
     }
 
     private void setTableData(List<NhanVien> nvs) {
@@ -45,15 +46,10 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         }
     }
 
-    private void setTableData2(List<NhanVien> nvs) {
-        setTableData(nvs);
-        Reset();
-    }
-
     private void check() throws Exception {
         String regID = "NV\\d{3}",
                 regName = ".*\\d+.*",
-                regPhone = "\\d{10}",
+                regPhone = "^(090|075)\\d{7}",
                 regEmail = "^(\\w){3,}(@gmail\\.com)$";
 
         if (txtName.getText().trim().isEmpty()) {
@@ -64,7 +60,8 @@ public class NhanVien_GUI extends javax.swing.JPanel {
             throw new Exception("Email trống");
         } else if (txtAddress.getText().trim().isEmpty()) {
             throw new Exception("Địa chỉ trống");
-        } else if (!txtID.getText().trim().matches(regID)) {
+        } else if (!txtID.getText().trim().matches(regID)
+                && !txtID.getText().trim().isEmpty()) {
             throw new Exception("Mã không đúng định đạng");
         } else if (txtName.getText().trim().matches(regName)) {
             throw new Exception("Họ tên không đúng");
@@ -83,6 +80,28 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         txtPhone.setText("");
         txtEmail.setText("");
         txtAddress.setText("");
+        setTableData(busNV.getAllNV());
+    }
+
+    //Hàm tạo nhân viên
+    private NhanVien setNV() {
+        NhanVien nv = new NhanVien();
+        String maNV = txtID.getText().trim();
+        if (maNV.isEmpty()) {
+            int id = busNV.getAllNV().size();
+            do {
+                maNV = id < 10 ? "NV00" : id < 100 ? "NV0" : "NV";
+                maNV = maNV + String.valueOf(id);
+                id++;
+            } while (busNV.getNVbyID(maNV) != null);
+        }
+        nv.setMaNV(maNV);
+        nv.setHoTen(txtName.getText().trim());
+        nv.setGioiTinh(rdoM.isSelected() ? 1 : 0);
+        nv.setSdt(txtPhone.getText().trim());
+        nv.setEmail(txtEmail.getText().trim());
+        nv.setDiaChi(txtAddress.getText().trim());
+        return nv;
     }
 
     /**
@@ -97,6 +116,17 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         buttonGroup1 = new javax.swing.ButtonGroup();
         pnlDetails = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
+        pnlFunction = new javax.swing.JPanel();
+        pnlSearch = new javax.swing.JPanel();
+        cbxSearch = new javax.swing.JComboBox<>();
+        txtSearch = new javax.swing.JTextField();
+        btnSEARCH = new javax.swing.JButton();
+        pnlBtn = new javax.swing.JPanel();
+        btnADD = new javax.swing.JButton();
+        btnUPDATE = new javax.swing.JButton();
+        btnDELETE = new javax.swing.JButton();
+        btnREFRESH = new javax.swing.JButton();
+        pnlD = new javax.swing.JPanel();
         pnlDetail = new javax.swing.JPanel();
         pnlTitle = new javax.swing.JPanel();
         lblID = new javax.swing.JLabel();
@@ -114,23 +144,14 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         txtPhone = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         txtAddress = new javax.swing.JTextField();
-        pnlFunction = new javax.swing.JPanel();
-        pnlSearch = new javax.swing.JPanel();
-        cbxSearch = new javax.swing.JComboBox<>();
-        txtSearch = new javax.swing.JTextField();
-        btnSEARCH = new javax.swing.JButton();
-        pnlBtn = new javax.swing.JPanel();
-        btnADD = new javax.swing.JButton();
-        btnUPDATE = new javax.swing.JButton();
-        btnDELETE = new javax.swing.JButton();
-        btnREFRESH = new javax.swing.JButton();
+        pnlPad = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         pnlDetails.setBackground(new java.awt.Color(255, 255, 255));
-        pnlDetails.setLayout(new java.awt.BorderLayout());
+        pnlDetails.setLayout(new java.awt.BorderLayout(0, 2));
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(159, 32, 66));
@@ -138,6 +159,91 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         lblTitle.setLabelFor(pnlDetails);
         lblTitle.setText("NHÂN VIÊN");
         pnlDetails.add(lblTitle, java.awt.BorderLayout.PAGE_START);
+
+        pnlFunction.setLayout(new java.awt.BorderLayout(0, 2));
+
+        pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
+        pnlSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
+        pnlSearch.setLayout(new java.awt.BorderLayout(2, 0));
+
+        cbxSearch.setBackground(new java.awt.Color(159, 32, 66));
+        cbxSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cbxSearch.setForeground(new java.awt.Color(255, 255, 255));
+        cbxSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlSearch.add(cbxSearch, java.awt.BorderLayout.WEST);
+
+        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        pnlSearch.add(txtSearch, java.awt.BorderLayout.CENTER);
+
+        btnSEARCH.setBackground(new java.awt.Color(159, 32, 66));
+        btnSEARCH.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSEARCH.setForeground(new java.awt.Color(255, 255, 255));
+        btnSEARCH.setText("Tìm");
+        btnSEARCH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSEARCHActionPerformed(evt);
+            }
+        });
+        pnlSearch.add(btnSEARCH, java.awt.BorderLayout.EAST);
+
+        pnlFunction.add(pnlSearch, java.awt.BorderLayout.PAGE_START);
+
+        pnlBtn.setBackground(new java.awt.Color(255, 255, 255));
+        pnlBtn.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
+        pnlBtn.setMinimumSize(new java.awt.Dimension(175, 100));
+        pnlBtn.setPreferredSize(new java.awt.Dimension(186, 100));
+        pnlBtn.setLayout(new java.awt.GridLayout(2, 2, 5, 5));
+
+        btnADD.setBackground(new java.awt.Color(159, 32, 66));
+        btnADD.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnADD.setForeground(new java.awt.Color(255, 255, 255));
+        btnADD.setText("Thêm");
+        btnADD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnADDActionPerformed(evt);
+            }
+        });
+        pnlBtn.add(btnADD);
+
+        btnUPDATE.setBackground(new java.awt.Color(159, 32, 66));
+        btnUPDATE.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnUPDATE.setForeground(new java.awt.Color(255, 255, 255));
+        btnUPDATE.setText("Sửa");
+        btnUPDATE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUPDATEActionPerformed(evt);
+            }
+        });
+        pnlBtn.add(btnUPDATE);
+
+        btnDELETE.setBackground(new java.awt.Color(159, 32, 66));
+        btnDELETE.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnDELETE.setForeground(new java.awt.Color(255, 255, 255));
+        btnDELETE.setText("Xóa");
+        btnDELETE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDELETEActionPerformed(evt);
+            }
+        });
+        pnlBtn.add(btnDELETE);
+
+        btnREFRESH.setBackground(new java.awt.Color(159, 32, 66));
+        btnREFRESH.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnREFRESH.setForeground(new java.awt.Color(255, 255, 255));
+        btnREFRESH.setText("Refresh");
+        btnREFRESH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnREFRESHActionPerformed(evt);
+            }
+        });
+        pnlBtn.add(btnREFRESH);
+
+        pnlFunction.add(pnlBtn, java.awt.BorderLayout.CENTER);
+
+        pnlDetails.add(pnlFunction, java.awt.BorderLayout.PAGE_END);
+
+        pnlD.setBackground(new java.awt.Color(255, 255, 255));
+        pnlD.setLayout(new java.awt.BorderLayout());
 
         pnlDetail.setBackground(new java.awt.Color(255, 255, 255));
         pnlDetail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
@@ -225,98 +331,36 @@ public class NhanVien_GUI extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(pnlTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlDetailLayout.setVerticalGroup(
             pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDetailLayout.createSequentialGroup()
                 .addGroup(pnlDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pnlTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                    .addComponent(pnlTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        pnlDetails.add(pnlDetail, java.awt.BorderLayout.CENTER);
+        pnlD.add(pnlDetail, java.awt.BorderLayout.PAGE_START);
 
-        pnlFunction.setLayout(new java.awt.BorderLayout());
+        pnlPad.setBackground(new java.awt.Color(255, 255, 255));
 
-        pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
-        pnlSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
-        pnlSearch.setLayout(new java.awt.BorderLayout());
+        javax.swing.GroupLayout pnlPadLayout = new javax.swing.GroupLayout(pnlPad);
+        pnlPad.setLayout(pnlPadLayout);
+        pnlPadLayout.setHorizontalGroup(
+            pnlPadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 334, Short.MAX_VALUE)
+        );
+        pnlPadLayout.setVerticalGroup(
+            pnlPadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 10, Short.MAX_VALUE)
+        );
 
-        cbxSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        pnlSearch.add(cbxSearch, java.awt.BorderLayout.WEST);
+        pnlD.add(pnlPad, java.awt.BorderLayout.CENTER);
 
-        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        pnlSearch.add(txtSearch, java.awt.BorderLayout.CENTER);
-
-        btnSEARCH.setBackground(new java.awt.Color(159, 32, 66));
-        btnSEARCH.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnSEARCH.setForeground(new java.awt.Color(255, 255, 255));
-        btnSEARCH.setText("Tìm");
-        btnSEARCH.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSEARCHActionPerformed(evt);
-            }
-        });
-        pnlSearch.add(btnSEARCH, java.awt.BorderLayout.EAST);
-
-        pnlFunction.add(pnlSearch, java.awt.BorderLayout.PAGE_START);
-
-        pnlBtn.setBackground(new java.awt.Color(255, 255, 255));
-        pnlBtn.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
-        pnlBtn.setMinimumSize(new java.awt.Dimension(175, 100));
-        pnlBtn.setPreferredSize(new java.awt.Dimension(186, 100));
-        pnlBtn.setLayout(new java.awt.GridLayout(2, 2, 5, 5));
-
-        btnADD.setBackground(new java.awt.Color(159, 32, 66));
-        btnADD.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnADD.setForeground(new java.awt.Color(255, 255, 255));
-        btnADD.setText("Thêm");
-        btnADD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnADDActionPerformed(evt);
-            }
-        });
-        pnlBtn.add(btnADD);
-
-        btnUPDATE.setBackground(new java.awt.Color(159, 32, 66));
-        btnUPDATE.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnUPDATE.setForeground(new java.awt.Color(255, 255, 255));
-        btnUPDATE.setText("Sửa");
-        btnUPDATE.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUPDATEActionPerformed(evt);
-            }
-        });
-        pnlBtn.add(btnUPDATE);
-
-        btnDELETE.setBackground(new java.awt.Color(159, 32, 66));
-        btnDELETE.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnDELETE.setForeground(new java.awt.Color(255, 255, 255));
-        btnDELETE.setText("Xóa");
-        btnDELETE.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDELETEActionPerformed(evt);
-            }
-        });
-        pnlBtn.add(btnDELETE);
-
-        btnREFRESH.setBackground(new java.awt.Color(159, 32, 66));
-        btnREFRESH.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnREFRESH.setForeground(new java.awt.Color(255, 255, 255));
-        btnREFRESH.setText("Refresh");
-        btnREFRESH.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnREFRESHActionPerformed(evt);
-            }
-        });
-        pnlBtn.add(btnREFRESH);
-
-        pnlFunction.add(pnlBtn, java.awt.BorderLayout.PAGE_END);
-
-        pnlDetails.add(pnlFunction, java.awt.BorderLayout.PAGE_END);
+        pnlDetails.add(pnlD, java.awt.BorderLayout.CENTER);
 
         Table.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Table.setModel(new javax.swing.table.DefaultTableModel(
@@ -331,6 +375,8 @@ public class NhanVien_GUI extends javax.swing.JPanel {
             }
         ));
         Table.setRowHeight(30);
+        Table.setSelectionBackground(new java.awt.Color(159, 32, 66));
+        Table.setSelectionForeground(new java.awt.Color(255, 255, 255));
         Table.getTableHeader().setReorderingAllowed(false);
         Table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -345,9 +391,9 @@ public class NhanVien_GUI extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+                .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -355,7 +401,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+                    .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -378,9 +424,9 @@ public class NhanVien_GUI extends javax.swing.JPanel {
                 case 2:
                     if (t == 2) {
                         if (s.matches("Nam|nam|1")) {
-                            setTableData2(busNV.searchNV("1", 2));
+                            setTableData(busNV.searchNV("1", 2));
                         } else if (s.matches("Nữ|nữ|nu|Nu|0")) {
-                            setTableData2(busNV.searchNV("0", 2));
+                            setTableData(busNV.searchNV("0", 2));
                         } else {
                             throw new Exception("Không tìm được nhân viên");
                         }
@@ -390,7 +436,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
                     if (busNV.searchNV(s, t).isEmpty()) {
                         throw new Exception("Không tìm được nhân viên");
                     }
-                    setTableData2(busNV.searchNV(s, t));
+                    setTableData(busNV.searchNV(s, t));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Thông báo", JOptionPane.ERROR_MESSAGE);
@@ -399,24 +445,15 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
         try {
+            txtID.setEditable(true);
             check();
-            String id = txtID.getText().trim();
-
-            if (busNV.getNVbyID(id) != null) {
+            if (busNV.getNVbyID(txtID.getText().trim()) != null) {
                 throw new Exception("Mã nhân viên đã tồn tại");
             }
-            nv = new NhanVien();
-            nv.setMaNV(txtID.getText());
-            nv.setHoTen(txtName.getText());
-            int gioiTinh = rdoM.isSelected() ? 1 : 0;
-            nv.setGioiTinh(gioiTinh);
-            nv.setSdt(txtPhone.getText().trim());
-            nv.setEmail(txtEmail.getText().trim());
-            nv.setDiaChi(txtAddress.getText().trim());
-
+            NhanVien nv = setNV();
             busNV.addNV(nv);
             JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            setTableData2(busNV.getAllNV());
+            Reset();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
@@ -430,23 +467,15 @@ public class NhanVien_GUI extends javax.swing.JPanel {
             }
             check();
 
-            nv = new NhanVien();
-            nv.setMaNV(String.valueOf(Table.getValueAt(row, 0)));
-            nv.setHoTen(txtName.getText());
-            int gioiTinh = rdoM.isSelected() ? 1 : 0;
-            nv.setGioiTinh(gioiTinh);
-            nv.setSdt(txtPhone.getText().trim());
-            nv.setEmail(txtEmail.getText().trim());
-            nv.setDiaChi(txtAddress.getText().trim());
-
-            //Thực hiện truy vấn database
+            //Khai báo và truy vấn
+            NhanVien nv = setNV();
             busNV.updateNV(nv);
 
             //Xuất thông báo
             JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
             //Cập nhật bảng
-            setTableData2(busNV.getAllNV());
+            Reset();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
@@ -466,7 +495,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
                 }
                 busNV.deleteNV(id);
                 JOptionPane.showMessageDialog(this, "Xóa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                setTableData2(busNV.getAllNV());
+                Reset();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -474,7 +503,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDELETEActionPerformed
 
     private void btnREFRESHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnREFRESHActionPerformed
-        setTableData2(busNV.getAllNV());
+        Reset();
     }//GEN-LAST:event_btnREFRESHActionPerformed
 
     private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
@@ -515,9 +544,11 @@ public class NhanVien_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel lblSex;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel pnlBtn;
+    private javax.swing.JPanel pnlD;
     private javax.swing.JPanel pnlDetail;
     private javax.swing.JPanel pnlDetails;
     private javax.swing.JPanel pnlFunction;
+    private javax.swing.JPanel pnlPad;
     private javax.swing.JPanel pnlSearch;
     private javax.swing.JPanel pnlTitle;
     private javax.swing.JPanel pnlTxt;
