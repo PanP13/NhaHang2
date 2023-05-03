@@ -48,6 +48,7 @@ public class Home extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlBackGround = new javax.swing.JPanel();
         pnlMenu = new javax.swing.JPanel();
         pnlMenuBTN = new javax.swing.JPanel();
         btnTK = new javax.swing.JButton();
@@ -64,8 +65,11 @@ public class Home extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().setLayout(new java.awt.CardLayout());
 
-        pnlMenu.setBackground(new java.awt.Color(33, 17, 3));
+        pnlBackGround.setBackground(new java.awt.Color(255, 255, 255));
+
+        pnlMenu.setBackground(new java.awt.Color(159, 32, 66));
 
         pnlMenuBTN.setBackground(pnlMenu.getBackground());
         pnlMenuBTN.setLayout(new java.awt.GridLayout(0, 1, 5, 10));
@@ -133,10 +137,11 @@ public class Home extends javax.swing.JFrame {
         });
         pnlMenuBTN.add(btnLogOut);
 
-        pnlAccDetails.setBackground(new java.awt.Color(255, 255, 255));
+        pnlAccDetails.setBackground(new java.awt.Color(159, 32, 66));
 
         txtUser.setBackground(new java.awt.Color(255, 255, 255));
-        txtUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtUser.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtUser.setForeground(new java.awt.Color(255, 255, 255));
         txtUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtUser.setText("Admin");
 
@@ -151,10 +156,7 @@ public class Home extends javax.swing.JFrame {
         );
         pnlAccDetailsLayout.setVerticalGroup(
             pnlAccDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAccDetailsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(txtUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout pnlMenuLayout = new javax.swing.GroupLayout(pnlMenu);
@@ -187,29 +189,37 @@ public class Home extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1048, Short.MAX_VALUE)
+            .addGap(0, 1036, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+            .addGap(0, 788, Short.MAX_VALUE)
         );
 
         pnlContent.add(jPanel1, "card2");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlBackGroundLayout = new javax.swing.GroupLayout(pnlBackGround);
+        pnlBackGround.setLayout(pnlBackGroundLayout);
+        pnlBackGroundLayout.setHorizontalGroup(
+            pnlBackGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBackGroundLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(pnlMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        pnlBackGroundLayout.setVerticalGroup(
+            pnlBackGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBackGroundLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlBackGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        getContentPane().add(pnlBackGround, "card2");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -313,6 +323,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnTK;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel pnlAccDetails;
+    private javax.swing.JPanel pnlBackGround;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlMenu;
     private javax.swing.JPanel pnlMenuBTN;
