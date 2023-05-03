@@ -21,7 +21,7 @@ public class LoaiBan_DAO {
             while (rs.next()) {
                 LoaiBan l = new LoaiBan();
 
-                l.setMaLB(rs.getString("MaLB"));
+                l.setMaLB(rs.getInt("MaLB"));
                 l.setSoGhe(rs.getInt("SoGhe"));
 
                 ls.add(l);
@@ -46,7 +46,7 @@ public class LoaiBan_DAO {
 
             while (rs.next()) {
                 LoaiBan l = new LoaiBan();
-                l.setMaLB(rs.getString("MaLB"));
+                l.setMaLB(rs.getInt("MaLB"));
                 l.setSoGhe(rs.getInt("SoGhe"));
 
                 conn.close();
