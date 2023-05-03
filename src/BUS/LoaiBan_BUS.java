@@ -15,7 +15,7 @@ public class LoaiBan_BUS {
         return daoLB.getAllLB();
     }
     
-    public LoaiBan getBanbyID(String id){
+    public LoaiBan getBanbyID(int id){
         return daoLB.getLBbyID(id);
     }
 }
