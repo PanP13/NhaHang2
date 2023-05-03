@@ -38,7 +38,7 @@ public class Ban_GUI extends javax.swing.JPanel {
         };
 
         Table.setModel(dt);
-        String header[] = {"Mã bàn", "Tên bàn", "Loại bàn"};
+        String header[] = {"Mã bàn", "Tên bàn", "Trạng thái", "Loại bàn"};
         for (String i : header) {
             dt.addColumn(i);
         }
@@ -48,35 +48,45 @@ public class Ban_GUI extends javax.swing.JPanel {
     private void setTableData(List<Ban> bs) {
         dt.setRowCount(0);
         for (Ban i : bs) {
-            dt.addRow(new Object[]{i.getMaBan(), i.getTenBan(), busLB.getBanbyID(i.getMaLB()).getSoGhe()});
+            String status = i.getTrangThai() == 0 ? "Trống" : "Bận";
+            dt.addRow(new Object[]{i.getMaBan(), i.getTenBan(), status, busLB.getBanbyID(i.getMaLB()).getSoGhe()});
         }
     }
 
     //Hàm chỉnh comboBox
     private void setCBX() {
         //comboBox Phân loại và loại bàn
-        cbxSort.removeAllItems();
+        cbxSort1.removeAllItems();
+        cbxSort2.removeAllItems();
         cbxType.removeAllItems();
-        cbxSort.addItem("Tất cả");
+        cbxSort1.addItem("Tất cả");
+        cbxSort2.addItem("Tất cả");
 
         for (LoaiBan i : busLB.getAllLB()) {
-            cbxSort.addItem(String.valueOf(i.getSoGhe()));
+            cbxSort1.addItem(String.valueOf(i.getSoGhe()));
             cbxType.addItem(String.valueOf(i.getSoGhe()));
         }
 
-        //combox Tìm kiếm
+        //comboBox Tìm kiếm
         cbxSearch.removeAllItems();
         cbxSearch.addItem("Mã bàn");
         cbxSearch.addItem("Tên bàn");
+
+        //comboBox
+        cbxStatus.removeAllItems();
+        String s[] = {"Trống", "Bận"};
+        for (String i : s) {
+            cbxStatus.addItem(i);
+            cbxSort2.addItem(i);
+        }
     }
 
     //Hàm kiểm tra và ném lỗi
     private void check() throws Exception {
-        if (txtID.getText().trim().isEmpty()) {
-            throw new Exception("Mã bàn trống");
-        } else if (txtName.getText().trim().isEmpty()) {
+        if (txtName.getText().trim().isEmpty()) {
             throw new Exception("Tên bàn trống");
-        } else if (!txtID.getText().trim().matches("^BN\\d{3}$")) {
+        } else if (!txtID.getText().trim().matches("^BN\\d{3}$")
+                && !txtID.getText().trim().isEmpty()) {
             throw new Exception("Mã bàn không đúng định dạng");
         } else if (!txtName.getText().trim().matches("^[A-Z]{1}\\d{1,3}")) {
             throw new Exception("Tên bàn không đúng định dạng");
@@ -87,17 +97,32 @@ public class Ban_GUI extends javax.swing.JPanel {
     private void Reset() {
         txtID.setText("");
         txtName.setText("");
+        cbxStatus.setSelectedIndex(0);
         cbxType.setSelectedIndex(0);
         txtID.setEditable(true);
+        cbxSort1.setSelectedIndex(0);
+        cbxSort2.setSelectedIndex(0);
+        cbxSearch.setSelectedIndex(0);
+        txtSearch.setText("");
         setTableData(busB.getAllBan());
     }
 
     //Hàm tạo bàn
-    private Ban setBan(String id, String name, String type) {
+    private Ban setBan() {
         Ban b = new Ban();
-        b.setMaBan(id);
-        b.setTenBan(name);
-        b.setMaLB(type);
+        String maBan = txtID.getText().trim();
+        if (txtID.getText().trim().isEmpty()) {
+            int id = busB.getAllBan().size();
+            do {
+                maBan = id < 10 ? "BN00" : id < 100 ? "BN0" : "BN";
+                maBan = maBan + String.valueOf(id);
+                id++;
+            } while (busB.getBanbyID(maBan) != null);
+        } 
+        b.setMaBan(maBan);
+        b.setTenBan(txtName.getText().trim());
+        b.setMaLB(cbxType.getSelectedIndex());
+        b.setTrangThai(cbxStatus.getSelectedIndex());
 
         return b;
     }
@@ -118,16 +143,19 @@ public class Ban_GUI extends javax.swing.JPanel {
         pnlTitle = new javax.swing.JPanel();
         lblID = new javax.swing.JLabel();
         lblName = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
         lblType = new javax.swing.JLabel();
         pnlText = new javax.swing.JPanel();
         txtID = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
+        cbxStatus = new javax.swing.JComboBox<>();
         cbxType = new javax.swing.JComboBox<>();
         pnlPad = new javax.swing.JPanel();
         pnlFunction = new javax.swing.JPanel();
         pnlS = new javax.swing.JPanel();
         pnlSort = new javax.swing.JPanel();
-        cbxSort = new javax.swing.JComboBox<>();
+        cbxSort1 = new javax.swing.JComboBox<>();
+        cbxSort2 = new javax.swing.JComboBox<>();
         pnlSearch = new javax.swing.JPanel();
         cbxSearch = new javax.swing.JComboBox<>();
         txtSearch = new javax.swing.JTextField();
@@ -170,6 +198,11 @@ public class Ban_GUI extends javax.swing.JPanel {
         lblName.setText("Tên bàn");
         pnlTitle.add(lblName);
 
+        lblStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblStatus.setForeground(new java.awt.Color(159, 32, 66));
+        lblStatus.setText("Trạng thái");
+        pnlTitle.add(lblStatus);
+
         lblType.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblType.setForeground(new java.awt.Color(159, 32, 66));
         lblType.setText("Loại");
@@ -185,6 +218,12 @@ public class Ban_GUI extends javax.swing.JPanel {
         txtName.setToolTipText("Định dạng: 1 ký tự từ A-Z + 1-3 ký tự số.");
         pnlText.add(txtName);
 
+        cbxStatus.setBackground(new java.awt.Color(159, 32, 66));
+        cbxStatus.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        cbxStatus.setForeground(new java.awt.Color(255, 255, 255));
+        cbxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlText.add(cbxStatus);
+
         cbxType.setBackground(new java.awt.Color(159, 32, 66));
         cbxType.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         cbxType.setForeground(new java.awt.Color(255, 255, 255));
@@ -197,9 +236,9 @@ public class Ban_GUI extends javax.swing.JPanel {
             pnlDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlText, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                .addComponent(pnlText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlDLayout.setVerticalGroup(
@@ -207,8 +246,8 @@ public class Ban_GUI extends javax.swing.JPanel {
             .addGroup(pnlDLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlText, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pnlTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -224,7 +263,7 @@ public class Ban_GUI extends javax.swing.JPanel {
         );
         pnlPadLayout.setVerticalGroup(
             pnlPadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 88, Short.MAX_VALUE)
+            .addGap(0, 94, Short.MAX_VALUE)
         );
 
         pnlDetail.add(pnlPad, java.awt.BorderLayout.CENTER);
@@ -239,18 +278,29 @@ public class Ban_GUI extends javax.swing.JPanel {
 
         pnlSort.setBackground(new java.awt.Color(255, 255, 255));
         pnlSort.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Phân loại", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
-        pnlSort.setLayout(new java.awt.GridLayout());
+        pnlSort.setLayout(new java.awt.GridLayout(1, 0, 2, 0));
 
-        cbxSort.setBackground(new java.awt.Color(159, 32, 66));
-        cbxSort.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        cbxSort.setForeground(new java.awt.Color(255, 255, 255));
-        cbxSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbxSort.addActionListener(new java.awt.event.ActionListener() {
+        cbxSort1.setBackground(new java.awt.Color(159, 32, 66));
+        cbxSort1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        cbxSort1.setForeground(new java.awt.Color(255, 255, 255));
+        cbxSort1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxSort1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxSortActionPerformed(evt);
+                cbxSort1ActionPerformed(evt);
             }
         });
-        pnlSort.add(cbxSort);
+        pnlSort.add(cbxSort1);
+
+        cbxSort2.setBackground(new java.awt.Color(159, 32, 66));
+        cbxSort2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        cbxSort2.setForeground(new java.awt.Color(255, 255, 255));
+        cbxSort2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxSort2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxSort2ActionPerformed(evt);
+            }
+        });
+        pnlSort.add(cbxSort2);
 
         pnlS.add(pnlSort);
 
@@ -386,15 +436,8 @@ public class Ban_GUI extends javax.swing.JPanel {
                 throw new Exception("Vui lòng chọn bàn cẩn sửa");
             }
             check();
-
-            String type = "";
-            for (LoaiBan i : busLB.getAllLB()) {
-                if (String.valueOf(cbxType.getSelectedItem()).equals(String.valueOf(i.getSoGhe()))) {
-                    type = i.getMaLB();
-                    break;
-                }
-            }
-            Ban b = setBan(txtID.getText(), txtName.getText().trim(), type);
+            
+            Ban b = setBan();
             busB.updateBan(b);
             JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             Reset();
@@ -413,14 +456,14 @@ public class Ban_GUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_TableMouseClicked
 
-    private void cbxSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSortActionPerformed
-        int sort = cbxSort.getSelectedIndex();
+    private void cbxSort1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSort1ActionPerformed
+        int sort = cbxSort1.getSelectedIndex();
         if (sort == 0) {
             setTableData(busB.getAllBan());
         } else {
             setTableData(busB.searchBan(String.valueOf(sort), 2));
         }
-    }//GEN-LAST:event_cbxSortActionPerformed
+    }//GEN-LAST:event_cbxSort1ActionPerformed
 
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
         try {
@@ -429,14 +472,8 @@ public class Ban_GUI extends javax.swing.JPanel {
             if (busB.getBanbyID(txtID.getText().trim()) != null) {
                 throw new Exception("Mã bàn đã tồn tại");
             }
-            String type = "";
-            for (LoaiBan i : busLB.getAllLB()) {
-                if (cbxType.getSelectedItem().equals(i.getSoGhe())) {
-                    type = i.getMaLB();
-                    break;
-                }
-            }
-            Ban b = setBan(txtID.getText().trim(), txtName.getText().trim(), type);
+            
+            Ban b = setBan();
             busB.addBan(b);
             JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             Reset();
@@ -457,11 +494,13 @@ public class Ban_GUI extends javax.swing.JPanel {
             }
             check();
             int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn xóa?");
-            if(confirm == JOptionPane.YES_OPTION){
+            if (confirm == JOptionPane.YES_OPTION) {
                 String id = txtID.getText();
-                if (busB.getHD(id))
+                if (busB.getHD(id)) {
                     throw new Exception("Không thể xóa");
+                }
                 busB.deleteBan(id);
+                Reset();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -484,6 +523,15 @@ public class Ban_GUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSEARCHActionPerformed
 
+    private void cbxSort2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSort2ActionPerformed
+        int sort = cbxSort2.getSelectedIndex();
+        if (sort == 0) {
+            setTableData(busB.getAllBan());
+        } else {
+            setTableData(busB.searchBan(String.valueOf(sort), 3));
+        }
+    }//GEN-LAST:event_cbxSort2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Table;
@@ -493,11 +541,14 @@ public class Ban_GUI extends javax.swing.JPanel {
     private javax.swing.JButton btnSEARCH;
     private javax.swing.JButton btnUPDATE;
     private javax.swing.JComboBox<String> cbxSearch;
-    private javax.swing.JComboBox<String> cbxSort;
+    private javax.swing.JComboBox<String> cbxSort1;
+    private javax.swing.JComboBox<String> cbxSort2;
+    private javax.swing.JComboBox<String> cbxStatus;
     private javax.swing.JComboBox<String> cbxType;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblType;
     private javax.swing.JPanel pnlButton;
