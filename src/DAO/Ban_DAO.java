@@ -126,6 +126,9 @@ public class Ban_DAO {
             case 2:
                 sql = "SELECT * FROM BAN WHERE MALB LIKE '%" + s + "%'";
                 break;
+            case 3:
+                sql = "SELECT * FROM BAN WHERE TRANGTHAI LIKE '%" + s + "%'";
+                break;
             default:
                 break;
         }
@@ -140,6 +143,7 @@ public class Ban_DAO {
                 b.setMaBan(rs.getString("MaBan"));
                 b.setTenBan(rs.getString("TenBan"));
                 b.setMaLB(rs.getInt("MaLB"));
+                b.setTrangThai(rs.getInt("TrangThai"));
 
                 bs.add(b);
             }
