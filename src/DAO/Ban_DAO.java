@@ -89,7 +89,6 @@ public class Ban_DAO {
             ps.setInt(3, b.getMaLB());
             ps.setString(4, b.getMaBan());
             int rs = ps.executeUpdate();
-            System.out.println(rs);
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -104,7 +103,6 @@ public class Ban_DAO {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, id);
             int rs = ps.executeUpdate();
-            System.out.println(rs);
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
