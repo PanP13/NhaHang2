@@ -23,7 +23,8 @@ public class Ban_DAO {
 
                 b.setMaBan(rs.getString("MaBan"));
                 b.setTenBan(rs.getString("TenBan"));
-                b.setMaLB(rs.getString("MaLB"));
+                b.setMaLB(rs.getInt("MaLB"));
+                b.setTrangThai(rs.getInt("TrangThai"));
 
                 bs.add(b);
             }
@@ -48,7 +49,8 @@ public class Ban_DAO {
                 Ban b = new Ban();
                 b.setMaBan(rs.getString("MaBan"));
                 b.setTenBan(rs.getString("TenBan"));
-                b.setMaLB(rs.getString("MaLB"));
+                b.setMaLB(rs.getInt("MaLB"));
+                b.setTrangThai(rs.getInt("TrangThai"));
                 conn.close();
                 return b;
             }
@@ -60,13 +62,14 @@ public class Ban_DAO {
 
     public void addBan(Ban b) {
         Connection conn = JDBCConnection.getJDBCConnection();
-        String sql = "INSERT INTO BAN VALUES (?,?,?)";
+        String sql = "INSERT INTO BAN VALUES (?,?,?,?)";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, b.getMaBan());
             ps.setString(2, b.getTenBan());
-            ps.setString(3, b.getMaLB());
+            ps.setInt(3, b.getMaLB());
+            ps.setInt(4, b.getTrangThai());
             int rs = ps.executeUpdate();
             System.out.println(rs);
             conn.close();
@@ -77,13 +80,14 @@ public class Ban_DAO {
 
     public void updateBan(Ban b) {
         Connection conn = JDBCConnection.getJDBCConnection();
-        String sql = "UPDATE BAN SET TenBan=?, MaLB=? WHERE MaBan=?";
+        String sql = "UPDATE BAN SET TenBan=?, TrangThai=?, MaLB=? WHERE MaBan=?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, b.getTenBan());
-            ps.setString(2, b.getMaLB());
-            ps.setString(3, b.getMaBan());
+            ps.setInt(2, b.getTrangThai());
+            ps.setInt(3, b.getMaLB());
+            ps.setString(4, b.getMaBan());
             int rs = ps.executeUpdate();
             System.out.println(rs);
             conn.close();
@@ -135,7 +139,7 @@ public class Ban_DAO {
                 Ban b = new Ban();
                 b.setMaBan(rs.getString("MaBan"));
                 b.setTenBan(rs.getString("TenBan"));
-                b.setMaLB(rs.getString("MaLB"));
+                b.setMaLB(rs.getInt("MaLB"));
 
                 bs.add(b);
             }
