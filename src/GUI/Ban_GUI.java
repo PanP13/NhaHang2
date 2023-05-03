@@ -467,7 +467,6 @@ public class Ban_GUI extends javax.swing.JPanel {
 
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
         try {
-            txtID.setEditable(true);
             check();
             if (busB.getBanbyID(txtID.getText().trim()) != null) {
                 throw new Exception("Mã bàn đã tồn tại");
