@@ -382,6 +382,8 @@ public class KhachHang_GUI extends javax.swing.JPanel {
             }
         ));
         Table.setRowHeight(30);
+        Table.setSelectionBackground(new java.awt.Color(159, 32, 66));
+        Table.setSelectionForeground(new java.awt.Color(255, 255, 255));
         Table.getTableHeader().setReorderingAllowed(false);
         Table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
