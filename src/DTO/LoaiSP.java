@@ -1,14 +1,14 @@
 package DTO;
 
 public class LoaiSP {
-    private String maLSP;
+    private int maLSP;
     private String tenLSP;
 
-    public String getMaLSP() {
+    public Integer getMaLSP() {
         return maLSP;
     }
 
-    public void setMaLSP(String maLSP) {
+    public void setMaLSP(int maLSP) {
         this.maLSP = maLSP;
     }
 
@@ -20,4 +20,8 @@ public class LoaiSP {
         this.tenLSP = tenLSP;
     }
     
+    public String write(){
+        String s = String.format("(%d, %s)", getMaLSP(), getTenLSP());
+        return s;
+    }
 }
