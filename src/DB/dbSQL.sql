@@ -91,10 +91,13 @@ create table CTHD (
 	CONSTRAINT FK_MaSP_CTHD FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP)
 );
 
+/* Quy ước : 0 - Login, 1 - Logout, 2 - Add, 3 - Update, 4 - Delete*/
+
 create table LishSu (
 	ID int IDENTITY (1,1) PRIMARY KEY,
 	Account char(5) NOT NULL,
-	Activity int NOT NULL,
+	Activity int NOT NULL, 
+	Model nvarchar(50) NOT NULL,
 	Info nvarchar(300)
 );
 
@@ -236,4 +239,3 @@ CREATE VIEW CTHDTien AS
 SELECT CT.MaHD, CT.MaSP, DonGia, SoLuong, SoLuong * DonGia AS THANHTIEN
 FROM CTHD AS CT, SANPHAM AS SP
 WHERE CT.MaSP = SP.MaSP
-
