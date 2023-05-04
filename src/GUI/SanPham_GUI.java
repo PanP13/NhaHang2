@@ -95,7 +95,7 @@ public class SanPham_GUI extends javax.swing.JPanel {
             throw new Exception("Mã sản phẩm không đúng định dạng");
         } else if (!txtName.getText().trim().matches("\\D{5,}")) {
             throw new Exception("Tên sản phẩm phải có hơn 5 ký tự");
-        } else if (!txtPrice.getText().trim().matches("\\d+")) {
+        } else if (!txtPrice.getText().trim().matches("\\d{5,}")) {
             throw new Exception("Đơn giá phải là số");
         } else if (busSP.getSPbyID(txtID.getText().trim()) != null && txtID.isEditable()) {
             throw new Exception("Mã sản phẩm đã tồn tại");
@@ -111,6 +111,7 @@ public class SanPham_GUI extends javax.swing.JPanel {
             do {
                 maSP = id < 10 ? "SP00" : id < 100 ? "SP0" : "SP";
                 maSP = maSP + String.valueOf(id);
+                id++;
             } while (busSP.getSPbyID(maSP) != null);
         }
         sp.setMaSP(maSP);
