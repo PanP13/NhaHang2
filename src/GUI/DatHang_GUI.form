@@ -452,9 +452,6 @@
                                 <StringItem index="3" value="Item 4"/>
                               </StringArray>
                             </Property>
-                            <Property name="keySelectionManager" type="javax.swing.JComboBox$KeySelectionManager" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                              <ComponentRef name="default"/>
-                            </Property>
                           </Properties>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -472,9 +469,6 @@
                                 <StringItem index="2" value="Item 3"/>
                                 <StringItem index="3" value="Item 4"/>
                               </StringArray>
-                            </Property>
-                            <Property name="keySelectionManager" type="javax.swing.JComboBox$KeySelectionManager" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                              <ComponentRef name="default"/>
                             </Property>
                           </Properties>
                           <AuxValues>
@@ -494,9 +488,6 @@
                                 <StringItem index="3" value="Item 4"/>
                               </StringArray>
                             </Property>
-                            <Property name="keySelectionManager" type="javax.swing.JComboBox$KeySelectionManager" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                              <ComponentRef name="default"/>
-                            </Property>
                           </Properties>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -514,9 +505,6 @@
                                 <StringItem index="2" value="Item 3"/>
                                 <StringItem index="3" value="Item 4"/>
                               </StringArray>
-                            </Property>
-                            <Property name="keySelectionManager" type="javax.swing.JComboBox$KeySelectionManager" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                              <ComponentRef name="default"/>
                             </Property>
                           </Properties>
                           <AuxValues>
@@ -549,9 +537,6 @@
                                     <StringItem index="3" value="Item 4"/>
                                   </StringArray>
                                 </Property>
-                                <Property name="keySelectionManager" type="javax.swing.JComboBox$KeySelectionManager" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                                  <ComponentRef name="default"/>
-                                </Property>
                               </Properties>
                               <AuxValues>
                                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -569,9 +554,6 @@
                                     <StringItem index="2" value="Item 3"/>
                                     <StringItem index="3" value="Item 4"/>
                                   </StringArray>
-                                </Property>
-                                <Property name="keySelectionManager" type="javax.swing.JComboBox$KeySelectionManager" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                                  <ComponentRef name="default"/>
                                 </Property>
                               </Properties>
                               <AuxValues>

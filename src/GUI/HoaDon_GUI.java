@@ -3,7 +3,7 @@ package GUI;
 import BUS.CTHD_BUS;
 import BUS.HoaDon_BUS;
 import DTO.HoaDon;
-import java.util.ArrayList;
+import DTO.TaiKhoan;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -15,13 +15,15 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     HoaDon_BUS busHD;
     CTHD_BUS busCTHD;
     JFrame f;
+    TaiKhoan user;
 
-    public HoaDon_GUI() {
+    public HoaDon_GUI(TaiKhoan user) {
         initComponents();
 
         busHD = new HoaDon_BUS();
         busCTHD = new CTHD_BUS();
-
+        this.user = user;
+        
         //Chỉnh table
         setTable();
         setTableData(busHD.getView());
@@ -282,12 +284,9 @@ public class HoaDon_GUI extends javax.swing.JPanel {
             }
 
             HoaDon hd = busHD.getHDbyID(String.valueOf(dt.getValueAt(row, 0)));
-
-            f = CTHDManager.getFrame2(hd);
-            if (!f.isShowing()) {
-                //f.toFront();
-                f.setVisible(true);
-            } 
+            if(user.getLoaiTK()==1 && hd.getTrangThai()==1)
+                throw new Exception("Bạn không thể sửa hóa dơn đã thanh toán");
+            CTHDManager.getFrame2(user, hd).setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
@@ -296,14 +295,16 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     private void btnDELETEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDELETEActionPerformed
         try {
             int row = Table.getSelectedRow();
-            if (row == -1) {
+            String id = String.valueOf(dt.getValueAt(row, 0));
+            if (row == -1)
                 throw new Exception("Vui lòng chọn hóa đơn cần xóa");
-            }
+            
+            if(user.getLoaiTK()==1 && busHD.getHDbyID(id).getTrangThai()==1)
+                throw new Exception("Bạn không thể xóa hóa đơn đã thanh toán");
 
             int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa?");
 
             if (confirm == JOptionPane.YES_OPTION) {
-                String id = String.valueOf(dt.getValueAt(row, 0));
                 busCTHD.deleteCTHD(id);
                 busHD.deleteHD(id);
                 setTableData(busHD.getView());

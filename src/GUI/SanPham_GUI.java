@@ -4,11 +4,8 @@ import BUS.LoaiSP_BUS;
 import BUS.SanPham_BUS;
 import DTO.LoaiSP;
 import DTO.SanPham;
-import java.awt.Color;
 import java.util.List;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.plaf.TableUI;
 import javax.swing.table.DefaultTableModel;
 
 public class SanPham_GUI extends javax.swing.JPanel {
@@ -97,8 +94,6 @@ public class SanPham_GUI extends javax.swing.JPanel {
             throw new Exception("Tên sản phẩm phải có hơn 5 ký tự");
         } else if (!txtPrice.getText().trim().matches("\\d{5,}")) {
             throw new Exception("Đơn giá phải là số");
-        } else if (busSP.getSPbyID(txtID.getText().trim()) != null && txtID.isEditable()) {
-            throw new Exception("Mã sản phẩm đã tồn tại");
         }
     }
 
@@ -408,6 +403,9 @@ public class SanPham_GUI extends javax.swing.JPanel {
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
         try {
             check();
+            if (busSP.getSPbyID(txtID.getText().trim()) != null) {
+                throw new Exception("Mã sản phẩm đã tồn tại");
+            }
 
             SanPham sp = setSP();
             busSP.addSP(sp);

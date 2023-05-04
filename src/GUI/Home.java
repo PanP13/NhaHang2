@@ -13,20 +13,22 @@ import javax.swing.JPanel;
  */
 public class Home extends javax.swing.JFrame {
 
-    TaiKhoan user = new TaiKhoan();
+    TaiKhoan user;
 
     public Home() {
         initComponents();
     }
 
-    public Home(TaiKhoan user, String name) {
+    public Home(TaiKhoan user) {
         initComponents();
 
         if (user.getLoaiTK() == 1) {
             pnlMenuBTN.remove(btnKH);
             pnlMenuBTN.remove(btnNV);
+            pnlMenuBTN.remove(btnTK);
+            pnlMenuBTN.remove(btnBan);
+            pnlMenuBTN.remove(btnSP);
         }
-        txtUser.setText(name);
         this.user = user;
     }
 
@@ -265,7 +267,7 @@ public class Home extends javax.swing.JFrame {
         pnlContent.removeAll();
         Reset();
         
-        pnlContent.add(new HoaDon_GUI());
+        pnlContent.add(new HoaDon_GUI(user));
         Reset();
     }//GEN-LAST:event_btnBHActionPerformed
 

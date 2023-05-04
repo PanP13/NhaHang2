@@ -1,6 +1,7 @@
 package GUI;
 
 import DTO.HoaDon;
+import DTO.TaiKhoan;
 import javax.swing.JFrame;
 
 public class CTHDManager {
@@ -14,12 +15,12 @@ public class CTHDManager {
         return frame1;
     }
 
-    public static JFrame getFrame2(HoaDon hd)
+    public static JFrame getFrame2(TaiKhoan user, HoaDon hd)
     {
         if(frame2!=null){
             frame2.dispose();
         }
-        frame2 = new DatHang_GUI(hd);
+        frame2 = new DatHang_GUI(user, hd);
         return frame2;
     }
 }

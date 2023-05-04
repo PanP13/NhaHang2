@@ -17,15 +17,17 @@ public class DatHang_GUI extends javax.swing.JFrame {
     Ban_BUS busBan;
     SanPham_BUS busSP;
     LoaiSP_BUS busLSP;
+    TaiKhoan user;
 
     public DatHang_GUI() {
         initComponents();
         setPanel();
     }
 
-    public DatHang_GUI(HoaDon hd) {
+    public DatHang_GUI(TaiKhoan user, HoaDon hd) {
         initComponents();
         setPanel();
+        this.user = user;
 
         //Lấy dữ liệu bảng chi tiết
         setDataOrder(busCTHD.getCTHDbyID(hd.getMaHD()));
@@ -34,9 +36,15 @@ public class DatHang_GUI extends javax.swing.JFrame {
         //Lấy thông tin hóa đơn
         txtHD.setText(hd.getMaHD());
         cbxKH.setSelectedItem(hd.getMaKH());
-        cbxNV.setSelectedItem(hd.getMaNV());
         cbxBan.setSelectedItem(hd.getMaBan());
         cbxStatus.setSelectedIndex(hd.getTrangThai());
+        
+        //Chỉnh thông tin nhân viên
+        if(user.getLoaiTK()==1){
+            cbxNV.setSelectedItem(user.getMaTK());
+            cbxNV.setEnabled(false);
+        }
+            
 
         //Cấu hỉnh
         txtHD.setEditable(false);
