@@ -36,6 +36,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
         cbxKH.setSelectedItem(hd.getMaKH());
         cbxNV.setSelectedItem(hd.getMaNV());
         cbxBan.setSelectedItem(hd.getMaBan());
+        cbxStatus.setSelectedIndex(hd.getTrangThai());
 
         //Cấu hỉnh
         txtHD.setEditable(false);
@@ -133,6 +134,11 @@ public class DatHang_GUI extends javax.swing.JFrame {
         for (Ban i : busBan.getAllBan()) {
             cbxBan.addItem(i.getMaBan());
         }
+        
+        //comboBox trạng thái
+        cbxStatus.removeAllItems();
+        cbxStatus.addItem("Chưa thanh toán");
+        cbxStatus.addItem("Đã thanh toán");
 
         //comboBox thời gian
         cbxHour.removeAllItems();
@@ -175,11 +181,11 @@ public class DatHang_GUI extends javax.swing.JFrame {
     }
 
     private void checkReceipt() throws Exception {
-        if (txtHD.getText().trim().isEmpty()) {
-            throw new Exception("Mã hóa đơn trống");
-        } else if (!txtHD.getText().trim().matches("^HD\\d{3}$")) {
+        if (!txtHD.getText().trim().matches("^HD\\d{3}$")
+                && !txtHD.getText().trim().isEmpty()) {
             throw new Exception("Mã hóa đơn không đúng");
-        } else if (busHD.getHDbyID(txtHD.getText().trim()) != null && txtHD.isEditable()) {
+        } else if (busHD.getHDbyID(txtHD.getText().trim()) != null 
+                && txtHD.isEditable()) {
             throw new Exception("Mã hóa đơn đã tồn tại");
         } else if (dOrder.getRowCount() == 0) {
             throw new Exception("Chi tiết hóa đơn trống");
@@ -227,12 +233,14 @@ public class DatHang_GUI extends javax.swing.JFrame {
         lblKH = new javax.swing.JLabel();
         lblNV = new javax.swing.JLabel();
         lblBan = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
         lblTime = new javax.swing.JLabel();
         pnlReceiptText = new javax.swing.JPanel();
         txtHD = new javax.swing.JTextField();
         cbxKH = new javax.swing.JComboBox<>();
         cbxNV = new javax.swing.JComboBox<>();
         cbxBan = new javax.swing.JComboBox<>();
+        cbxStatus = new javax.swing.JComboBox<>();
         pnlTime = new javax.swing.JPanel();
         cbxHour = new javax.swing.JComboBox<>();
         cbxMinute = new javax.swing.JComboBox<>();
@@ -276,6 +284,9 @@ public class DatHang_GUI extends javax.swing.JFrame {
         pnlCBXSort.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Phân loại", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
         pnlCBXSort.setLayout(new java.awt.GridLayout(1, 0));
 
+        cbxSort.setBackground(new java.awt.Color(159, 32, 66));
+        cbxSort.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cbxSort.setForeground(new java.awt.Color(255, 255, 255));
         cbxSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxSort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -288,7 +299,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
 
         pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
         pnlSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
-        pnlSearch.setLayout(new java.awt.BorderLayout());
+        pnlSearch.setLayout(new java.awt.BorderLayout(2, 0));
         pnlSearch.add(txtSearch, java.awt.BorderLayout.CENTER);
 
         btnSEARCH.setBackground(new java.awt.Color(159, 32, 66));
@@ -366,6 +377,11 @@ public class DatHang_GUI extends javax.swing.JFrame {
         lblBan.setText("Mã bàn");
         pnlReceiptTitle.add(lblBan);
 
+        lblStatus.setFont(lblHD.getFont());
+        lblStatus.setForeground(new java.awt.Color(159, 32, 66));
+        lblStatus.setText("Trạng thái");
+        pnlReceiptTitle.add(lblStatus);
+
         lblTime.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblTime.setForeground(new java.awt.Color(159, 32, 66));
         lblTime.setText("Thời gian");
@@ -388,6 +404,10 @@ public class DatHang_GUI extends javax.swing.JFrame {
         cbxBan.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         cbxBan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlReceiptText.add(cbxBan);
+
+        cbxStatus.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cbxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlReceiptText.add(cbxStatus);
 
         pnlTime.setBackground(new java.awt.Color(255, 255, 255));
         pnlTime.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
@@ -418,7 +438,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
             .addGroup(pnlReceiptLayout.createSequentialGroup()
                 .addGroup(pnlReceiptLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlReceiptTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlReceiptText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlReceiptText, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -479,7 +499,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
             .addGroup(pnlOrderLayout.createSequentialGroup()
                 .addGroup(pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlOrderTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlOrderText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlOrderText, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -574,7 +594,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
         pnlDetails.add(pnlBTN, java.awt.BorderLayout.PAGE_END);
 
         pnlOrderTBL.setBackground(new java.awt.Color(255, 255, 255));
-        pnlOrderTBL.setLayout(new java.awt.BorderLayout());
+        pnlOrderTBL.setLayout(new java.awt.BorderLayout(0, 5));
 
         tblOrder.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         tblOrder.setModel(new javax.swing.table.DefaultTableModel(
@@ -786,13 +806,23 @@ public class DatHang_GUI extends javax.swing.JFrame {
     private void btnCONFIRMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCONFIRMActionPerformed
         try {
             checkReceipt();
+            //Hàm tự động điền mã hóa đơn
+            String maHD = txtHD.getText().trim();
+            if(maHD.isEmpty()){
+                int id = busHD.getAllHD().size();
+                do{
+                    maHD = id<10? "HD00" : id<100? "HD0" : "HD";
+                    maHD = maHD + String.valueOf(id);
+                    id++;
+                }while(busHD.getHDbyID(maHD)!=null);
+            }
 
             HoaDon hd = new HoaDon();
-            hd.setMaHD(txtHD.getText().trim());
+            hd.setMaHD(maHD);
             hd.setMaKH(String.valueOf(cbxKH.getSelectedItem()));
             hd.setMaNV(String.valueOf(cbxNV.getSelectedItem()));
             hd.setMaBan(String.valueOf(cbxBan.getSelectedItem()));
-            hd.setTrangThai(0);
+            hd.setTrangThai(cbxStatus.getSelectedIndex());
 
             List<CTHD> cts = new ArrayList<>();
             for (int i = 0; i < dOrder.getRowCount(); i++) {
@@ -868,6 +898,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbxMinute;
     private javax.swing.JComboBox<String> cbxNV;
     private javax.swing.JComboBox<String> cbxSort;
+    private javax.swing.JComboBox<String> cbxStatus;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBan;
@@ -878,6 +909,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblPrice;
     private javax.swing.JLabel lblQuantity;
     private javax.swing.JLabel lblSP;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblTime;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTotal;

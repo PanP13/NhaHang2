@@ -56,7 +56,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         dt.setRowCount(0);
         for (String i : hds) {
             String split[] = i.split(",");
-            String status = split[4].equals("0")? "Chưa thanh toán" : "Đã thanh toán";
+            String status = split[4].equals("0") ? "Chưa thanh toán" : "Đã thanh toán";
             dt.addRow(new Object[]{split[0], split[1], split[2], split[3], status, split[5]});
         }
     }
@@ -270,7 +270,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         if (f.isShowing()) {
             f.toFront();
         } else {
-            f.setVisible(true);
+            f.setVisible(true);;
         }
     }//GEN-LAST:event_btnADDActionPerformed
 
@@ -281,20 +281,13 @@ public class HoaDon_GUI extends javax.swing.JPanel {
                 throw new Exception("Vui lòng chọn hóa đơn cần sửa");
             }
 
-            HoaDon hd = new HoaDon();
-            hd.setMaHD(String.valueOf(dt.getValueAt(row, 0)));
-            hd.setMaKH(String.valueOf(dt.getValueAt(row, 1)));
-            hd.setMaNV(String.valueOf(dt.getValueAt(row, 2)));
-            hd.setMaBan(String.valueOf(dt.getValueAt(row, 3)));
+            HoaDon hd = busHD.getHDbyID(String.valueOf(dt.getValueAt(row, 0)));
 
-            //f = new DatHang_GUI(hd);
             f = CTHDManager.getFrame2(hd);
-
-            if (f.isShowing()) {
-                f.toFront();
-            } else {
+            if (!f.isShowing()) {
+                //f.toFront();
                 f.setVisible(true);
-            }
+            } 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
@@ -322,9 +315,6 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
     private void btnREFRESHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnREFRESHActionPerformed
         setTableData(busHD.getView());
-        for(HoaDon i : busHD.getAllHD()){
-            System.out.println(i.toString());
-        }
     }//GEN-LAST:event_btnREFRESHActionPerformed
 
     private void btnSEARCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSEARCHActionPerformed
