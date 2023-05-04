@@ -151,21 +151,16 @@ public class Login extends javax.swing.JFrame {
         for (char d : txtPass.getPassword()) {
             Pass += d;
         }
-        if (!User.isEmpty()) {
-            for (TaiKhoan i : busTK.getAllTK()) {
-                if (i.getUsername().equals(User)) {
-                    if (i.getPassword().equals(Pass)) {
-                        String name = busNV.getNVbyID(i.getMaTK()).getHoTen();
-                        new Home(i, name).setVisible(true);
-                        this.dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Username or password invalid", "Message", JOptionPane.ERROR_MESSAGE);
-                    }
-                    break;
-                }
-            }
-        } else
-            JOptionPane.showMessageDialog(this, "Username or password invalid", "Message", JOptionPane.ERROR_MESSAGE);
+        try {
+            if(User.isEmpty() || Pass.isEmpty())
+                throw new Exception("Vui lòng điền đầy đủ thông tin");
+            if(busTK.getTK(User, Pass)==null)
+                throw new Exception("Tên đăng nhập hoặc mật khẩu không hợp lệ");
+            new Home(busTK.getTK(User, Pass)).setVisible(true);
+            this.dispose();
+        } catch(Exception e){
+         JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);   
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
