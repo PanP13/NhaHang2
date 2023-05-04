@@ -407,7 +407,6 @@ public class SanPham_GUI extends javax.swing.JPanel {
 
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
         try {
-            txtID.setEditable(true);
             check();
 
             SanPham sp = setSP();
