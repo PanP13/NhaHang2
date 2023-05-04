@@ -9,7 +9,7 @@ import java.sql.*;
 public class TaiKhoan_DAO {
 
     public List<TaiKhoan> getAllTK() {
-        List<TaiKhoan> tks = new ArrayList<TaiKhoan>();
+        List<TaiKhoan> tks = new ArrayList<>();
 
         Connection conn = JDBCConnection.getJDBCConnection();
         String sql = "SELECT * FROM TaiKhoan";
@@ -111,5 +111,32 @@ public class TaiKhoan_DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    public TaiKhoan getTK (String username, String password){
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "SELECT * FROM TAIKHOAN WHERE TenDN=? AND MatKhau=?";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                TaiKhoan tk = new TaiKhoan();
+                tk.setIdTK(rs.getInt("IDTK"));
+                tk.setUsername(rs.getString("TenDN"));
+                tk.setPassword(rs.getString("MatKhau"));
+                tk.setLoaiTK(rs.getInt("MaLTK"));
+                tk.setMaTK(rs.getString("MaTK"));
+
+                conn.close();
+                return tk;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
