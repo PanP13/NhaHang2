@@ -670,6 +670,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
 
     private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
         int row = tblProduct.getSelectedRow();
+        tblOrder.clearSelection();
         if (row != -1) {
             SanPham sp = busSP.getSPbyID(String.valueOf(dProduct.getValueAt(row, 0)));
             txtSP.setText(sp.getMaSP());
@@ -767,6 +768,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
 
     private void tblOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOrderMouseClicked
         int row = tblOrder.getSelectedRow();
+        tblProduct.clearSelection();
         if (row != -1) {
             txtSP.setText(String.valueOf(dOrder.getValueAt(row, 0)));
             txtName.setText(String.valueOf(dOrder.getValueAt(row, 1)));
