@@ -90,8 +90,8 @@ public class HoaDon_DAO {
             ps.setString(1, hd.getMaKH());
             ps.setString(2, hd.getMaNV());
             ps.setString(3, hd.getMaBan());
-            ps.setString(4, hd.getMaHD());
-            ps.setInt(5, hd.getTrangThai());
+            ps.setInt(4, hd.getTrangThai());
+            ps.setString(5, hd.getMaHD());
             
             ps.executeUpdate();
         }
@@ -148,6 +148,33 @@ public class HoaDon_DAO {
             conn.close();
         }
         catch(SQLException e){
+            e.printStackTrace();
+        }
+        return hds;
+    }
+    
+    public List<String> getView(){
+        List<String> hds = new ArrayList<String>();
+
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "SELECT * FROM HDTong";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String hd = String.format("%s,%s,%s,%s,%d,%d",
+                        rs.getString("MaHD"), 
+                        rs.getString("MaKH"),
+                        rs.getString("MaNV"),
+                        rs.getString("MaBan"),
+                        rs.getInt("TrangThai"),
+                        rs.getInt("TongTien"));
+                hds.add(hd);
+            }
+            conn.close();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return hds;

@@ -34,4 +34,8 @@ public class HoaDon_BUS {
     public List<HoaDon> searchHD(String s, int t){
         return daoHD.searchHD(s, t);
     }
+    
+    public List<String> getView(){
+        return daoHD.getView();
+    }
 }

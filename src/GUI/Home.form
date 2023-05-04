@@ -45,7 +45,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="pnlMenu" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="pnlContent" pref="1036" max="32767" attributes="0"/>
+                  <Component id="pnlContent" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>

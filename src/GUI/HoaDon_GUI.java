@@ -3,12 +3,10 @@ package GUI;
 import BUS.CTHD_BUS;
 import BUS.HoaDon_BUS;
 import DTO.HoaDon;
-import java.awt.CardLayout;
-import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 public class HoaDon_GUI extends javax.swing.JPanel {
@@ -23,17 +21,17 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
         busHD = new HoaDon_BUS();
         busCTHD = new CTHD_BUS();
-        
+
         //Chỉnh table
         setTable();
-        setTableData(busHD.getAllHD());
-        
+        setTableData(busHD.getView());
+
+        //Chỉnh comboBox tìm kiếm
         cbxSearch.removeAllItems();
         String search[] = {"Mã HĐ", "Mã KH", "Mã NV", "Mã bàn"};
-        for(String i : search){
+        for (String i : search) {
             cbxSearch.addItem(i);
         }
-
     }
 
     //Hàm cấu hình table
@@ -47,17 +45,19 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
         Table.setModel(dt);
 
-        String tbl[] = {"Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Mã bàn"};
+        String tbl[] = {"Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Mã bàn", "Trạng thái", "Tổng tiền"};
         for (String i : tbl) {
             dt.addColumn(i);
         }
     }
 
     //Hàm lấy dữ liệu table
-    private void setTableData(List<HoaDon> hds) {
+    private void setTableData(List<String> hds) {
         dt.setRowCount(0);
-        for (HoaDon i : hds) {
-            dt.addRow(new Object[]{i.getMaHD(), i.getMaKH(), i.getMaNV(), i.getMaBan()});
+        for (String i : hds) {
+            String split[] = i.split(",");
+            String status = split[4].equals("0")? "Chưa thanh toán" : "Đã thanh toán";
+            dt.addRow(new Object[]{split[0], split[1], split[2], split[3], status, split[5]});
         }
     }
 
@@ -210,6 +210,8 @@ public class HoaDon_GUI extends javax.swing.JPanel {
             }
         ));
         Table.setRowHeight(30);
+        Table.setSelectionBackground(new java.awt.Color(159, 32, 66));
+        Table.setSelectionForeground(new java.awt.Color(255, 255, 255));
         Table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(Table);
 
@@ -266,9 +268,9 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
         f = CTHDManager.getFrame1();
         if (f.isShowing()) {
-        f.toFront();
+            f.toFront();
         } else {
-        f.setVisible(true);
+            f.setVisible(true);
         }
     }//GEN-LAST:event_btnADDActionPerformed
 
@@ -287,7 +289,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
             //f = new DatHang_GUI(hd);
             f = CTHDManager.getFrame2(hd);
-            
+
             if (f.isShowing()) {
                 f.toFront();
             } else {
@@ -303,16 +305,16 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         try {
             int row = Table.getSelectedRow();
             if (row == -1) {
-                throw new Exception("Vui lòng chọn hóa đơn cần sửa");
+                throw new Exception("Vui lòng chọn hóa đơn cần xóa");
             }
 
             int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa?");
 
             if (confirm == JOptionPane.YES_OPTION) {
                 String id = String.valueOf(dt.getValueAt(row, 0));
-                busHD.deleteHD(id);
                 busCTHD.deleteCTHD(id);
-                setTableData(busHD.getAllHD());
+                busHD.deleteHD(id);
+                setTableData(busHD.getView());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -320,22 +322,21 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDELETEActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        setTableData(busHD.getAllHD());
+        setTableData(busHD.getView());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnSEARCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSEARCHActionPerformed
-        try{
-            if(txtSearch.getText().trim().isEmpty()){
+        try {
+            if (txtSearch.getText().trim().isEmpty()) {
                 throw new Exception("Dữ liệu nhập trống");
             }
             int t = cbxSearch.getSelectedIndex();
             String s = txtSearch.getText().trim();
-            if(busHD.searchHD(s, t).isEmpty()){
+            if (busHD.searchHD(s, t).isEmpty()) {
                 throw new Exception("Không tìm thấy hóa đơn");
             }
-            setTableData(busHD.searchHD(s, t));
-        }
-        catch(Exception e){
+            //setTableData(busHD.searchHD(s, t));
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSEARCHActionPerformed

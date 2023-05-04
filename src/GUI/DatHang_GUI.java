@@ -181,7 +181,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
             throw new Exception("Mã hóa đơn không đúng");
         } else if (busHD.getHDbyID(txtHD.getText().trim()) != null && txtHD.isEditable()) {
             throw new Exception("Mã hóa đơn đã tồn tại");
-        } else if (dOrder.getRowCount()==0){
+        } else if (dOrder.getRowCount() == 0) {
             throw new Exception("Chi tiết hóa đơn trống");
         }
     }
@@ -784,26 +784,28 @@ public class DatHang_GUI extends javax.swing.JFrame {
     private void btnCONFIRMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCONFIRMActionPerformed
         try {
             checkReceipt();
-            
+
             HoaDon hd = new HoaDon();
             hd.setMaHD(txtHD.getText().trim());
             hd.setMaKH(String.valueOf(cbxKH.getSelectedItem()));
             hd.setMaNV(String.valueOf(cbxNV.getSelectedItem()));
             hd.setMaBan(String.valueOf(cbxBan.getSelectedItem()));
-            
+            hd.setTrangThai(0);
+
             List<CTHD> cts = new ArrayList<>();
-            for(int i=0; i<dOrder.getRowCount(); i++){
+            for (int i = 0; i < dOrder.getRowCount(); i++) {
                 CTHD ct = new CTHD();
                 ct.setMaHD(hd.getMaHD());
                 ct.setMaSP(String.valueOf(dOrder.getValueAt(i, 0)));
                 ct.setSoLuong(Integer.parseInt(String.valueOf(dOrder.getValueAt(i, 3))));
+                System.out.println(ct.toString());
                 cts.add(ct);
             }
-            if(txtHD.isEditable()){
+            if (txtHD.isEditable()) {
                 busHD.addHD(hd);
                 busCTHD.addCTHD(cts);
                 JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            } else{
+            } else {
                 busHD.updateHD(hd);
                 busCTHD.updateCTHD(cts);
                 JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);

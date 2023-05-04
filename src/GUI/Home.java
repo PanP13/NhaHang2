@@ -266,7 +266,6 @@ public class Home extends javax.swing.JFrame {
         Reset();
         
         pnlContent.add(new HoaDon_GUI());
-        System.out.println(pnlContent.getComponentCount());
         Reset();
     }//GEN-LAST:event_btnBHActionPerformed
 
