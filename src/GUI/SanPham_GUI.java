@@ -71,16 +71,6 @@ public class SanPham_GUI extends javax.swing.JPanel {
         for (String i : search) {
             cbxSearch.addItem(i);
         }
-        
-        //Chỉnh màu
-        cbxSort.setBackground(new java.awt.Color(159, 32, 66));
-        cbxSort.setForeground(new java.awt.Color(255, 255, 255));
-        
-        cbxSearch.setBackground(new java.awt.Color(159, 32, 66));
-        cbxSearch.setForeground(new java.awt.Color(255, 255, 255));
-        
-        cbxType.setBackground(new java.awt.Color(159, 32, 66));
-        cbxType.setForeground(new java.awt.Color(255, 255, 255));
     }
 
     //Hàm reset
@@ -96,13 +86,12 @@ public class SanPham_GUI extends javax.swing.JPanel {
 
     //Hàm check lỗi
     private void check() throws Exception {
-        if (txtID.getText().trim().isEmpty()) {
-            throw new Exception("Mã sản phẩm trống");
-        } else if (txtName.getText().trim().isEmpty()) {
+        if (txtName.getText().trim().isEmpty()) {
             throw new Exception("Tên sản phẩm trống");
         } else if (txtPrice.getText().trim().isEmpty()) {
             throw new Exception("Đơn giá trống");
-        } else if (!txtID.getText().trim().matches("^SP\\d{3}$")) {
+        } else if (!txtID.getText().trim().matches("^SP\\d{3}$")
+                && !txtID.getText().trim().isEmpty()) {
             throw new Exception("Mã sản phẩm không đúng định dạng");
         } else if (!txtName.getText().trim().matches("\\D{5,}")) {
             throw new Exception("Tên sản phẩm phải có hơn 5 ký tự");
@@ -111,6 +100,24 @@ public class SanPham_GUI extends javax.swing.JPanel {
         } else if (busSP.getSPbyID(txtID.getText().trim()) != null && txtID.isEditable()) {
             throw new Exception("Mã sản phẩm đã tồn tại");
         }
+    }
+
+    //Hàm tạo sản phẩm
+    private SanPham setSP() {
+        SanPham sp = new SanPham();
+        int id = busSP.getAllSP().size();
+        String maSP = txtID.getText().trim();
+        if (maSP.isEmpty()) {
+            do {
+                maSP = id < 10 ? "SP00" : id < 100 ? "SP0" : "SP";
+                maSP = maSP + String.valueOf(id);
+            } while (busSP.getSPbyID(maSP) != null);
+        }
+        sp.setMaSP(maSP);
+        sp.setTenSP(txtName.getText().trim());
+        sp.setDonGia(Integer.parseInt(txtPrice.getText().trim()));
+        sp.setMaLSP(cbxType.getSelectedIndex() + 1);
+        return sp;
     }
 
     /**
@@ -200,7 +207,9 @@ public class SanPham_GUI extends javax.swing.JPanel {
         txtPrice.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         pnlText.add(txtPrice);
 
-        cbxType.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cbxType.setBackground(new java.awt.Color(159, 32, 66));
+        cbxType.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        cbxType.setForeground(new java.awt.Color(255, 255, 255));
         cbxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlText.add(cbxType);
 
@@ -234,9 +243,11 @@ public class SanPham_GUI extends javax.swing.JPanel {
 
         pnlSort.setBackground(new java.awt.Color(255, 255, 255));
         pnlSort.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Phân loại", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
-        pnlSort.setLayout(new java.awt.GridLayout());
+        pnlSort.setLayout(new java.awt.GridLayout(1, 0));
 
-        cbxSort.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cbxSort.setBackground(new java.awt.Color(159, 32, 66));
+        cbxSort.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        cbxSort.setForeground(new java.awt.Color(255, 255, 255));
         cbxSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxSort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -251,7 +262,9 @@ public class SanPham_GUI extends javax.swing.JPanel {
         pnlSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(159, 32, 66))); // NOI18N
         pnlSearch.setLayout(new java.awt.BorderLayout(2, 0));
 
-        cbxSearch.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cbxSearch.setBackground(new java.awt.Color(159, 32, 66));
+        cbxSearch.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        cbxSearch.setForeground(new java.awt.Color(255, 255, 255));
         cbxSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlSearch.add(cbxSearch, java.awt.BorderLayout.WEST);
 
@@ -394,18 +407,7 @@ public class SanPham_GUI extends javax.swing.JPanel {
             txtID.setEditable(true);
             check();
 
-            SanPham sp = new SanPham();
-            sp.setMaSP(txtID.getText().trim());
-            sp.setTenSP(txtName.getText().trim());
-            sp.setDonGia(Integer.parseInt(txtPrice.getText().trim()));
-
-            for (LoaiSP i : busLSP.getAllLSP()) {
-                if (i.getTenLSP().equals(String.valueOf(cbxType.getSelectedItem()))) {
-                    sp.setMaLSP(i.getMaLSP());
-                    break;
-                }
-            }
-
+            SanPham sp = setSP();
             busSP.addSP(sp);
 
             JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -423,18 +425,7 @@ public class SanPham_GUI extends javax.swing.JPanel {
             }
             check();
 
-            SanPham sp = new SanPham();
-            sp.setMaSP(txtID.getText());
-            sp.setTenSP(txtName.getText().trim());
-            sp.setDonGia(Integer.parseInt(txtPrice.getText().trim()));
-
-            for (LoaiSP i : busLSP.getAllLSP()) {
-                if (i.getTenLSP().equals(String.valueOf(cbxType.getSelectedItem()))) {
-                    sp.setMaLSP(i.getMaLSP());
-                    break;
-                }
-            }
-
+            SanPham sp = setSP();
             busSP.updateSP(sp);
 
             JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -470,8 +461,8 @@ public class SanPham_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnREFRESHActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        try{
-            if(txtSearch.getText().trim().isEmpty()){
+        try {
+            if (txtSearch.getText().trim().isEmpty()) {
                 throw new Exception("Dữ liệu nhập trống");
             }
             int search = cbxSearch.getSelectedIndex();
