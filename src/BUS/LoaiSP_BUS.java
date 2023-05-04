@@ -15,7 +15,7 @@ public class LoaiSP_BUS {
         return daoLSP.getAllLSP();
     }
     
-    public LoaiSP getLSPbyID(String id){
+    public LoaiSP getLSPbyID(int id){
         return daoLSP.getLSPbyID(id);
     }
 }
