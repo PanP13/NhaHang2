@@ -77,7 +77,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         btnADD = new javax.swing.JButton();
         btnUPDATE = new javax.swing.JButton();
         btnDELETE = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnREFRESH = new javax.swing.JButton();
         pnlPadDown = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         pnlTable = new javax.swing.JPanel();
@@ -159,19 +159,19 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         });
         pnlBTN.add(btnDELETE);
 
-        jButton1.setBackground(new java.awt.Color(159, 32, 66));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/refresh.png"))); // NOI18N
-        jButton1.setText("Cập nhật");
-        jButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton1.setIconTextGap(20);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnREFRESH.setBackground(new java.awt.Color(159, 32, 66));
+        btnREFRESH.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnREFRESH.setForeground(new java.awt.Color(255, 255, 255));
+        btnREFRESH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/refresh.png"))); // NOI18N
+        btnREFRESH.setText("Cập nhật");
+        btnREFRESH.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnREFRESH.setIconTextGap(20);
+        btnREFRESH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnREFRESHActionPerformed(evt);
             }
         });
-        pnlBTN.add(jButton1);
+        pnlBTN.add(btnREFRESH);
 
         pnlDetails.add(pnlBTN, java.awt.BorderLayout.CENTER);
 
@@ -295,7 +295,6 @@ public class HoaDon_GUI extends javax.swing.JPanel {
             } else {
                 f.setVisible(true);
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
@@ -321,9 +320,12 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnDELETEActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnREFRESHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnREFRESHActionPerformed
         setTableData(busHD.getView());
-    }//GEN-LAST:event_jButton1ActionPerformed
+        for(HoaDon i : busHD.getAllHD()){
+            System.out.println(i.toString());
+        }
+    }//GEN-LAST:event_btnREFRESHActionPerformed
 
     private void btnSEARCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSEARCHActionPerformed
         try {
@@ -346,10 +348,10 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     private javax.swing.JTable Table;
     private javax.swing.JButton btnADD;
     private javax.swing.JButton btnDELETE;
+    private javax.swing.JButton btnREFRESH;
     private javax.swing.JButton btnSEARCH;
     private javax.swing.JButton btnUPDATE;
     private javax.swing.JComboBox<String> cbxSearch;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
