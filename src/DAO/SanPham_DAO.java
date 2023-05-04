@@ -9,7 +9,7 @@ import java.util.List;
 public class SanPham_DAO {
 
     public List<SanPham> getAllSP() {
-        List<SanPham> sps = new ArrayList<SanPham>();
+        List<SanPham> sps = new ArrayList<>();
 
         Connection conn = JDBCConnection.getJDBCConnection();
         String sql = "SELECT * FROM SANPHAM";
@@ -23,7 +23,7 @@ public class SanPham_DAO {
                 sp.setMaSP(rs.getString("MaSP"));
                 sp.setTenSP(rs.getString("TenSP"));
                 sp.setDonGia(rs.getInt("DonGia"));
-                sp.setMaLSP(rs.getString("MaLSP"));
+                sp.setMaLSP(rs.getInt("MaLSP"));
 
                 sps.add(sp);
             }
@@ -49,7 +49,7 @@ public class SanPham_DAO {
                 sp.setMaSP(rs.getString("MaSP"));
                 sp.setTenSP(rs.getString("TenSP"));
                 sp.setDonGia(rs.getInt("DonGia"));
-                sp.setMaLSP(rs.getString("MaLSP"));
+                sp.setMaLSP(rs.getInt("MaLSP"));
 
                 conn.close();
                 return sp;
@@ -69,7 +69,7 @@ public class SanPham_DAO {
             ps.setString(1, sp.getMaSP());
             ps.setString(2, sp.getTenSP());
             ps.setInt(3, sp.getDonGia());
-            ps.setString(4, sp.getMaLSP());
+            ps.setInt(4, sp.getMaLSP());
             int rs = ps.executeUpdate();
             conn.close();
             System.out.println("Add success!");
@@ -87,7 +87,7 @@ public class SanPham_DAO {
 
             ps.setString(1, sp.getTenSP());
             ps.setInt(2, sp.getDonGia());
-            ps.setString(3, sp.getMaLSP());
+            ps.setInt(3, sp.getMaLSP());
             ps.setString(4, sp.getMaSP());
             int rs = ps.executeUpdate();
             conn.close();
@@ -113,7 +113,7 @@ public class SanPham_DAO {
     }
 
     public List<SanPham> searchSP(String s, int t) {
-        List<SanPham> sps = new ArrayList<SanPham>();
+        List<SanPham> sps = new ArrayList<>();
 
         Connection conn = JDBCConnection.getJDBCConnection();
         String sql = "SELECT * FROM SANPHAM";
@@ -144,7 +144,7 @@ public class SanPham_DAO {
                 sp.setMaSP(rs.getString("MaSP"));
                 sp.setTenSP(rs.getString("TenSP"));
                 sp.setDonGia(rs.getInt("DonGia"));
-                sp.setMaLSP(rs.getString("MaLSP"));
+                sp.setMaLSP(rs.getInt("MaLSP"));
 
                 sps.add(sp);
             }
