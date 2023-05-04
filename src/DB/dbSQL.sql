@@ -2,6 +2,7 @@ use master;
 drop database NhaHang1;
 
 create database NhaHang1;
+go
 use NhaHang1;
 
 create table KhachHang (
@@ -25,7 +26,7 @@ create table NhanVien (
 );
 
 create table LoaiTK(
-	MaLTK tinyint CHECK(MaLTK<2) NOT NULL,
+	MaLTK tinyint CHECK(MaLTK<3) NOT NULL,
 	TenLTK nvarchar(50) NOT NULL,
 	CONSTRAINT PK_MaLTK PRIMARY KEY(MaLTK)
 );
@@ -34,7 +35,7 @@ create table TaiKhoan(
 	IDTK int IDENTITY(1,1) PRIMARY KEY,
 	TenDN varchar(50) UNIQUE NOT NULL,
 	MatKhau varchar(50) NOT NULL,
-	MaLTK tinyint CHECK (MaLTK<2) NOT NULL,
+	MaLTK tinyint CHECK (MaLTK<3) NOT NULL,
 	MaTK char(5) NOT NULL,
 	CONSTRAINT FK_MaLTK_ACC FOREIGN KEY (MaLTK) REFERENCES LoaiTK(MaLTK)
 );
@@ -88,6 +89,13 @@ create table CTHD (
 	CONSTRAINT PK_MaHD_MaSP_CTHD PRIMARY KEY (MaHD, MaSP),
 	CONSTRAINT FK_MaHD_CTHD FOREIGN KEY (MaHD) REFERENCES HoaDon(MaHD),
 	CONSTRAINT FK_MaSP_CTHD FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP)
+);
+
+create table LishSu (
+	ID int IDENTITY (1,1) PRIMARY KEY,
+	Account char(5) NOT NULL,
+	Activity int NOT NULL,
+	Info nvarchar(300)
 );
 
 Insert into KhachHang values 
@@ -179,43 +187,53 @@ Insert into SanPham values
 ('SP047', N'Rượu gin', 70000, 6),
 ('SP048', N'Rượu rum', 70000, 6),
 ('SP049', N'Tiger', 50000, 6),
-('SP050', N'Strongbow', 50000, 6);
+('SP050', N'Strongbow', 50000, 6),
+('SP051', N'Cá hồi đút lò', 110000, 2);
 
-Insert into HoaDon(MaHD, MaKH, MaNV, MaBan) values 
-('HD001', 'KH001', 'NV001', 'BN001'),
-('HD002', 'KH001', 'NV002', 'BN001'),
-('HD003', 'KH002', 'NV002', 'BN001'),
-('HD004', 'KH002', 'NV001', 'BN002');
+Insert into HoaDon values 
+('HD001', 'KH001', 'NV001', 'BN004', 1),
+('HD002', 'KH001', 'NV002', 'BN001', 1),
+('HD003', 'KH002', 'NV002', 'BN001', 1),
+('HD004', 'KH002', 'NV001', 'BN002', 0),
+('HD005', 'KH001', 'NV001', 'BN001', 0),
+('HD006', 'KH004', 'NV001', 'BN001', 0),
+('HD007', 'KH003', 'NV004', 'BN005', 1);
 
 Insert into CTHD values
-('HD001', 'SP001', 2),
-('HD001', 'SP003', 2),
-('HD001', 'SP004', 1),
-('HD002', 'SP001', 1),
-('HD002', 'SP002', 3),
-('HD002', 'SP003', 4),
-('HD003', 'SP002', 4),
-('HD003', 'SP003', 4),
-('HD004', 'SP001', 1),
-('HD004', 'SP004', 1);
+('HD001', 'SP001', 1), ('HD001', 'SP003', 1), ('HD001', 'SP004', 1), ('HD001', 'SP012', 1), ('HD001', 'SP017', 1),
+('HD001', 'SP022', 1), ('HD001', 'SP027', 1), ('HD001', 'SP030', 1), ('HD001', 'SP037', 1), ('HD001', 'SP042', 1),
+('HD002', 'SP001', 1), ('HD002', 'SP002', 3), ('HD002', 'SP003', 4), ('HD003', 'SP002', 4), ('HD003', 'SP003', 1), 
+('HD003', 'SP008', 1), ('HD003', 'SP017', 1), ('HD003', 'SP018', 1), ('HD003', 'SP021', 1), ('HD003', 'SP023', 1), 
+('HD003', 'SP046', 2), ('HD004', 'SP001', 1), ('HD004', 'SP004', 1), ('HD004', 'SP009', 1), ('HD004', 'SP019', 1), 
+('HD004', 'SP020', 1), ('HD004', 'SP022', 1), ('HD004', 'SP028', 1), ('HD004', 'SP040', 1), ('HD004', 'SP044', 1), 
+('HD006', 'SP004', 1), ('HD006', 'SP011', 1), ('HD006', 'SP024', 1), ('HD006', 'SP035', 2), ('HD006', 'SP047', 2), 
+('HD007', 'SP005', 1), ('HD007', 'SP006', 1), ('HD007', 'SP010', 1), ('HD007', 'SP013', 1), ('HD007', 'SP022', 3), 
+('HD007', 'SP036', 1), ('HD007', 'SP037', 2), ('HD007', 'SP039', 1), ('HD007', 'SP051', 1);
 
 Insert into LoaiTK values
 (0,'Admin'),
-(1,'Staff');
+(1,'Staff'),
+(2,'Customer');
 
 Insert into TaiKhoan (TenDN, MatKhau, MaLTK, MaTK) values
 ('admin', '123', 0, 'NV001'),
 ('staff01', '456', 1, 'NV002'),
 ('staff02', '456', 1, 'NV003'),
-('staff03', '456', 1, 'NV004');
+('staff03', '456', 1, 'NV004'),
+('user01', '789', 2, 'KH001'),
+('user02', '789', 2, 'KH002'),
+('user03', '789', 2, 'KH003');
 
+GO
 CREATE VIEW HDTong AS
 SELECT HD.MaHD, HD.MaKH, HD.MaNV, HD.MaBan, HD.TrangThai, SUM(DonGia * SoLuong) AS TONGTIEN
 FROM HoaDon as HD, CTHD, SanPham as SP
 WHERE HD.MaHD = CTHD.MaHD AND CTHD.MaSP = SP.MaSP
-GROUP BY HD.MaHD, HD.MaKH, HD.MaNV, HD.MaBan, HD.TrangThai;
+GROUP BY HD.MaHD, HD.MaKH, HD.MaNV, HD.MaBan, HD.TrangThai
 
+GO
 CREATE VIEW CTHDTien AS
 SELECT CT.MaHD, CT.MaSP, DonGia, SoLuong, SoLuong * DonGia AS THANHTIEN
 FROM CTHD AS CT, SANPHAM AS SP
-WHERE CT.MaSP = SP.MaSP;
+WHERE CT.MaSP = SP.MaSP
+
