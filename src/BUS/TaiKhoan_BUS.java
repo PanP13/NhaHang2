@@ -30,4 +30,8 @@ public class TaiKhoan_BUS {
     public void deleteTK(String id){
         daoTK.deleteTK(id);
     }
+    
+    public TaiKhoan getTK (String username, String password){
+        return daoTK.getTK(username, password);
+    }
 }
