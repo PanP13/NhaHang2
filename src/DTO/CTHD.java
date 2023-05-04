@@ -28,5 +28,9 @@ public class CTHD {
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
     }
-    
+
+    @Override
+    public String toString() {
+        return "CTHD{" + "maHD=" + maHD + ", maSP=" + maSP + ", soLuong=" + soLuong + '}';
+    }
 }
