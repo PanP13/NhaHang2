@@ -1,10 +1,8 @@
 package DTO;
 
 public class HoaDon {
-    private String maHD;
-    private String maKH;
-    private String maNV;
-    private String maBan;
+    private String maHD, maKH, maNV, maBan;
+    private int trangThai;
 
     public String getMaHD() {
         return maHD;
@@ -37,11 +35,17 @@ public class HoaDon {
     public void setMaBan(String maBan) {
         this.maBan = maBan;
     }
-    
-    public String write(){
-        return "(" + getMaHD() + ", "
-                + getMaKH()+ ", "
-                + getMaNV()+ ", "
-                + getMaBan()+ ")";
+
+    public int getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(int trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    @Override
+    public String toString() {
+        return "HoaDon{" + "maHD=" + maHD + ", maKH=" + maKH + ", maNV=" + maNV + ", maBan=" + maBan + ", trangThai=" + trangThai + '}';
     }
 }
