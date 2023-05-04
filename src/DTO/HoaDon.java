@@ -1,6 +1,7 @@
 package DTO;
 
 public class HoaDon {
+
     private String maHD, maKH, maNV, maBan;
     private int trangThai;
 
@@ -46,6 +47,8 @@ public class HoaDon {
 
     @Override
     public String toString() {
+//        String s = String.format("('%s', '%s', '%s', '%s', %d),", maHD, maKH, maNV, maBan, trangThai);
+//        return s;
         return "HoaDon{" + "maHD=" + maHD + ", maKH=" + maKH + ", maNV=" + maNV + ", maBan=" + maBan + ", trangThai=" + trangThai + '}';
     }
 }

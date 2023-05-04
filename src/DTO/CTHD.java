@@ -31,6 +31,8 @@ public class CTHD {
 
     @Override
     public String toString() {
+//        String s = String.format("('%s', '%s', %d),", maHD, maSP, soLuong);
+//        return s;
         return "CTHD{" + "maHD=" + maHD + ", maSP=" + maSP + ", soLuong=" + soLuong + '}';
     }
 }
