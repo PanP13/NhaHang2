@@ -1,9 +1,7 @@
 package DTO;
 public class SanPham {
-    private String maSP;
-    private String tenSP;
-    private int donGia;
-    private String maLSP;
+    private String maSP, tenSP;
+    private int donGia, maLSP;
 
     public String getMaSP() {
         return maSP;
@@ -29,11 +27,16 @@ public class SanPham {
         this.donGia = donGia;
     }
 
-    public String getMaLSP() {
+    public int getMaLSP() {
         return maLSP;
     }
 
-    public void setMaLSP(String maLSP) {
+    public void setMaLSP(int maLSP) {
         this.maLSP = maLSP;
+    }
+
+    @Override
+    public String toString() {
+        return "SanPham{" + "maSP=" + maSP + ", tenSP=" + tenSP + ", donGia=" + donGia + ", maLSP=" + maLSP + '}';
     }
 }
