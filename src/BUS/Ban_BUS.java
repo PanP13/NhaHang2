@@ -38,4 +38,8 @@ public class Ban_BUS {
     public boolean getHD(String id){
         return daoB.getHD(id);
     }
+    
+    public List<String> getBan(){
+        return daoB.getBan();
+    }
 }

@@ -31,11 +31,15 @@ public class SanPham_BUS {
         daoSP.deleteSP(maSP);
     }
     
-    public List<SanPham> searchSP(String s, int t){
+    public List<String> searchSP(String s, int t){
         return daoSP.searchSP(s, t);
     }
     
     public void deleteCTHD (String id) {
         daoSP.deleteCTHD(id);
+    }
+    
+    public List<String> getSP(){
+        return daoSP.getSP();
     }
 }

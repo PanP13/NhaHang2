@@ -112,40 +112,38 @@ public class SanPham_DAO {
         }
     }
 
-    public List<SanPham> searchSP(String s, int t) {
-        List<SanPham> sps = new ArrayList<>();
+    public List<String> searchSP(String s, int t) {
+        List<String> sps = new ArrayList<>();
 
         Connection conn = JDBCConnection.getJDBCConnection();
         String sql = "SELECT * FROM SANPHAM";
         switch (t) {
-            case 0:
-                sql = "SELECT * FROM SANPHAM WHERE MASP LIKE '%" + s + "%'";
-                break;
-            case 1:
-                sql = "SELECT * FROM SANPHAM WHERE TENSP LIKE '%" + s + "%'";
-                break;
-            case 2:
-                sql = "SELECT * FROM SANPHAM WHERE DONGIA=" + s;
-                break;
-            case 3:
-                sql = "SELECT * FROM SANPHAM WHERE MALSP LIKE '%" + s + "%'";
-                break;
-            default:
-                break;
+            case 0 -> sql = "SELECT * FROM SANPHAM WHERE MASP LIKE '%" + s + "%'";
+            case 1 -> sql = "SELECT * FROM SANPHAM WHERE TENSP LIKE '%" + s + "%'";
+            case 2 -> sql = "SELECT * FROM SANPHAM WHERE DONGIA=" + s;
+            case 3 -> sql = "SELECT * FROM SANPHAM WHERE MALSP LIKE '%" + s + "%'";
+            default -> {}
         }
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             //ps.setString(1, s);
             ResultSet rs = ps.executeQuery();
-
             while (rs.next()) {
-                SanPham sp = new SanPham();
-                sp.setMaSP(rs.getString("MaSP"));
-                sp.setTenSP(rs.getString("TenSP"));
-                sp.setDonGia(rs.getInt("DonGia"));
-                sp.setMaLSP(rs.getInt("MaLSP"));
-
+                String tenLSP = "";
+                switch (rs.getInt("MaLSP")) {
+                    case 1 -> tenLSP = "Khai vị";
+                    case 2 -> tenLSP = "Món chính";
+                    case 3 -> tenLSP = "Món phụ";
+                    case 4 -> tenLSP = "Đồ ngọt";
+                    case 5 -> tenLSP = "Nước giải khát";
+                    case 6 -> tenLSP = "Đồ uống có cồn";
+                }
+                String sp = String.format("%s,%s,%d,%s",
+                        rs.getString("MaSP"),
+                        rs.getString("TenSP"),
+                        rs.getInt("DonGia"),
+                        tenLSP);
                 sps.add(sp);
             }
             conn.close();
@@ -155,18 +153,42 @@ public class SanPham_DAO {
         return sps;
     }
 
-    public void deleteCTHD(String id){
+    public void deleteCTHD(String id) {
         Connection conn = JDBCConnection.getJDBCConnection();
         String sql = "DELETE FROM CTHD WHERE MASP=?";
-        
-        try{
+
+        try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, id);
-            
+
             int rs = ps.executeUpdate();
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<String> getSP() {
+        List<String> sps = new ArrayList<>();
+
+        for (SanPham i : getAllSP()) {
+            String tenLSP = "";
+            switch (i.getMaLSP()) {
+                case 1 ->
+                    tenLSP = "Khai vị";
+                case 2 ->
+                    tenLSP = "Món chính";
+                case 3 ->
+                    tenLSP = "Món phụ";
+                case 4 ->
+                    tenLSP = "Đồ ngọt";
+                case 5 ->
+                    tenLSP = "Nước giải khát";
+                case 6 ->
+                    tenLSP = "Đồ uống có cồn";
+            }
+            String sp = String.format("%s,%s,%d,%s", i.getMaSP(), i.getTenSP(), i.getDonGia(), tenLSP);
+            sps.add(sp);
+        }
+        return sps;
     }
 }
