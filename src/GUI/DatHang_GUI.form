@@ -330,7 +330,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="pnlReceiptTitle" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="pnlReceiptText" alignment="0" pref="224" max="32767" attributes="0"/>
+                                  <Component id="pnlReceiptText" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -511,57 +511,17 @@
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
                         </Component>
-                        <Container class="javax.swing.JPanel" name="pnlTime">
+                        <Component class="com.toedter.calendar.JDateChooser" name="dcTime">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="ff" green="ff" red="ff" type="rgb"/>
                             </Property>
+                            <Property name="dateFormatString" type="java.lang.String" value="dd-MM-yyyy"/>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Segoe UI" size="16" style="1"/>
+                            </Property>
                           </Properties>
-
-                          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-                            <Property name="columns" type="int" value="0"/>
-                            <Property name="horizontalGap" type="int" value="5"/>
-                            <Property name="rows" type="int" value="1"/>
-                          </Layout>
-                          <SubComponents>
-                            <Component class="javax.swing.JComboBox" name="cbxHour">
-                              <Properties>
-                                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                  <Font name="Segoe UI" size="16" style="0"/>
-                                </Property>
-                                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                                  <StringArray count="4">
-                                    <StringItem index="0" value="Item 1"/>
-                                    <StringItem index="1" value="Item 2"/>
-                                    <StringItem index="2" value="Item 3"/>
-                                    <StringItem index="3" value="Item 4"/>
-                                  </StringArray>
-                                </Property>
-                              </Properties>
-                              <AuxValues>
-                                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                              </AuxValues>
-                            </Component>
-                            <Component class="javax.swing.JComboBox" name="cbxMinute">
-                              <Properties>
-                                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                  <Font name="Segoe UI" size="16" style="0"/>
-                                </Property>
-                                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                                  <StringArray count="4">
-                                    <StringItem index="0" value="Item 1"/>
-                                    <StringItem index="1" value="Item 2"/>
-                                    <StringItem index="2" value="Item 3"/>
-                                    <StringItem index="3" value="Item 4"/>
-                                  </StringArray>
-                                </Property>
-                              </Properties>
-                              <AuxValues>
-                                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                              </AuxValues>
-                            </Component>
-                          </SubComponents>
-                        </Container>
+                        </Component>
                       </SubComponents>
                     </Container>
                   </SubComponents>
@@ -598,7 +558,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="pnlOrderTitle" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="pnlOrderText" alignment="0" pref="130" max="32767" attributes="0"/>
+                                  <Component id="pnlOrderText" alignment="0" pref="161" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                           </Group>

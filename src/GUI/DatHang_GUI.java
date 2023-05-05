@@ -2,7 +2,9 @@ package GUI;
 
 import BUS.*;
 import DTO.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -38,13 +40,12 @@ public class DatHang_GUI extends javax.swing.JFrame {
         cbxKH.setSelectedItem(hd.getMaKH());
         cbxBan.setSelectedItem(hd.getMaBan());
         cbxStatus.setSelectedIndex(hd.getTrangThai());
-        
+
         //Chỉnh thông tin nhân viên
-        if(user.getLoaiTK()==1){
+        if (user.getLoaiTK() == 1) {
             cbxNV.setSelectedItem(user.getMaTK());
             cbxNV.setEnabled(false);
         }
-            
 
         //Cấu hỉnh
         txtHD.setEditable(false);
@@ -142,22 +143,11 @@ public class DatHang_GUI extends javax.swing.JFrame {
         for (Ban i : busBan.getAllBan()) {
             cbxBan.addItem(i.getMaBan());
         }
-        
+
         //comboBox trạng thái
         cbxStatus.removeAllItems();
         cbxStatus.addItem("Chưa thanh toán");
         cbxStatus.addItem("Đã thanh toán");
-
-        //comboBox thời gian
-        cbxHour.removeAllItems();
-        for (int i = 8; i < 22; i++) {
-            cbxHour.addItem(String.valueOf(i));
-        }
-
-        cbxMinute.removeAllItems();
-        for (int i = 0; i < 61; i += 5) {
-            cbxMinute.addItem(String.valueOf(i));
-        }
     }
 
     //Hàm chỉnh textfield
@@ -192,7 +182,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
         if (!txtHD.getText().trim().matches("^HD\\d{3}$")
                 && !txtHD.getText().trim().isEmpty()) {
             throw new Exception("Mã hóa đơn không đúng");
-        } else if (busHD.getHDbyID(txtHD.getText().trim()) != null 
+        } else if (busHD.getHDbyID(txtHD.getText().trim()) != null
                 && txtHD.isEditable()) {
             throw new Exception("Mã hóa đơn đã tồn tại");
         } else if (dOrder.getRowCount() == 0) {
@@ -249,9 +239,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
         cbxNV = new javax.swing.JComboBox<>();
         cbxBan = new javax.swing.JComboBox<>();
         cbxStatus = new javax.swing.JComboBox<>();
-        pnlTime = new javax.swing.JPanel();
-        cbxHour = new javax.swing.JComboBox<>();
-        cbxMinute = new javax.swing.JComboBox<>();
+        dcTime = new com.toedter.calendar.JDateChooser();
         pnlOrder = new javax.swing.JPanel();
         pnlOrderTitle = new javax.swing.JPanel();
         lblSP = new javax.swing.JLabel();
@@ -417,18 +405,10 @@ public class DatHang_GUI extends javax.swing.JFrame {
         cbxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlReceiptText.add(cbxStatus);
 
-        pnlTime.setBackground(new java.awt.Color(255, 255, 255));
-        pnlTime.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
-
-        cbxHour.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        cbxHour.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        pnlTime.add(cbxHour);
-
-        cbxMinute.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        cbxMinute.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        pnlTime.add(cbxMinute);
-
-        pnlReceiptText.add(pnlTime);
+        dcTime.setBackground(new java.awt.Color(255, 255, 255));
+        dcTime.setDateFormatString("dd-MM-yyyy");
+        dcTime.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        pnlReceiptText.add(dcTime);
 
         javax.swing.GroupLayout pnlReceiptLayout = new javax.swing.GroupLayout(pnlReceipt);
         pnlReceipt.setLayout(pnlReceiptLayout);
@@ -446,7 +426,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
             .addGroup(pnlReceiptLayout.createSequentialGroup()
                 .addGroup(pnlReceiptLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlReceiptTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlReceiptText, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE))
+                    .addComponent(pnlReceiptText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -507,7 +487,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
             .addGroup(pnlOrderLayout.createSequentialGroup()
                 .addGroup(pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlOrderTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlOrderText, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                    .addComponent(pnlOrderText, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -812,17 +792,21 @@ public class DatHang_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCANCELActionPerformed
 
     private void btnCONFIRMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCONFIRMActionPerformed
+        //logic thời gian
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        Date selectedDate = jDateChooserl.getDate();
+//        String theDate = selectedDate != null ? dateFormat.format(selectedDate) : "";
         try {
             checkReceipt();
             //Hàm tự động điền mã hóa đơn
             String maHD = txtHD.getText().trim();
-            if(maHD.isEmpty()){
+            if (maHD.isEmpty()) {
                 int id = busHD.getAllHD().size();
-                do{
-                    maHD = id<10? "HD00" : id<100? "HD0" : "HD";
+                do {
+                    maHD = id < 10 ? "HD00" : id < 100 ? "HD0" : "HD";
                     maHD = maHD + String.valueOf(id);
                     id++;
-                }while(busHD.getHDbyID(maHD)!=null);
+                } while (busHD.getHDbyID(maHD) != null);
             }
 
             HoaDon hd = new HoaDon();
@@ -901,12 +885,11 @@ public class DatHang_GUI extends javax.swing.JFrame {
     private javax.swing.JButton btnSEARCH;
     private javax.swing.JButton btnUPDATE;
     private javax.swing.JComboBox<String> cbxBan;
-    private javax.swing.JComboBox<String> cbxHour;
     private javax.swing.JComboBox<String> cbxKH;
-    private javax.swing.JComboBox<String> cbxMinute;
     private javax.swing.JComboBox<String> cbxNV;
     private javax.swing.JComboBox<String> cbxSort;
     private javax.swing.JComboBox<String> cbxStatus;
+    private com.toedter.calendar.JDateChooser dcTime;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBan;
@@ -936,7 +919,6 @@ public class DatHang_GUI extends javax.swing.JFrame {
     private javax.swing.JPanel pnlReceiptTitle;
     private javax.swing.JPanel pnlSearch;
     private javax.swing.JPanel pnlSort;
-    private javax.swing.JPanel pnlTime;
     private javax.swing.JPanel pnlTotal;
     private javax.swing.JTable tblOrder;
     private javax.swing.JTable tblProduct;
