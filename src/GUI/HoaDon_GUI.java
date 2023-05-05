@@ -57,9 +57,9 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     private void setTableData(List<String> hds) {
         dt.setRowCount(0);
         for (String i : hds) {
-            String split[] = i.split(",");
-            String status = split[4].equals("0") ? "Chưa thanh toán" : "Đã thanh toán";
-            dt.addRow(new Object[]{split[0], split[1], split[2], split[3], status, split[5]});
+            String data[] = i.split(",");
+            data[4] = data[4].equals("0") ? "Chưa thanh toán" : "Đã thanh toán";
+            dt.addRow(data);
         }
     }
 

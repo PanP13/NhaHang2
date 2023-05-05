@@ -175,13 +175,15 @@ public class HoaDon_DAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                String hd = String.format("%s,%s,%s,%s,%d,%d",
+                SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
+                String date = fmt.format(rs.getDate("ThoiGian"));
+                String hd = String.format("%s,%s,%s,%s,%d,%s,%d",
                         rs.getString("MaHD"), 
                         rs.getString("MaKH"),
                         rs.getString("MaNV"),
                         rs.getString("MaBan"),
                         rs.getInt("TrangThai"),
-                        rs.getInt("TongTien"));
+                        date,rs.getInt("TongTien"));
                 hds.add(hd);
             }
             conn.close();
