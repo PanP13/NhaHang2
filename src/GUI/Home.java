@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import BUS.LichSu_BUS;
+import DTO.LichSu;
 import DTO.TaiKhoan;
 import javax.swing.JPanel;
 
@@ -14,6 +16,7 @@ import javax.swing.JPanel;
 public class Home extends javax.swing.JFrame {
 
     TaiKhoan user;
+    LichSu_BUS busLS = new LichSu_BUS();
 
     public Home() {
         initComponents();
@@ -30,6 +33,12 @@ public class Home extends javax.swing.JFrame {
             pnlMenuBTN.remove(btnSP);
         }
         this.user = user;
+        LichSu ls = new LichSu();
+        ls.setTaiKhoan(user.getMaTK());
+        ls.setHanhDong(0);
+        ls.setChiTiet("Main");
+        ls.setThoiGian(new java.util.Date());
+        //busLS.addLS(ls);
     }
 
     private void Reset() {
@@ -59,6 +68,7 @@ public class Home extends javax.swing.JFrame {
         btnBan = new javax.swing.JButton();
         btnSP = new javax.swing.JButton();
         btnBH = new javax.swing.JButton();
+        btnTKE = new javax.swing.JButton();
         btnLogOut = new javax.swing.JButton();
         pnlAccDetails = new javax.swing.JPanel();
         txtUser = new javax.swing.JLabel();
@@ -129,6 +139,15 @@ public class Home extends javax.swing.JFrame {
             }
         });
         pnlMenuBTN.add(btnBH);
+
+        btnTKE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/bar_chart.png"))); // NOI18N
+        btnTKE.setToolTipText("Hóa đơn");
+        btnTKE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTKEActionPerformed(evt);
+            }
+        });
+        pnlMenuBTN.add(btnTKE);
 
         btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/logout.png"))); // NOI18N
         btnLogOut.setToolTipText("Đăng xuất");
@@ -208,7 +227,7 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(pnlMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
+                .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlBackGroundLayout.setVerticalGroup(
@@ -279,6 +298,14 @@ public class Home extends javax.swing.JFrame {
         Reset();
     }//GEN-LAST:event_btnTKActionPerformed
 
+    private void btnTKEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTKEActionPerformed
+        pnlContent.removeAll();
+        Reset();
+
+        pnlContent.add(new ThongKe_GUI());
+        Reset();
+    }//GEN-LAST:event_btnTKEActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -322,6 +349,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnNV;
     private javax.swing.JButton btnSP;
     private javax.swing.JButton btnTK;
+    private javax.swing.JButton btnTKE;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel pnlAccDetails;
     private javax.swing.JPanel pnlBackGround;
