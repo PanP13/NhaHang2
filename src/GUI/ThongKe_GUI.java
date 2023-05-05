@@ -208,6 +208,11 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton3.setForeground(new java.awt.Color(159, 32, 66));
         jButton3.setText("Tổng doanh thu");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         pnlBTN.add(jButton3);
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -263,6 +268,13 @@ public class ThongKe_GUI extends javax.swing.JPanel {
             dt.addRow(new Object[]{data[0], data[1], data[2], data[3]});
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        dt.setColumnCount(0);
+        dt.setRowCount(0);
+        dt.addColumn("Tổng doanh thu");
+        dt.addRow(new Object[]{busTKE.getTong()});
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

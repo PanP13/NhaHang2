@@ -21,4 +21,8 @@ public class ThongKe_BUS {
     public List<String> getTKHDbySP(){
         return daoTKE.getTKHDbySP();
     }
+    
+    public String getTong(){
+        return daoTKE.getTong();
+    }
 }

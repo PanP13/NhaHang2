@@ -75,4 +75,22 @@ public class ThongKe_DAO {
         }
         return sps;
     }
+    
+    public String getTong(){
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "SELECT SUM(Tong) AS ThanhTien FROM TKEKH_HD";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String tong = rs.getString("ThanhTien");
+                return tong;
+            }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
