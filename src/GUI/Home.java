@@ -1,16 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package GUI;
 
 import DTO.TaiKhoan;
-import javax.swing.JPanel;
 
-/**
- *
- * @author panpa
- */
 public class Home extends javax.swing.JFrame {
 
     TaiKhoan user;
@@ -38,8 +29,14 @@ public class Home extends javax.swing.JFrame {
         pnlContent.revalidate();
     }
     
-    public JPanel getContentPanel(){
-        return pnlContent;
+    private void setButton(){
+        btnTK.setEnabled(true);
+        btnKH.setEnabled(true);
+        btnNV.setEnabled(true);
+        btnBan.setEnabled(true);
+        btnSP.setEnabled(true);
+        btnBH.setEnabled(true);
+        btnTKE.setEnabled(true);
     }
 
     /**
@@ -238,6 +235,9 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKHActionPerformed
+        setButton();
+        btnKH.setEnabled(false);
+        
         pnlContent.removeAll();
         Reset();
 
@@ -246,6 +246,9 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnKHActionPerformed
 
     private void btnSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSPActionPerformed
+        setButton();
+        btnSP.setEnabled(false);
+        
         pnlContent.removeAll();
         Reset();
 
@@ -254,6 +257,9 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSPActionPerformed
 
     private void btnNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNVActionPerformed
+        setButton();
+        btnNV.setEnabled(false);
+        
         pnlContent.removeAll();
         Reset();
 
@@ -267,6 +273,9 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void btnBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanActionPerformed
+        setButton();
+        btnBan.setEnabled(false);
+        
         pnlContent.removeAll();
         Reset();
 
@@ -275,6 +284,9 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBanActionPerformed
 
     private void btnBHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBHActionPerformed
+        setButton();
+        btnBH.setEnabled(false);
+        
         pnlContent.removeAll();
         Reset();
         
@@ -283,6 +295,9 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBHActionPerformed
 
     private void btnTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTKActionPerformed
+        setButton();
+        btnTK.setEnabled(false);
+        
         pnlContent.removeAll();
         Reset();
 
@@ -291,6 +306,9 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTKActionPerformed
 
     private void btnTKEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTKEActionPerformed
+        setButton();
+        btnTKE.setEnabled(false);
+        
         pnlContent.removeAll();
         Reset();
 
