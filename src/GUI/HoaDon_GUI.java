@@ -47,7 +47,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
         Table.setModel(dt);
 
-        String tbl[] = {"Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Mã bàn", "Trạng thái", "Tổng tiền"};
+        String tbl[] = {"Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Mã bàn", "Trạng thái", "Thời gian", "Tổng tiền"};
         for (String i : tbl) {
             dt.addColumn(i);
         }
@@ -79,6 +79,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         btnADD = new javax.swing.JButton();
         btnUPDATE = new javax.swing.JButton();
         btnDELETE = new javax.swing.JButton();
+        btnCONFIRM = new javax.swing.JButton();
         btnREFRESH = new javax.swing.JButton();
         pnlPadDown = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -104,7 +105,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 203, Short.MAX_VALUE)
+            .addGap(0, 199, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,6 +162,20 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         });
         pnlBTN.add(btnDELETE);
 
+        btnCONFIRM.setBackground(new java.awt.Color(159, 32, 66));
+        btnCONFIRM.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnCONFIRM.setForeground(new java.awt.Color(255, 255, 255));
+        btnCONFIRM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/receipt.png"))); // NOI18N
+        btnCONFIRM.setText("Xác nhận");
+        btnCONFIRM.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnCONFIRM.setIconTextGap(20);
+        btnCONFIRM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCONFIRMActionPerformed(evt);
+            }
+        });
+        pnlBTN.add(btnCONFIRM);
+
         btnREFRESH.setBackground(new java.awt.Color(159, 32, 66));
         btnREFRESH.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnREFRESH.setForeground(new java.awt.Color(255, 255, 255));
@@ -186,7 +201,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 203, Short.MAX_VALUE)
+            .addGap(0, 199, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,20 +265,15 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
+                .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlDetails, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
-                    .addComponent(pnlTable, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+            .addComponent(pnlDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -334,10 +344,34 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSEARCHActionPerformed
 
+    private void btnCONFIRMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCONFIRMActionPerformed
+        try {
+            int row = Table.getSelectedRow();
+            String id = String.valueOf(dt.getValueAt(row, 0));
+            if (row == -1)
+                throw new Exception("Vui lòng chọn hóa đơn cần xác nhận thanh toán");
+            
+            if(busHD.getHDbyID(id).getTrangThai()==1)
+                throw new Exception("Hóa đơn đã xác nhận!");
+
+            int confirm = JOptionPane.showConfirmDialog(this, "Xác nhận thanh toán?");
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                HoaDon hd = busHD.getHDbyID(id);
+                hd.setTrangThai(1);
+                busHD.updateHD(hd);
+                setTableData(busHD.getView());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnCONFIRMActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Table;
     private javax.swing.JButton btnADD;
+    private javax.swing.JButton btnCONFIRM;
     private javax.swing.JButton btnDELETE;
     private javax.swing.JButton btnREFRESH;
     private javax.swing.JButton btnSEARCH;

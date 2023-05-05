@@ -1,9 +1,12 @@
 package DTO;
 
+import java.util.Date;
+
 public class HoaDon {
 
     private String maHD, maKH, maNV, maBan;
     private int trangThai;
+    private Date thoiGian;
 
     public String getMaHD() {
         return maHD;
@@ -45,10 +48,21 @@ public class HoaDon {
         this.trangThai = trangThai;
     }
 
+    public Date getThoiGian() {
+        return thoiGian;
+    }
+
+    public void setThoiGian(Date thoiGian) {
+        this.thoiGian = thoiGian;
+    }
+
     @Override
     public String toString() {
-//        String s = String.format("('%s', '%s', '%s', '%s', %d),", maHD, maKH, maNV, maBan, trangThai);
-//        return s;
-        return "HoaDon{" + "maHD=" + maHD + ", maKH=" + maKH + ", maNV=" + maNV + ", maBan=" + maBan + ", trangThai=" + trangThai + '}';
+        return "HoaDon{" + "maHD=" + maHD + ", maKH=" + maKH + ", maNV=" + maNV + ", maBan=" + maBan + ", trangThai=" + trangThai + ", thoiGian=" + thoiGian + '}';
+    }
+    
+    public String toString2(){
+        String s = String.format("%s,%s,%s,%s,%d,%s", maHD, maKH, maNV, maBan, trangThai, thoiGian.toString());
+        return s;
     }
 }

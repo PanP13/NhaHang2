@@ -3,6 +3,8 @@ package DAO;
 import DB.JDBCConnection;
 import DTO.HoaDon;
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class HoaDon_DAO {
                 hd.setMaNV(rs.getString("MaNV"));
                 hd.setMaBan(rs.getString("MaBan"));
                 hd.setTrangThai(rs.getInt("TrangThai"));
+                hd.setThoiGian(rs.getDate("ThoiGian"));
 
                 hds.add(hd);
             }
@@ -52,6 +55,7 @@ public class HoaDon_DAO {
                 hd.setMaNV(rs.getString("MaNV"));
                 hd.setMaBan(rs.getString("MaBan"));
                 hd.setTrangThai(rs.getInt("TrangThai"));
+                hd.setThoiGian(rs.getDate("ThoiGian"));
 
                 conn.close();
                 return hd;
@@ -64,7 +68,7 @@ public class HoaDon_DAO {
     
     public void addHD(HoaDon hd){
         Connection conn = JDBCConnection.getJDBCConnection();
-        String sql = "INSERT INTO HOADON VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO HOADON VALUES (?,?,?,?,?,?)";
         
         try{
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -73,6 +77,9 @@ public class HoaDon_DAO {
             ps.setString(3, hd.getMaNV());
             ps.setString(4, hd.getMaBan());
             ps.setInt(5, hd.getTrangThai());
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+            String theDate = hd.getThoiGian() != null ? fmt.format(hd.getThoiGian()) : fmt.format(new Date());
+            ps.setString(6, theDate);
             
             int rs = ps.executeUpdate();
         }
@@ -83,7 +90,7 @@ public class HoaDon_DAO {
     
     public void updateHD (HoaDon hd){
         Connection conn = JDBCConnection.getJDBCConnection();
-        String sql = "UPDATE HOADON SET MAKH=?, MANV=?, MABAN=?, TRANGTHAI=? WHERE MAHD=?";
+        String sql = "UPDATE HOADON SET MAKH=?, MANV=?, MABAN=?, TRANGTHAI=?, THOIGIAN=? WHERE MAHD=?";
         
         try{
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -91,7 +98,10 @@ public class HoaDon_DAO {
             ps.setString(2, hd.getMaNV());
             ps.setString(3, hd.getMaBan());
             ps.setInt(4, hd.getTrangThai());
-            ps.setString(5, hd.getMaHD());
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+            String theDate = hd.getThoiGian() != null ? fmt.format(hd.getThoiGian()) : fmt.format(new Date());
+            ps.setString(5, theDate);
+            ps.setString(6, hd.getMaHD());
             
             ps.executeUpdate();
         }
@@ -142,6 +152,7 @@ public class HoaDon_DAO {
                 hd.setMaNV(rs.getString("MaNV"));
                 hd.setMaBan(rs.getString("MaBan"));
                 hd.setTrangThai(rs.getInt("TrangThai"));
+                hd.setThoiGian(rs.getDate("ThoiGian"));
                 
                 hds.add(hd);
             }

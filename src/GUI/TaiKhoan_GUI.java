@@ -74,7 +74,7 @@ public class TaiKhoan_GUI extends javax.swing.JPanel {
     private void setTableData(List<TaiKhoan> tks) {
         dt.setRowCount(0);
         for (TaiKhoan i : tks) {
-            String loaiTK = i.getLoaiTK() == 0 ? "Quản lý" : "Nhân viên";
+            String loaiTK = i.getLoaiTK() == 0 ? "Quản lý" : i.getLoaiTK()==1? "Nhân viên" : "Khách hàng";
             dt.addRow(new Object[]{i.getUsername(), i.getPassword(), loaiTK, i.getMaTK()});
         }
     }

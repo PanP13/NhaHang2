@@ -10,8 +10,9 @@ public class CTHDManager {
 
     public static JFrame getFrame1()
     {
-        if(frame1 == null)
-            frame1 = new DatHang_GUI();
+        if(frame1 != null)
+            frame1.dispose();
+        frame1 = new DatHang_GUI();
         return frame1;
     }
 

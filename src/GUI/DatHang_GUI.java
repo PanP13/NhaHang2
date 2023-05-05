@@ -40,6 +40,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
         cbxKH.setSelectedItem(hd.getMaKH());
         cbxBan.setSelectedItem(hd.getMaBan());
         cbxStatus.setSelectedIndex(hd.getTrangThai());
+        dcTime.setDate(hd.getThoiGian());
 
         //Chỉnh thông tin nhân viên
         if (user.getLoaiTK() == 1) {
@@ -71,6 +72,8 @@ public class DatHang_GUI extends javax.swing.JFrame {
 
         //Cấu hình các comboBox
         setCBX();
+        dcTime.setDate(new Date());
+        dcTime.setEnabled(false);
     }
 
     //Hàm cấu hình table
@@ -793,12 +796,9 @@ public class DatHang_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCANCELActionPerformed
 
     private void btnCONFIRMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCONFIRMActionPerformed
-        //logic thời gian
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        Date selectedDate = jDateChooserl.getDate();
-//        String theDate = selectedDate != null ? dateFormat.format(selectedDate) : "";
         try {
-            checkReceipt();
+            checkReceipt();            
+            
             //Hàm tự động điền mã hóa đơn
             String maHD = txtHD.getText().trim();
             if (maHD.isEmpty()) {
@@ -816,14 +816,14 @@ public class DatHang_GUI extends javax.swing.JFrame {
             hd.setMaNV(String.valueOf(cbxNV.getSelectedItem()));
             hd.setMaBan(String.valueOf(cbxBan.getSelectedItem()));
             hd.setTrangThai(cbxStatus.getSelectedIndex());
-
+            hd.setThoiGian(dcTime.getDate());
+            
             List<CTHD> cts = new ArrayList<>();
             for (int i = 0; i < dOrder.getRowCount(); i++) {
                 CTHD ct = new CTHD();
                 ct.setMaHD(hd.getMaHD());
                 ct.setMaSP(String.valueOf(dOrder.getValueAt(i, 0)));
                 ct.setSoLuong(Integer.parseInt(String.valueOf(dOrder.getValueAt(i, 3))));
-                System.out.println(ct.toString());
                 cts.add(ct);
             }
             if (txtHD.isEditable()) {

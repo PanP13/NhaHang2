@@ -5,6 +5,7 @@ create database NhaHang1;
 go
 use NhaHang1;
 
+--TẠO BẢNG
 create table KhachHang (
 	MaKH char(5),
 	HoTen nvarchar(50) NOT NULL,
@@ -76,6 +77,7 @@ create table HoaDon (
 	MaNV char(5),
 	MaBan char(5),
 	TrangThai int default (0),
+	ThoiGian date DEFAULT(convert(varchar, getdate(), 23)),
 	CONSTRAINT PK_MaHD PRIMARY KEY (MaHD),
 	CONSTRAINT FK_MaKH_HD FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH),
 	CONSTRAINT FK_MaNV_HD FOREIGN KEY (MaNV) REFERENCES NhanVien(MaNV),
@@ -91,7 +93,7 @@ create table CTHD (
 	CONSTRAINT FK_MaSP_CTHD FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP)
 );
 
-/* Quy ước : 0 - Login, 1 - Logout, 2 - Add, 3 - Update, 4 - Delete*/
+-- Quy ước : 0 - Login, 1 - Logout, 2 - Add, 3 - Update, 4 - Delete
 
 create table LichSu (
 	ID int IDENTITY (1,1) PRIMARY KEY,
@@ -101,6 +103,7 @@ create table LichSu (
 	ThoiGian datetime default(CURRENT_TIMESTAMP)
 );
 
+-- THÊM DỮ LIỆU VÀO CÁC BẢNG
 Insert into KhachHang values 
 ('KH001', N'Ngô Phương Linh',  0, '0908615148', 'nplinh148@gmail.com', 'TPHCM'),
 ('KH002', N'Vũ Phong Đạt', 1, '0755239163', 'datvu163@gmail.com', 'TPHCM'),
@@ -177,30 +180,34 @@ Insert into SanPham values
 ('SP034', N'Kem chocolate', 50000, 4),
 ('SP035', N'Cupcake đặc biệt', 70000, 4),
 ('SP036', N'Kem 3 vị', 70000, 4),
-('SP037', N'Coca', 35000, 5),
-('SP038', N'Pepsi', 35000, 5),
-('SP039', N'7UP', 35000, 5),
+('SP037', N'Coca', 30000, 5),
+('SP038', N'Pepsi', 30000, 5),
+('SP039', N'7UP', 30000, 5),
 ('SP040', N'Trà chanh mật ong', 40000, 5),
 ('SP041', N'Trà đào', 50000, 5),
 ('SP042', N'Trà vải', 50000, 5),
-('SP043', N'Nước suối', 25000, 5),
-('SP044', N'Rượu vang đỏ', 70000, 6),
-('SP045', N'Rượu vang trắng', 70000, 6),
-('SP046', N'Rượu whiskey', 70000, 6),
-('SP047', N'Rượu gin', 70000, 6),
-('SP048', N'Rượu rum', 70000, 6),
-('SP049', N'Tiger', 50000, 6),
-('SP050', N'Strongbow', 50000, 6),
-('SP051', N'Cá hồi đút lò', 110000, 2);
+('SP043', N'Nước suối', 20000, 5),
+('SP044', N'Vang đỏ', 70000, 6),
+('SP045', N'Vang trắng', 70000, 6),
+('SP046', N'Whiskey', 70000, 6),
+('SP047', N'Gin', 70000, 6),
+('SP048', N'Rum', 70000, 6),
+('SP049', N'Tiger', 40000, 6),
+('SP050', N'Strongbow', 40000, 6),
+('SP051', N'Cá hồi đút lò', 110000, 2),
+('SP052', N'Cá hồi sốt kem', 110000, 2),
+('SP053', N'Bò hầm kiểu Pháp', 100000, 2),
+('SP054', N'Bít tết bò', 110000, 2),
+('SP055', N'Khoai tây nghiền', 40000, 3),
+('SP056', N'Thịt viên phô mai', 60000, 3);
 
-Insert into HoaDon values 
+Insert into HoaDon(MaHD, MaKH, MaNV, MaBan, TrangThai) values 
 ('HD001', 'KH001', 'NV001', 'BN004', 1),
 ('HD002', 'KH001', 'NV002', 'BN001', 1),
 ('HD003', 'KH002', 'NV002', 'BN001', 1),
 ('HD004', 'KH002', 'NV001', 'BN002', 0),
-('HD005', 'KH001', 'NV001', 'BN001', 0),
-('HD006', 'KH004', 'NV001', 'BN001', 0),
-('HD007', 'KH003', 'NV004', 'BN005', 1);
+('HD005', 'KH004', 'NV001', 'BN001', 0),
+('HD006', 'KH003', 'NV004', 'BN005', 1);
 
 Insert into CTHD values
 ('HD001', 'SP001', 1), ('HD001', 'SP003', 1), ('HD001', 'SP004', 1), ('HD001', 'SP012', 1), ('HD001', 'SP017', 1),
@@ -209,9 +216,9 @@ Insert into CTHD values
 ('HD003', 'SP008', 1), ('HD003', 'SP017', 1), ('HD003', 'SP018', 1), ('HD003', 'SP021', 1), ('HD003', 'SP023', 1), 
 ('HD003', 'SP046', 2), ('HD004', 'SP001', 1), ('HD004', 'SP004', 1), ('HD004', 'SP009', 1), ('HD004', 'SP019', 1), 
 ('HD004', 'SP020', 1), ('HD004', 'SP022', 1), ('HD004', 'SP028', 1), ('HD004', 'SP040', 1), ('HD004', 'SP044', 1), 
-('HD006', 'SP004', 1), ('HD006', 'SP011', 1), ('HD006', 'SP024', 1), ('HD006', 'SP035', 2), ('HD006', 'SP047', 2), 
-('HD007', 'SP005', 1), ('HD007', 'SP006', 1), ('HD007', 'SP010', 1), ('HD007', 'SP013', 1), ('HD007', 'SP022', 3), 
-('HD007', 'SP036', 1), ('HD007', 'SP037', 2), ('HD007', 'SP039', 1), ('HD007', 'SP051', 1);
+('HD005', 'SP004', 1), ('HD005', 'SP011', 1), ('HD005', 'SP024', 1), ('HD005', 'SP035', 2), ('HD005', 'SP047', 2), 
+('HD006', 'SP005', 1), ('HD006', 'SP006', 1), ('HD006', 'SP010', 1), ('HD006', 'SP013', 1), ('HD006', 'SP022', 3), 
+('HD006', 'SP036', 1), ('HD006', 'SP037', 2), ('HD006', 'SP039', 1), ('HD006', 'SP051', 1);
 
 Insert into LoaiTK values
 (0,'Admin'),
@@ -227,18 +234,39 @@ Insert into TaiKhoan (TenDN, MatKhau, MaLTK, MaTK) values
 ('user02', '789', 2, 'KH002'),
 ('user03', '789', 2, 'KH003');
 
-Insert into LichSu(TaiKhoan, HanhDong, ChiTiet) values
-('NV001', 0, 'DangNhap'),
-('NV001', 1, 'DangXuat');
+-- TẠO VIEW TÍNH TỔNG TIỀN TỪNG HÓA ĐƠN
 GO
 CREATE VIEW HDTong AS
-SELECT HD.MaHD, HD.MaKH, HD.MaNV, HD.MaBan, HD.TrangThai, SUM(DonGia * SoLuong) AS TONGTIEN
+SELECT HD.MaHD, HD.MaKH, HD.MaNV, HD.MaBan, HD.TrangThai, HD.ThoiGian, SUM(DonGia * SoLuong) AS TONGTIEN
 FROM HoaDon as HD, CTHD, SanPham as SP
 WHERE HD.MaHD = CTHD.MaHD AND CTHD.MaSP = SP.MaSP
-GROUP BY HD.MaHD, HD.MaKH, HD.MaNV, HD.MaBan, HD.TrangThai
+GROUP BY HD.MaHD, HD.MaKH, HD.MaNV, HD.MaBan, HD.TrangThai, HD.ThoiGian
 
+-- TẠO VIEW TÍNH TIỀN TỪNG CHI TIẾT HÓA ĐƠN
 GO
 CREATE VIEW CTHDTien AS
 SELECT CT.MaHD, CT.MaSP, DonGia, SoLuong, SoLuong * DonGia AS THANHTIEN
 FROM CTHD AS CT, SANPHAM AS SP
 WHERE CT.MaSP = SP.MaSP
+
+-- TẠO VIEW THỐNG KÊ SỐ LƯỢNG
+GO 
+CREATE VIEW TKE AS
+SELECT COUNT(DISTINCT KH.MAKH) AS TONGKH, COUNT(DISTINCT NV.MANV) AS TONGNV, COUNT(DISTINCT BAN.MaBan) AS TONGBAN, COUNT(DISTINCT SP.MASP) AS TONGSP, COUNT(DISTINCT HD.MAHD) AS TONGHD
+FROM KhachHang AS KH, NhanVien AS NV, Ban, SanPham AS SP, HoaDon AS HD
+
+-- TẠO VIEW THỐNG KÊ SỐ HÓA ĐƠN TỪNG KHÁCH HÀNG
+GO 
+CREATE VIEW TKEKH_HD AS
+SELECT KH.MAKH, COUNT(HD.MAHD) AS SOHD, SUM(TONGTIEN) AS TONG
+FROM KhachHang AS KH, HDTong AS HD
+WHERE KH.MaKH = HD.MaKH
+GROUP BY KH.MaKH
+
+-- TẠO VIEW THỐNG KÊ DOANH THU TỪNG SẢN PHẨM
+GO
+CREATE VIEW TKESP_HD AS
+SELECT SP.MASP, DONGIA, SUM(SOLUONG) AS SOSP, SUM(DonGia*SoLuong) AS DOANHTHU
+FROM SanPham AS SP, CTHD AS CT
+WHERE SP.MaSP = CT.MaSP
+GROUP BY SP.MaSP, DONGIA

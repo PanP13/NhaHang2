@@ -4,8 +4,6 @@
  */
 package GUI;
 
-import BUS.LichSu_BUS;
-import DTO.LichSu;
 import DTO.TaiKhoan;
 import javax.swing.JPanel;
 
@@ -16,7 +14,6 @@ import javax.swing.JPanel;
 public class Home extends javax.swing.JFrame {
 
     TaiKhoan user;
-    LichSu_BUS busLS = new LichSu_BUS();
 
     public Home() {
         initComponents();
@@ -33,12 +30,7 @@ public class Home extends javax.swing.JFrame {
             pnlMenuBTN.remove(btnSP);
         }
         this.user = user;
-        LichSu ls = new LichSu();
-        ls.setTaiKhoan(user.getMaTK());
-        ls.setHanhDong(0);
-        ls.setChiTiet("Main");
-        ls.setThoiGian(new java.util.Date());
-        //busLS.addLS(ls);
+        txtUser.setText(user.getMaTK());
     }
 
     private void Reset() {
