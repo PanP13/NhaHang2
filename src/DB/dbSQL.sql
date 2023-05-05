@@ -93,12 +93,12 @@ create table CTHD (
 
 /* Quy ước : 0 - Login, 1 - Logout, 2 - Add, 3 - Update, 4 - Delete*/
 
-create table LishSu (
+create table LichSu (
 	ID int IDENTITY (1,1) PRIMARY KEY,
-	Account char(5) NOT NULL,
-	Activity int NOT NULL, 
-	Model nvarchar(50) NOT NULL,
-	Info nvarchar(300)
+	TaiKhoan char(5) NOT NULL,
+	HanhDong int NOT NULL, 
+	ChiTiet nvarchar(300),
+	ThoiGian datetime default(CURRENT_TIMESTAMP)
 );
 
 Insert into KhachHang values 
@@ -227,6 +227,9 @@ Insert into TaiKhoan (TenDN, MatKhau, MaLTK, MaTK) values
 ('user02', '789', 2, 'KH002'),
 ('user03', '789', 2, 'KH003');
 
+Insert into LichSu(TaiKhoan, HanhDong, ChiTiet) values
+('NV001', 0, 'DangNhap'),
+('NV001', 1, 'DangXuat');
 GO
 CREATE VIEW HDTong AS
 SELECT HD.MaHD, HD.MaKH, HD.MaNV, HD.MaBan, HD.TrangThai, SUM(DonGia * SoLuong) AS TONGTIEN

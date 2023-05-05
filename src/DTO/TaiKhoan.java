@@ -45,9 +45,9 @@ public class TaiKhoan {
     public void setMaTK(String maTK) {
         this.maTK = maTK;
     }
-    
-    public String write(){
-        String s = String.format("(%s, %s, %s, %d, %s)", getIdTK(), getUsername(), getPassword(), getLoaiTK(), getMaTK());
-        return s;
+
+    @Override
+    public String toString() {
+        return "TaiKhoan{" + "idTK=" + idTK + ", username=" + username + ", password=" + password + ", loaiTK=" + loaiTK + ", maTK=" + maTK + '}';
     }
 }
