@@ -67,7 +67,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
         setDOrder();
 
         //Lấy dữ liệu table
-        setDataProduct(busSP.getAllSP());
+        setDataProduct(busSP.getSP());
 
         //Cấu hình các comboBox
         setCBX();
@@ -101,10 +101,11 @@ public class DatHang_GUI extends javax.swing.JFrame {
     }
 
     //Hàm lấy dữ liệu cho table
-    private void setDataProduct(List<SanPham> sps) {
+    private void setDataProduct(List<String> sps) {
         dProduct.setRowCount(0);
-        for (SanPham i : sps) {
-            dProduct.addRow(new Object[]{i.getMaSP(), i.getTenSP()});
+        for (String i : sps) {
+            String data[] = i.split(",");
+            dProduct.addRow(new Object[]{data[0], data[1]});
         }
     }
 
@@ -652,7 +653,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
     private void cbxSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSortActionPerformed
         String sort = String.valueOf(cbxSort.getSelectedIndex());
         if (sort.equals("0")) {
-            setDataProduct(busSP.getAllSP());
+            setDataProduct(busSP.getSP());
         } else {
             setDataProduct(busSP.searchSP(sort, 3));
         }

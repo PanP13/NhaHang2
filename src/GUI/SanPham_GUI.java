@@ -21,7 +21,7 @@ public class SanPham_GUI extends javax.swing.JPanel {
         busLSP = new LoaiSP_BUS();
 
         setTable();
-        setTableData(busSP.getAllSP());
+        setTableData(busSP.getSP());
 
         setCBX();
     }
@@ -43,10 +43,11 @@ public class SanPham_GUI extends javax.swing.JPanel {
     }
 
     //Hàm lấy dữ liệu table
-    private void setTableData(List<SanPham> sps) {
+    private void setTableData(List<String> sps){
         dt.setRowCount(0);
-        for (SanPham i : sps) {
-            dt.addRow(new Object[]{i.getMaSP(), i.getTenSP(), i.getDonGia(), busLSP.getLSPbyID(i.getMaLSP()).getTenLSP()});
+        for (String i : sps){
+            String data[] = i.split(",");
+            dt.addRow(data);
         }
     }
 
@@ -78,7 +79,7 @@ public class SanPham_GUI extends javax.swing.JPanel {
         cbxType.setSelectedIndex(0);
         txtID.setEditable(true);
 
-        setTableData(busSP.getAllSP());
+        setTableData(busSP.getSP());
     }
 
     //Hàm check lỗi
@@ -394,7 +395,7 @@ public class SanPham_GUI extends javax.swing.JPanel {
         int sort = cbxSort.getSelectedIndex();
 
         if (sort == 0) {
-            setTableData(busSP.getAllSP());
+            setTableData(busSP.getSP());
         } else {
             setTableData(busSP.searchSP(String.valueOf(sort), 3));
         }
@@ -465,8 +466,8 @@ public class SanPham_GUI extends javax.swing.JPanel {
             if (txtSearch.getText().trim().isEmpty()) {
                 throw new Exception("Dữ liệu nhập trống");
             }
-            int search = cbxSearch.getSelectedIndex();
-            setTableData(busSP.searchSP(txtSearch.getText().trim(), search));
+            int t = cbxSearch.getSelectedIndex();
+            setTableData(busSP.searchSP(txtSearch.getText().trim(), t));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }

@@ -222,7 +222,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         pnlShowLayout.setHorizontalGroup(
             pnlShowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlShowLayout.createSequentialGroup()
-                .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
+                .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlSide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );

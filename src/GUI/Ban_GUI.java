@@ -22,7 +22,7 @@ public class Ban_GUI extends javax.swing.JPanel {
 
         //Bảng
         setTable();
-        setTableData(busB.getAllBan());
+        setTableData2(busB.getBan());
 
         //ComboBox
         setCBX();
@@ -50,6 +50,14 @@ public class Ban_GUI extends javax.swing.JPanel {
         for (Ban i : bs) {
             String status = i.getTrangThai() == 0 ? "Trống" : "Bận";
             dt.addRow(new Object[]{i.getMaBan(), i.getTenBan(), status, busLB.getBanbyID(i.getMaLB()).getSoGhe()});
+        }
+    }
+    
+    private void setTableData2(List<String> bs){
+        dt.setRowCount(0);
+        for(String i : bs){
+            String data[] = i.split(",");
+            dt.addRow(data);
         }
     }
 
