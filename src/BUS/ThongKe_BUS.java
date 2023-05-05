@@ -17,4 +17,8 @@ public class ThongKe_BUS {
     public List<String> getTKHDbyKH(){
         return daoTKE.getTKHDbyKH();
     }
+    
+    public List<String> getTKHDbySP(){
+        return daoTKE.getTKHDbySP();
+    }
 }

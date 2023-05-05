@@ -52,4 +52,27 @@ public class ThongKe_DAO {
         }
         return khs;
     }
+    
+    public List<String> getTKHDbySP(){
+        List<String> sps = new ArrayList<>();
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "SELECT * FROM TKESP_HD";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String sp = String.format("%s,%d,%d,%d",
+                        rs.getString("MaSP"),
+                        rs.getInt("DonGia"),
+                        rs.getInt("SoSP"),
+                        rs.getInt("DoanhThu"));
+                sps.add(sp);
+            }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sps;
+    }
 }
