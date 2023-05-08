@@ -127,13 +127,13 @@ Insert into LoaiBan values
 (3, 16);
 
 Insert into Ban(MaBan, TenBan, MaLB) values 
-('BN001', 'Ban A1', 0),
-('BN002', 'Ban A2', 0),
-('BN003', 'Ban A3', 0),
-('BN004', 'Ban B1', 1),
-('BN005', 'Ban B2', 1),
-('BN006', 'Ban C1', 2),
-('BN007', 'Ban D1', 3);
+('BN001', 'A1', 0),
+('BN002', 'A2', 0),
+('BN003', 'A3', 0),
+('BN004', 'B1', 1),
+('BN005', 'B2', 1),
+('BN006', 'C1', 2),
+('BN007', 'D1', 3);
 
 Insert into LoaiSP values
 (1, N'Khai vị'),
@@ -222,17 +222,13 @@ Insert into CTHD values
 
 Insert into LoaiTK values
 (0,'Admin'),
-(1,'Staff'),
-(2,'Customer');
+(1,'Staff');
 
 Insert into TaiKhoan (TenDN, MatKhau, MaLTK, MaTK) values
 ('admin', '123', 0, 'NV001'),
 ('staff01', '456', 1, 'NV002'),
 ('staff02', '456', 1, 'NV003'),
-('staff03', '456', 1, 'NV004'),
-('user01', '789', 2, 'KH001'),
-('user02', '789', 2, 'KH002'),
-('user03', '789', 2, 'KH003');
+('staff03', '456', 1, 'NV004');
 
 -- TẠO VIEW TÍNH TỔNG TIỀN TỪNG HÓA ĐƠN
 GO
@@ -267,6 +263,13 @@ GROUP BY KH.MaKH
 GO
 CREATE VIEW TKESP_HD AS
 SELECT SP.MASP, DONGIA, SUM(SOLUONG) AS SOSP, SUM(DonGia*SoLuong) AS DOANHTHU
-FROM SanPham AS SP, CTHD AS CT
-WHERE SP.MaSP = CT.MaSP
+FROM SanPham AS SP, CTHD AS CT, HoaDon AS HD
+WHERE SP.MaSP = CT.MaSP AND HD.TrangThai=1 AND CT.MaHD=HD.MaHD
 GROUP BY SP.MaSP, DONGIA
+
+--SELECT SP.MASP, DONGIA, SUM(SOLUONG) AS SOSP, SUM(DonGia*SoLuong) AS DOANHTHU
+--FROM SanPham AS SP, CTHD AS CT
+--WHERE SP.MaSP = CT.MaSP
+--GROUP BY SP.MaSP, DONGIA
+
+--Comment và bỏ comment dòng lệnh ( Ctrl + K & Ctrl + C; Ctrl + K & Ctrl + U)
