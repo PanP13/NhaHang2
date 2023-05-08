@@ -7,21 +7,92 @@ import java.util.List;
 
 public class ThongKe_DAO {
 
-    public String getTK() {
+    public String getTongKH() {
         Connection conn = JDBCConnection.getJDBCConnection();
-        String sql = "SELECT * FROM TKE";
+        String sql = "SELECT COUNT(MaKH) AS TONGKH FROM KHACHHANG";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             String s = "";
             if (rs.next()) {
-                s = String.format("%d,%d,%d,%d,%d",
-                        rs.getInt("TONGKH"),
-                        rs.getInt("TONGNV"),
-                        rs.getInt("TONGBAN"),
-                        rs.getInt("TONGSP"),
-                        rs.getInt("TONGHD"));
+                s = String.valueOf(rs.getInt("TONGKH"));
+            }
+            conn.close();
+            return s;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public String getTongNV() {
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "SELECT COUNT(MaNV) AS TONGNV FROM NHANVIEN";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            String s = "";
+            if (rs.next()) {
+                s = String.valueOf(rs.getInt("TONGNV"));
+            }
+            conn.close();
+            return s;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public String getTongBan() {
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "SELECT COUNT(MaBan) AS TONGBAN FROM Ban";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            String s = "";
+            if (rs.next()) {
+                s = String.valueOf(rs.getInt("TONGBAN"));
+            }
+            conn.close();
+            return s;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public String getTongSP() {
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "SELECT COUNT(MaSP) AS TONGSP FROM SANPHAM";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            String s = "";
+            if (rs.next()) {
+                s = String.valueOf(rs.getInt("TONGSP"));
+            }
+            conn.close();
+            return s;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public String getTongHD() {
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "SELECT COUNT(MaHD) AS TONGHD FROM HOADON";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            String s = "";
+            if (rs.next()) {
+                s = String.valueOf(rs.getInt("TONGHD"));
             }
             conn.close();
             return s;

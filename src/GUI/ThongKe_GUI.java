@@ -4,18 +4,25 @@ import BUS.ThongKe_BUS;
 import javax.swing.table.DefaultTableModel;
 
 public class ThongKe_GUI extends javax.swing.JPanel {
+
     ThongKe_BUS busTKE;
     DefaultTableModel dt;
+
     public ThongKe_GUI() {
         initComponents();
         busTKE = new ThongKe_BUS();
-        setTKE();
+
+        lblKH.setText("Tổng KH: " + busTKE.getTongKH());
+        lblNV.setText("Tổng NV: " + busTKE.getTongNV());
+        lblBan.setText("Tổng bàn: " + busTKE.getTongBan());
+        lblSP.setText("Tổng SP: " + busTKE.getTongSP());
+        lblHD.setText("Tổng HD: " + busTKE.getTongHD());
         setTable();
     }
-    
+
     //Hàm chỉnh bảng
-    private void setTable(){
-        dt = new DefaultTableModel(){
+    private void setTable() {
+        dt = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -23,16 +30,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         };
         Table.setModel(dt);
     }
-    
-    //Hàm lấy dữ liệu thống kê
-    private void setTKE(){
-        String tke[] = busTKE.getTK().split(",");
-        lblKH.setText("Tổng KH: "+tke[0]);
-        lblNV.setText("Tổng NV: "+tke[1]);
-        lblBan.setText("Tổng bàn: "+tke[2]);
-        lblSP.setText("Tổng SP: "+tke[3]);
-        lblHD.setText("Tổng HD: "+tke[4]);
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,7 +83,6 @@ public class ThongKe_GUI extends javax.swing.JPanel {
 
         lblKH.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblKH.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblKH.setText("Tổng KH : ");
         pnlKH.add(lblKH, java.awt.BorderLayout.CENTER);
 
         pnlTitle.add(pnlKH);
@@ -100,7 +97,6 @@ public class ThongKe_GUI extends javax.swing.JPanel {
 
         lblNV.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblNV.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNV.setText("Tổng NV : ");
         pnlNV.add(lblNV, java.awt.BorderLayout.CENTER);
 
         pnlTitle.add(pnlNV);
@@ -115,7 +111,6 @@ public class ThongKe_GUI extends javax.swing.JPanel {
 
         lblBan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblBan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblBan.setText("Tổng bàn : ");
         pnlBan.add(lblBan, java.awt.BorderLayout.CENTER);
 
         pnlTitle.add(pnlBan);
@@ -130,7 +125,6 @@ public class ThongKe_GUI extends javax.swing.JPanel {
 
         lblSP.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblSP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSP.setText("Tổng SP : ");
         pnlSP.add(lblSP, java.awt.BorderLayout.CENTER);
 
         pnlTitle.add(pnlSP);
@@ -145,7 +139,6 @@ public class ThongKe_GUI extends javax.swing.JPanel {
 
         lblHD.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblHD.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblHD.setText("Tổng HĐ : ");
         pnlHD.add(lblHD, java.awt.BorderLayout.CENTER);
 
         pnlTitle.add(pnlHD);
@@ -233,7 +226,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         );
         pnlShowLayout.setVerticalGroup(
             pnlShowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+            .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
             .addComponent(pnlSide, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -243,29 +236,29 @@ public class ThongKe_GUI extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         dt.setColumnCount(0);
         dt.setRowCount(0);
-        
+
         dt.addColumn("Mã khách hàng");
         dt.addColumn("Tổng số hóa đơn");
         dt.addColumn("Tổng giá trị hóa đơn");
-        
-        for(String i : busTKE.getTKHDbyKH()){
+
+        for (String i : busTKE.getTKHDbyKH()) {
             String data[] = i.split(",");
-            dt.addRow(new Object[]{data[0], data[1], data[2]});
+            dt.addRow(data);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         dt.setColumnCount(0);
         dt.setRowCount(0);
-        
+
         String header[] = {"Mã sản phẩm", "Đơn giá", "Số sản phẩm đã bán", "Doanh thu"};
-        for(String i : header){
+        for (String i : header) {
             dt.addColumn(i);
         }
-        
-        for(String i : busTKE.getTKHDbySP()){
+
+        for (String i : busTKE.getTKHDbySP()) {
             String data[] = i.split(",");
-            dt.addRow(new Object[]{data[0], data[1], data[2], data[3]});
+            dt.addRow(data);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
