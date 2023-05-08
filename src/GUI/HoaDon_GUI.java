@@ -280,7 +280,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
-        f = CTHDManager.getFrame1();
+        f = CTHDManager.getFrame1(user);
         if (f.isShowing()) {
             f.toFront();
         } else {

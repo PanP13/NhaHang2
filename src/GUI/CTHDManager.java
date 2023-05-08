@@ -8,11 +8,11 @@ public class CTHDManager {
     static JFrame frame1;
     static JFrame frame2;
 
-    public static JFrame getFrame1()
+    public static JFrame getFrame1(TaiKhoan user)
     {
         if(frame1 != null)
             frame1.dispose();
-        frame1 = new DatHang_GUI();
+        frame1 = new DatHang_GUI(user);
         return frame1;
     }
 

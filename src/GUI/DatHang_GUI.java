@@ -26,6 +26,18 @@ public class DatHang_GUI extends javax.swing.JFrame {
         initComponents();
         setPanel();
     }
+    
+    public DatHang_GUI(TaiKhoan user) {
+        initComponents();
+        setPanel();
+        this.user = user;
+
+        //Chỉnh thông tin nhân viên
+        if (user.getLoaiTK() == 1) {
+            cbxNV.setSelectedItem(user.getMaTK());
+            cbxNV.setEnabled(false);
+        }
+    }
 
     public DatHang_GUI(TaiKhoan user, HoaDon hd) {
         initComponents();
