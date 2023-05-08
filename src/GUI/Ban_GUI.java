@@ -22,7 +22,7 @@ public class Ban_GUI extends javax.swing.JPanel {
 
         //Bảng
         setTable();
-        setTableData2(busB.getBan());
+        setTableData(busB.getBan());
 
         //ComboBox
         setCBX();
@@ -44,16 +44,8 @@ public class Ban_GUI extends javax.swing.JPanel {
         }
     }
 
-    //Hàm lấy dữ liệu bảng
-    private void setTableData(List<Ban> bs) {
-        dt.setRowCount(0);
-        for (Ban i : bs) {
-            String status = i.getTrangThai() == 0 ? "Trống" : "Bận";
-            dt.addRow(new Object[]{i.getMaBan(), i.getTenBan(), status, busLB.getBanbyID(i.getMaLB()).getSoGhe()});
-        }
-    }
-    
-    private void setTableData2(List<String> bs){
+    //Hàm lấy dữ liệu bảng    
+    private void setTableData(List<String> bs){
         dt.setRowCount(0);
         for(String i : bs){
             String data[] = i.split(",");
@@ -112,7 +104,7 @@ public class Ban_GUI extends javax.swing.JPanel {
         cbxSort2.setSelectedIndex(0);
         cbxSearch.setSelectedIndex(0);
         txtSearch.setText("");
-        setTableData(busB.getAllBan());
+        setTableData(busB.getBan());
     }
 
     //Hàm tạo bàn
@@ -468,9 +460,9 @@ public class Ban_GUI extends javax.swing.JPanel {
     private void cbxSort1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSort1ActionPerformed
         int sort = cbxSort1.getSelectedIndex();
         if (sort == 0) {
-            setTableData(busB.getAllBan());
+            setTableData(busB.getBan());
         } else {
-            setTableData(busB.searchBan(String.valueOf(sort), 2));
+            setTableData(busB.searchBan(String.valueOf(sort-1), 2));
         }
     }//GEN-LAST:event_cbxSort1ActionPerformed
 
@@ -534,9 +526,9 @@ public class Ban_GUI extends javax.swing.JPanel {
     private void cbxSort2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSort2ActionPerformed
         int sort = cbxSort2.getSelectedIndex();
         if (sort == 0) {
-            setTableData(busB.getAllBan());
+            setTableData(busB.getBan());
         } else {
-            setTableData(busB.searchBan(String.valueOf(sort), 3));
+            setTableData(busB.searchBan(String.valueOf(sort-1), 3));
         }
     }//GEN-LAST:event_cbxSort2ActionPerformed
 
