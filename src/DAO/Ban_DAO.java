@@ -109,8 +109,8 @@ public class Ban_DAO {
         }
     }
 
-    public List<Ban> searchBan(String s, int t) {
-        List<Ban> bs = new ArrayList<>();
+    public List<String> searchBan(String s, int t) {
+        List<String> bs = new ArrayList<>();
 
         Connection conn = JDBCConnection.getJDBCConnection();
         String sql = "";
@@ -137,11 +137,9 @@ public class Ban_DAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Ban b = new Ban();
-                b.setMaBan(rs.getString("MaBan"));
-                b.setTenBan(rs.getString("TenBan"));
-                b.setMaLB(rs.getInt("MaLB"));
-                b.setTrangThai(rs.getInt("TrangThai"));
+                String trangThai = rs.getInt("TrangThai") == 0 ? "Trống" : "Bận",
+                        loaiBan = rs.getInt("MaLB") == 0 ? "2" : rs.getInt("MaLB") == 1 ? "4" : rs.getInt("MaLB") == 2 ? "8" : "16";
+                String b = String.format("%s,%s,%s,%s", rs.getString("MaBan"), rs.getString("TenBan"), trangThai, loaiBan);
 
                 bs.add(b);
             }
@@ -171,12 +169,12 @@ public class Ban_DAO {
         }
         return false;
     }
-    
-    public List<String> getBan(){
+
+    public List<String> getBan() {
         List<String> bs = new ArrayList<>();
-        for(Ban i : getAllBan()){
-            String trangThai = i.getTrangThai()==0? "Trống" : "Bận",
-                    loaiBan = i.getMaLB()==0? "2" : i.getMaLB()==1? "4" : i.getMaLB()==2? "8" : "16";
+        for (Ban i : getAllBan()) {
+            String trangThai = i.getTrangThai() == 0 ? "Trống" : "Bận",
+                    loaiBan = i.getMaLB() == 0 ? "2" : i.getMaLB() == 1 ? "4" : i.getMaLB() == 2 ? "8" : "16";
             String b = String.format("%s,%s,%s,%s", i.getMaBan(), i.getTenBan(), trangThai, loaiBan);
             bs.add(b);
         }

@@ -31,7 +31,7 @@ public class Ban_BUS {
         daoB.deleteBan(id);
     }
     
-    public List<Ban> searchBan(String s, int t){
+    public List<String> searchBan(String s, int t){
         return daoB.searchBan(s, t);
     }
     
