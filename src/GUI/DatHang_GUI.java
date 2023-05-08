@@ -20,6 +20,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
     SanPham_BUS busSP;
     LoaiSP_BUS busLSP;
     TaiKhoan user;
+    HoaDon hd;
 
     public DatHang_GUI() {
         initComponents();
@@ -30,6 +31,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
         initComponents();
         setPanel();
         this.user = user;
+        this.hd = hd;
 
         //Lấy dữ liệu bảng chi tiết
         setDataOrder(busCTHD.getCTHDbyID(hd.getMaHD()));
@@ -38,7 +40,7 @@ public class DatHang_GUI extends javax.swing.JFrame {
         //Lấy thông tin hóa đơn
         txtHD.setText(hd.getMaHD());
         cbxKH.setSelectedItem(hd.getMaKH());
-        cbxBan.setSelectedItem(hd.getMaBan());
+        
         cbxStatus.setSelectedIndex(hd.getTrangThai());
         dcTime.setDate(hd.getThoiGian());
 
@@ -47,6 +49,11 @@ public class DatHang_GUI extends javax.swing.JFrame {
             cbxNV.setSelectedItem(user.getMaTK());
             cbxNV.setEnabled(false);
         }
+        
+        //Chỉnh thông tin bàn
+        cbxBan.addItem(hd.getMaBan());
+        cbxBan.setSelectedItem(hd.getMaBan());
+        cbxBan.setEnabled(false);
 
         //Cấu hỉnh
         txtHD.setEditable(false);
@@ -145,7 +152,9 @@ public class DatHang_GUI extends javax.swing.JFrame {
         //comboBox bàn
         cbxBan.removeAllItems();
         for (Ban i : busBan.getAllBan()) {
-            cbxBan.addItem(i.getMaBan());
+            if (i.getTrangThai() == 0) {
+                cbxBan.addItem(i.getMaBan());
+            }
         }
 
         //comboBox trạng thái
@@ -797,8 +806,8 @@ public class DatHang_GUI extends javax.swing.JFrame {
 
     private void btnCONFIRMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCONFIRMActionPerformed
         try {
-            checkReceipt();            
-            
+            checkReceipt();
+
             //Hàm tự động điền mã hóa đơn
             String maHD = txtHD.getText().trim();
             if (maHD.isEmpty()) {
@@ -810,30 +819,41 @@ public class DatHang_GUI extends javax.swing.JFrame {
                 } while (busHD.getHDbyID(maHD) != null);
             }
 
-            HoaDon hd = new HoaDon();
-            hd.setMaHD(maHD);
-            hd.setMaKH(String.valueOf(cbxKH.getSelectedItem()));
-            hd.setMaNV(String.valueOf(cbxNV.getSelectedItem()));
-            hd.setMaBan(String.valueOf(cbxBan.getSelectedItem()));
-            hd.setTrangThai(cbxStatus.getSelectedIndex());
-            hd.setThoiGian(dcTime.getDate());
-            
+            HoaDon temp = new HoaDon();
+            temp.setMaHD(maHD);
+            temp.setMaKH(String.valueOf(cbxKH.getSelectedItem()));
+            temp.setMaNV(String.valueOf(cbxNV.getSelectedItem()));
+            temp.setMaBan(String.valueOf(cbxBan.getSelectedItem()));
+            temp.setTrangThai(cbxStatus.getSelectedIndex());
+            temp.setThoiGian(dcTime.getDate());
+
             List<CTHD> cts = new ArrayList<>();
             for (int i = 0; i < dOrder.getRowCount(); i++) {
                 CTHD ct = new CTHD();
-                ct.setMaHD(hd.getMaHD());
+                ct.setMaHD(temp.getMaHD());
                 ct.setMaSP(String.valueOf(dOrder.getValueAt(i, 0)));
                 ct.setSoLuong(Integer.parseInt(String.valueOf(dOrder.getValueAt(i, 3))));
                 cts.add(ct);
             }
+            //Thực hiện chức năng hóa đơn
             if (txtHD.isEditable()) {
-                busHD.addHD(hd);
+                busHD.addHD(temp);
                 busCTHD.addCTHD(cts);
                 JOptionPane.showMessageDialog(this, "Thêm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                busHD.updateHD(hd);
+                busHD.updateHD(temp);
                 busCTHD.updateCTHD(cts);
                 JOptionPane.showMessageDialog(this, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+            //Thực hiện ràng buộc bàn
+            if (temp.getTrangThai()==0){
+                Ban b = busBan.getBanbyID(temp.getMaBan());
+                b.setTrangThai(1);
+                busBan.updateBan(b);
+            } else {
+                Ban b = busBan.getBanbyID(temp.getMaBan());
+                b.setTrangThai(0);
+                busBan.updateBan(b);
             }
             this.dispose();
         } catch (Exception e) {

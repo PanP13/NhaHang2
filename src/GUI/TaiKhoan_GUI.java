@@ -74,7 +74,7 @@ public class TaiKhoan_GUI extends javax.swing.JPanel {
     private void setTableData(List<TaiKhoan> tks) {
         dt.setRowCount(0);
         for (TaiKhoan i : tks) {
-            String loaiTK = i.getLoaiTK() == 0 ? "Quản lý" : i.getLoaiTK()==1? "Nhân viên" : "Khách hàng";
+            String loaiTK = i.getLoaiTK() == 0 ? "Quản lý" : i.getLoaiTK() == 1 ? "Nhân viên" : "Khách hàng";
             dt.addRow(new Object[]{i.getUsername(), i.getPassword(), loaiTK, i.getMaTK()});
         }
     }
@@ -119,7 +119,8 @@ public class TaiKhoan_GUI extends javax.swing.JPanel {
                 }
             }
 
-            String password = getStringPassword(txtPassword.getPassword()), confirm = getStringPassword(txtConfirm.getPassword());
+            String password = getStringPassword(txtPassword.getPassword()), 
+                    confirm = getStringPassword(txtConfirm.getPassword());
             if (!password.equals(confirm)) {
                 throw new Exception("Mật khẩu không đúng");
             }
@@ -438,21 +439,25 @@ public class TaiKhoan_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUPDATEActionPerformed
 
     private void btnDELETEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDELETEActionPerformed
-        int row = Table.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        } else {
+        try {
+            int row = Table.getSelectedRow();
+            if (row == -1) {
+                throw new Exception("Vui lòng chọn tài khoản cần xóa");
+            }
+
             int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn xóa?");
 
             if (confirm == JOptionPane.YES_OPTION) {
                 if (tk.getMaTK().equals(String.valueOf(dt.getValueAt(row, 3)))) {
-                    JOptionPane.showMessageDialog(this, "Không thể xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    busTK.deleteTK(String.valueOf(dt.getValueAt(row, 3)));
-                    JOptionPane.showMessageDialog(this, "Xóa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    setTableData2(busTK.getAllTK());
+                    throw new Exception("Không thể xóa");
                 }
+
+                busTK.deleteTK(String.valueOf(dt.getValueAt(row, 3)));
+                JOptionPane.showMessageDialog(this, "Xóa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                setTableData2(busTK.getAllTK());
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnDELETEActionPerformed
 

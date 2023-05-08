@@ -119,7 +119,7 @@ public class SanPham_DAO {
         String sql = "SELECT * FROM SANPHAM";
         switch (t) {
             case 0 -> sql = "SELECT * FROM SANPHAM WHERE MASP LIKE '%" + s + "%'";
-            case 1 -> sql = "SELECT * FROM SANPHAM WHERE TENSP LIKE '%" + s + "%'";
+            case 1 -> sql = "SELECT * FROM SANPHAM WHERE TENSP LIKE N'%" + s + "%'";
             case 2 -> sql = "SELECT * FROM SANPHAM WHERE DONGIA=" + s;
             case 3 -> sql = "SELECT * FROM SANPHAM WHERE MALSP LIKE '%" + s + "%'";
             default -> {}

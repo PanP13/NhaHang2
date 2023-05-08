@@ -82,7 +82,6 @@ public class NhanVien_DAO {
             ps.setString(6, nv.getDiaChi());
 
             int rs = ps.executeUpdate();
-            System.out.println(rs);
 
             conn.close();
         } catch (SQLException e) {
@@ -104,8 +103,6 @@ public class NhanVien_DAO {
             ps.setString(6, nv.getMaNV());
 
             int rs = ps.executeUpdate();
-            System.out.println(rs);
-
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,7 +117,6 @@ public class NhanVien_DAO {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, id);
             int rs = ps.executeUpdate();
-            System.out.println(rs);
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -137,7 +133,7 @@ public class NhanVien_DAO {
                 sql = "SELECT * FROM NHANVIEN WHERE MANV LIKE '%" + s + "%'";
                 break;
             case 1:
-                sql = "SELECT * FROM NHANVIEN WHERE HOTEN LIKE '%" + s + "%'";
+                sql = "SELECT * FROM NHANVIEN WHERE HOTEN LIKE N'%" + s + "%'";
                 break;
             case 2:
                 sql = "SELECT * FROM NHANVIEN WHERE GIOITINH=" + s;
@@ -198,5 +194,25 @@ public class NhanVien_DAO {
         }
         
         return false;
+    }
+    
+    public void delTK(String id) {
+        Connection conn = JDBCConnection.getJDBCConnection();
+        String sql = "SELECT * FROM TAIKHOAN WHERE MATK=?",
+                del = "DELETE FROM TaiKhoan WHERE MaTK=?";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                ps = conn.prepareStatement(del);
+                ps.setString(1, id);
+                ps.executeUpdate();
+            }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

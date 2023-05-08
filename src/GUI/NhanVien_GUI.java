@@ -1,6 +1,6 @@
 package GUI;
 
-import BUS.NhanVien_BUS;
+import BUS.NhanVien_BUS;;
 import DTO.NhanVien;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -492,6 +492,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
                 if (busNV.getHD(id)) {
                     throw new Exception("Không thể xóa");
                 }
+                busNV.delTK(id);
                 busNV.deleteNV(id);
                 JOptionPane.showMessageDialog(this, "Xóa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 Reset();

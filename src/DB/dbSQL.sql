@@ -38,6 +38,7 @@ create table TaiKhoan(
 	MatKhau varchar(50) NOT NULL,
 	MaLTK tinyint CHECK (MaLTK<3) NOT NULL,
 	MaTK char(5) NOT NULL,
+	CONSTRAINT FK_MaTK_ACC FOREIGN KEY (MaTK) REFERENCES NhanVien(MaNV),
 	CONSTRAINT FK_MaLTK_ACC FOREIGN KEY (MaLTK) REFERENCES LoaiTK(MaLTK)
 );
 
@@ -126,14 +127,14 @@ Insert into LoaiBan values
 (2, 8),
 (3, 16);
 
-Insert into Ban(MaBan, TenBan, MaLB) values 
-('BN001', 'A1', 0),
-('BN002', 'A2', 0),
-('BN003', 'A3', 0),
-('BN004', 'B1', 1),
-('BN005', 'B2', 1),
-('BN006', 'C1', 2),
-('BN007', 'D1', 3);
+Insert into Ban values 
+('BN001', 'A1', 0, 1),
+('BN002', 'A2', 0, 1),
+('BN003', 'A3', 0, 0),
+('BN004', 'B1', 1, 0),
+('BN005', 'B2', 1, 0),
+('BN006', 'C1', 2, 0),
+('BN007', 'D1', 3, 0);
 
 Insert into LoaiSP values
 (1, N'Khai vị'),

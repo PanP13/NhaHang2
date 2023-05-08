@@ -2,7 +2,9 @@ package GUI;
 
 import BUS.CTHD_BUS;
 import BUS.HoaDon_BUS;
+import BUS.Ban_BUS;
 import DTO.HoaDon;
+import DTO.Ban;
 import DTO.TaiKhoan;
 import java.util.List;
 import javax.swing.JFrame;
@@ -338,7 +340,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
             if (busHD.searchHD(s, t).isEmpty()) {
                 throw new Exception("Không tìm thấy hóa đơn");
             }
-            //setTableData(busHD.searchHD(s, t));
+            setTableData(busHD.searchHD(s, t));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
@@ -357,10 +359,16 @@ public class HoaDon_GUI extends javax.swing.JPanel {
             int confirm = JOptionPane.showConfirmDialog(this, "Xác nhận thanh toán?");
 
             if (confirm == JOptionPane.YES_OPTION) {
+                //Chỉnh hóa đơn
                 HoaDon hd = busHD.getHDbyID(id);
                 hd.setTrangThai(1);
                 busHD.updateHD(hd);
                 setTableData(busHD.getView());
+                //Chỉnh bàn
+                Ban_BUS busB = new Ban_BUS();
+                Ban b = busB.getBanbyID(hd.getMaBan());
+                b.setTrangThai(0);
+                busB.updateBan(b);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);

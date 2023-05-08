@@ -38,4 +38,8 @@ public class NhanVien_BUS {
     public boolean getHD(String maNV){
         return daoNV.getHD(maNV);
     }
+    
+    public void delTK(String maNV){
+        daoNV.delTK(maNV);
+    }
 }

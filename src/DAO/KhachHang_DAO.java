@@ -142,7 +142,7 @@ public class KhachHang_DAO {
         String sql="SELECT * FROM KHACHHANG";
         switch(t){
             case 0: sql = "SELECT * FROM KHACHHANG WHERE MAKH LIKE '%"+s+"%'"; break;
-            case 1: sql = "SELECT * FROM KHACHHANG WHERE HOTEN LIKE '%"+s+"%'"; break;
+            case 1: sql = "SELECT * FROM KHACHHANG WHERE HOTEN LIKE N'%"+s+"%'"; break;
             case 2: sql = "SELECT * FROM KHACHHANG WHERE GIOITINH="+s; break;
             case 3: sql = "SELECT * FROM KHACHHANG WHERE PHONE LIKE '%"+s+"%'"; break;
             case 4: sql = "SELECT * FROM KHACHHANG WHERE EMAIL LIKE '%"+s+"%'"; break;

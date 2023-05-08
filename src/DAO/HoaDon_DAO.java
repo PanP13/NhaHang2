@@ -125,17 +125,17 @@ public class HoaDon_DAO {
         }
     }
     
-    public List<HoaDon> searchHD(String s, int t){
-        List<HoaDon> hds = new ArrayList<>();
+    public List<String> searchHD(String s, int t){
+        List<String> hds = new ArrayList<>();
         Connection conn = JDBCConnection.getJDBCConnection();
         String sql = "";
         
         switch(t){
-            case 0: sql="SELECT * FROM HOADON WHERE MAHD LIKE '%" + s +"%'"; break;
-            case 1: sql="SELECT * FROM HOADON WHERE MAKH LIKE '%" + s +"%'"; break;
-            case 2: sql="SELECT * FROM HOADON WHERE MANV LIKE '%" + s +"%'"; break;
-            case 3: sql="SELECT * FROM HOADON WHERE MABAN LIKE '%" + s +"%'"; break;
-            case 4: sql="SELECT * FROM HOADON WHERE TRANGTHAI=?"; break;
+            case 0: sql="SELECT * FROM HDTong WHERE MAHD LIKE '%" + s +"%'"; break;
+            case 1: sql="SELECT * FROM HDTong WHERE MAKH LIKE '%" + s +"%'"; break;
+            case 2: sql="SELECT * FROM HDTong WHERE MANV LIKE '%" + s +"%'"; break;
+            case 3: sql="SELECT * FROM HDTong WHERE MABAN LIKE '%" + s +"%'"; break;
+            //case 4: sql="SELECT * FROM HDTong WHERE TRANGTHAI=?"; break;
             default: break;
         }
         
@@ -146,13 +146,15 @@ public class HoaDon_DAO {
             ResultSet rs = ps.executeQuery();
             
             while(rs.next()){
-                HoaDon hd = new HoaDon();
-                hd.setMaHD(rs.getString("MaHD"));
-                hd.setMaKH(rs.getString("MaKH"));
-                hd.setMaNV(rs.getString("MaNV"));
-                hd.setMaBan(rs.getString("MaBan"));
-                hd.setTrangThai(rs.getInt("TrangThai"));
-                hd.setThoiGian(rs.getDate("ThoiGian"));
+                SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
+                String date = fmt.format(rs.getDate("ThoiGian"));
+                String hd = String.format("%s,%s,%s,%s,%d,%s,%d",
+                        rs.getString("MaHD"), 
+                        rs.getString("MaKH"),
+                        rs.getString("MaNV"),
+                        rs.getString("MaBan"),
+                        rs.getInt("TrangThai"),
+                        date,rs.getInt("TongTien"));
                 
                 hds.add(hd);
             }
