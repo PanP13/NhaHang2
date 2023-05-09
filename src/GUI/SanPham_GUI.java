@@ -91,8 +91,6 @@ public class SanPham_GUI extends javax.swing.JPanel {
         } else if (!txtID.getText().trim().matches("^SP\\d{3}$")
                 && !txtID.getText().trim().isEmpty()) {
             throw new Exception("Mã sản phẩm không đúng định dạng");
-        } else if (!txtName.getText().trim().matches("\\D{5,}")) {
-            throw new Exception("Tên sản phẩm phải có hơn 5 ký tự");
         } else if (!txtPrice.getText().trim().matches("\\d{5,}")) {
             throw new Exception("Đơn giá phải là số");
         }

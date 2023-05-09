@@ -19,6 +19,7 @@ public class Home extends javax.swing.JFrame {
             pnlMenuBTN.remove(btnTK);
             pnlMenuBTN.remove(btnBan);
             pnlMenuBTN.remove(btnSP);
+            pnlMenuBTN.remove(btnTKE);
         }
         this.user = user;
         txtUser.setText(user.getMaTK());

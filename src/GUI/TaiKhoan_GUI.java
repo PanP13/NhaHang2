@@ -117,7 +117,7 @@ public class TaiKhoan_GUI extends javax.swing.JPanel {
                 if (i.getUsername().equals(username)) {
                     throw new Exception("Tên đăng nhập bị trùng");
                 }
-            }
+            } 
 
             String password = getStringPassword(txtPassword.getPassword()), 
                     confirm = getStringPassword(txtConfirm.getPassword());
