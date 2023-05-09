@@ -237,7 +237,9 @@ CREATE VIEW HDTong AS
 SELECT HD.MaHD, HD.MaKH, HD.MaNV, HD.MaBan, HD.TrangThai, HD.ThoiGian, SUM(DonGia * SoLuong) AS TONGTIEN
 FROM HoaDon as HD, CTHD, SanPham as SP
 WHERE HD.MaHD = CTHD.MaHD AND CTHD.MaSP = SP.MaSP
-GROUP BY HD.MaHD, HD.MaKH, HD.MaNV, HD.MaBan, HD.TrangThai, HD.ThoiGian
+GROUP BY HD.MaHD, HD.MaKH, HD.MaNV, HD.MaBan, SELECT HD.MaHD, HD.MaKH, HD.MaNV, HD.MaBan, HD.TrangThai, HD.ThoiGian, SUM(DonGia * SoLuong) AS TONGTIEN
+FROM HoaDon as HD, CTHD, SanPham as SP
+WHERE HD.MaHD = CTHD.MaHD AND CTHD.MaSP = SP.MaSPHD.TrangThai, HD.ThoiGian
 
 -- TẠO VIEW TÍNH TIỀN TỪNG CHI TIẾT HÓA ĐƠN
 GO

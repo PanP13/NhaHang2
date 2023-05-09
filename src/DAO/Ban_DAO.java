@@ -8,7 +8,7 @@ import java.sql.*;
 
 public class Ban_DAO {
 
-    public List<Ban> getAllBan() {
+    public List<Ban> getAllBan(){
         List<Ban> bs = new ArrayList<Ban>();
 
         Connection conn = JDBCConnection.getJDBCConnection();
@@ -29,7 +29,6 @@ public class Ban_DAO {
                 bs.add(b);
             }
             conn.close();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
